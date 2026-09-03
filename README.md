@@ -51,9 +51,9 @@ every rank — for `y = 1` the inequality reverses.
 
 | Path | Lines | Contents |
 |---|---:|---|
-| `HyperTamari/Basic.lean` | 329 | `hyper`, verification of the conventions, the complete rank-3 analysis, `BTree` / `eval` / the rotation relation `Rot` |
+| `HyperTamari/Basic.lean` | 356 | `hyper`, verification of the conventions, the complete rank-3 analysis, `BTree` / `eval` / the rotation relation `Rot` |
 | `HyperTamari/Tetration.lean` | 523 | rank 4 (tetration): `tet_ht`, strictness, the dichotomy |
-| `HyperTamari/General.lean` | 596 | general rank: `sum_lemma`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero` |
+| `HyperTamari/General.lean` | 590 | general rank: `sum_lemma`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero` |
 | `logs/axiom-audit.txt` | — | raw `lake build` output recording the axiom audit |
 | `paper/` | — | the paper (LaTeX source and PDF) |
 
