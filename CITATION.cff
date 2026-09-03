@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this artifact, please cite the accompanying paper and this software artifact."
+title: "hyper-tamari: a Lean 4 artifact for a rank dichotomy of bracketed hyperoperations over the Tamari order"
+type: software
+authors:
+  - family-names: Urahigashi
+    given-names: Toshihisa
+    email: "123026.urahigashi.toshihisa@gmail.com"
+    affiliation: "Independent researcher"
+    orcid: "https://orcid.org/0009-0004-0460-6242"
+version: "1.0.0-pre"
+# No DOI yet: this artifact has not been deposited.  A version DOI will be
+# added here at the moment the accompanying paper is submitted.
+license: MIT
+repository-code: "https://github.com/turahigashi/hyper-tamari"
+keywords:
+  - Lean 4
+  - formalization
+  - hyperoperation
+  - Tamari lattice
+  - semi-associative law
+  - Goodstein hierarchy
