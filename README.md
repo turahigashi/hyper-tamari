@@ -24,6 +24,10 @@ Hence a right rotation at any node never decreases the value, evaluation is
 order-preserving from the Tamari lattice to `(ℕ, ≤)`, the left comb is a minimiser,
 and the right comb — whose value is `H_{r+1}(a,n)` — is a maximiser.
 
+**From rank 4 the evaluation is strictly increasing along every Tamari cover**
+(`Rot.eval_lt`), not merely along root rotations — so the rank dichotomy is a
+statement about the whole lattice order.
+
 **The main result is a complete classification of the equality cases.**
 For `x, y ≥ 2`:
 
@@ -49,7 +53,7 @@ every rank — for `y = 1` the inequality reverses.
 |---|---:|---|
 | `HyperTamari/Basic.lean` | 329 | `hyper`, verification of the conventions, the complete rank-3 analysis, `BTree` / `eval` / the rotation relation `Rot` |
 | `HyperTamari/Tetration.lean` | 523 | rank 4 (tetration): `tet_ht`, strictness, the dichotomy |
-| `HyperTamari/General.lean` | 517 | general rank: `sum_lemma`, `ht_general`, `equality_classification` |
+| `HyperTamari/General.lean` | 596 | general rank: `sum_lemma`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero` |
 | `logs/axiom-audit.txt` | — | raw `lake build` output recording the axiom audit |
 | `paper/` | — | the paper (LaTeX source and PDF) |
 
@@ -61,14 +65,22 @@ paper to a named declaration here.
 Measured, not asserted (`logs/axiom-audit.txt` is the raw evidence):
 
 - `lake build` exits 0.
-- **77** theorems and lemmas; **77** audited with `#print axioms`; **0** missing.
+- **82** theorems and lemmas; **82** audited with `#print axioms`; **0** missing.
   Coverage is checked mechanically by comparing declaration names against the audit
   output.
 - **No `sorryAx`.** No `sorry`, no `native_decide`, no private `axiom`, no
   `ofReduceBool`.
-- Axiom dependencies: `propext` alone (2), `propext, Quot.sound` (45),
-  `propext, Classical.choice, Quot.sound` (30). The uses of choice come from
-  standard library lemmas about `Nat` and are not essential to the arguments.
+- Axiom dependencies: `propext` alone (3) and `propext, Quot.sound` (79).
+  In particular **no declaration depends on `Classical.choice`.**
+
+Choice-freeness is not what the paper is about — every statement here is an
+elementary assertion about natural numbers. It is recorded because it costs nothing
+and makes the artifact reusable in settings that must avoid choice. An earlier
+version did depend on `Classical.choice` in 30 declarations; the dependency came
+from four incidental sources — the Mathlib lemmas `Nat.pow_lt_pow_right` and
+`Nat.pow_right_injective`, the `nlinarith` tactic, and `norm_num` applied to a
+numeric *inequality* (`omega` discharges the same goals without choice; `norm_num`
+on an *equation* is fine). Replacing them changed no statement.
 
 ## Building
 

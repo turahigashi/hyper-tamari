@@ -127,7 +127,7 @@ theorem two_le_rank_hyper {x : Nat} (hx : 2 ≤ x) :
 /-- ★**(ADD)**：$u,v\ge2,\;s\ge2$ なら $u+v \le H_s(u,v)$。 -/
 theorem add_le_hyper {u v : Nat} (hu : 2 ≤ u) (hv : 2 ≤ v) {s : Nat} (hs : 2 ≤ s) :
     u + v ≤ hyper s u v := by
-  calc u + v ≤ u * v := by nlinarith
+  calc u + v ≤ u * v := Nat.add_le_mul hu hv
   _ = hyper 2 u v := (hyper_two u v).symm
   _ ≤ hyper s u v := two_le_rank_hyper hu hs (by omega)
 
@@ -344,9 +344,8 @@ theorem hyper_lt_step {x : Nat} (hx : 2 ≤ x) {r : Nat} (hr : 2 ≤ r) {n : Nat
   rcases Nat.eq_zero_or_pos s with rfl | hs
   · -- rank 2
     rw [hyper_two, hyper_two]
-    have : x * n < x * (n + 1) := by
-      have : 0 < x := by omega
-      nlinarith
+    have hxpos : 0 < x := by omega
+    have : x * n < x * (n + 1) := by rw [Nat.mul_succ]; omega
     exact this
   · have key : hyper (s + 2) x (n + 1) = hyper (s + 1) x (hyper (s + 2) x n) :=
       hyper_succ (s + 1) x n
@@ -366,10 +365,46 @@ theorem hyper_lt_arg {x : Nat} (hx : 2 ≤ x) {r : Nat} (hr : 2 ≤ r) {m n : Na
         subst this
         exact hyper_lt_step hx hr hm
 
+/-- ★★**第一引数（底）についての厳密単調性**：$2\le x<x'$、$n\ge1$ なら
+$H_{s+1}(x,n) < H_{s+1}(x',n)$。`hyper_mono_base` の厳密版で、
+Tamari 被覆の左部分木を親へ持ち上げるのに使う。 -/
+theorem hyper_lt_base {x x' : Nat} (hx : 2 ≤ x) (hxx : x < x') (s : Nat) :
+    ∀ n : Nat, 1 ≤ n → hyper (s + 1) x n < hyper (s + 1) x' n := by
+  induction s with
+  | zero =>
+      intro n _
+      rw [hyper_one, hyper_one]; omega
+  | succ s ih =>
+      intro n
+      induction n with
+      | zero => intro h; omega
+      | succ n ihn =>
+          intro _
+          rcases Nat.eq_zero_or_pos n with rfl | hn'
+          · rw [hyper_one_arg (show 2 ≤ s + 1 + 1 by omega),
+                hyper_one_arg (show 2 ≤ s + 1 + 1 by omega)]
+            exact hxx
+          · have hIHn := ihn hn'
+            have h1 : 1 ≤ hyper (s + 1 + 1) x n := by
+              have := two_le_hyper hx (show 2 ≤ s + 1 + 1 by omega) hn'; omega
+            have hx' : 2 ≤ x' := by omega
+            rw [hyper_succ, hyper_succ]
+            calc hyper (s + 1) x (hyper (s + 1 + 1) x n)
+                < hyper (s + 1) x' (hyper (s + 1 + 1) x n) := ih _ h1
+              _ ≤ hyper (s + 1) x' (hyper (s + 1 + 1) x' n) :=
+                  hyper_mono_arg' hx' (by omega) h1 (le_of_lt hIHn)
+
 /-- ★**(ADD) の厳密版**：$u,v\ge2$ かつ $u\ge3$ または $v\ge3$ なら $u+v\lt H_s(u,v)$。 -/
 theorem add_lt_hyper {u v : Nat} (hu : 2 ≤ u) (hv : 2 ≤ v) (h3 : 3 ≤ u ∨ 3 ≤ v)
     {s : Nat} (hs : 2 ≤ s) : u + v < hyper s u v := by
-  have hmul : u + v < u * v := by rcases h3 with h | h <;> nlinarith
+  have hmul : u + v < u * v := by
+    obtain ⟨a, rfl⟩ : ∃ a, u = a + 2 := ⟨u - 2, by omega⟩
+    obtain ⟨b, rfl⟩ : ∃ b, v = b + 2 := ⟨v - 2, by omega⟩
+    have hexp : (a + 2) * (b + 2) = a * b + 2 * a + 2 * b + 4 := by ring
+    have hab : 1 ≤ a ∨ 1 ≤ b := by rcases h3 with h | h <;> omega
+    rw [hexp]
+    have hk : 0 ≤ a * b := Nat.zero_le _
+    omega
   calc u + v < u * v := hmul
   _ = hyper 2 u v := (hyper_two u v).symm
   _ ≤ hyper s u v := two_le_rank_hyper hu hs (by omega)
@@ -463,10 +498,42 @@ theorem ht_strict_general : ∀ t : Nat, ∀ x y z : Nat, 2 ≤ x → 2 ≤ y �
         rw [← hAdef] at this
         exact this
 
+/-! ## ★★★**題名の定理**：$r\ge4$ では任意の Tamari 被覆で評価が真に増加する -/
+
+/-- ★★★**全階数 $r\ge4$ の Tamari 厳密単調性**：$a\ge2$ のとき、
+任意の節点での右回転（Tamari 被覆）は評価を**真に増加**させる。
+`Rot.eval_le` の厳密版であり、rank 3 との二分法を完成させる。 -/
+theorem Rot.eval_lt {a : Nat} (ha : 2 ≤ a) {t : Nat} {T U : BTree} (h : Rot T U) :
+    BTree.eval (t + 4) a T < BTree.eval (t + 4) a U := by
+  induction h with
+  | root p q c =>
+      simp only [BTree.eval_node]
+      exact ht_strict_general t _ _ _
+        (two_le_eval ha (show 2 ≤ t + 4 by omega) p)
+        (two_le_eval ha (show 2 ≤ t + 4 by omega) q)
+        (two_le_eval ha (show 2 ≤ t + 4 by omega) c)
+  | @left l l' r _ ih =>
+      simp only [BTree.eval_node]
+      exact hyper_lt_base (two_le_eval ha (show 2 ≤ t + 4 by omega) l) ih (t + 3) _
+        (by have := two_le_eval ha (show 2 ≤ t + 4 by omega) r; omega)
+  | @right l r r' _ ih =>
+      simp only [BTree.eval_node]
+      exact hyper_lt_arg (two_le_eval ha (show 2 ≤ t + 4 by omega) l) (by omega)
+        (by have := two_le_eval ha (show 2 ≤ t + 4 by omega) r; omega) ih
+
 /-- どの階数 $r\ge2$ でも $z=1$ は等号（両辺とも $H_r(x,y)$）。 -/
 theorem ht_eq_at_one {r : Nat} (hr : 2 ≤ r) (x y : Nat) :
     hyper r (hyper r x y) 1 = hyper r x (hyper r y 1) := by
   rw [hyper_one_arg hr, hyper_one_arg hr]
+
+/-- ★**$z=0$ では厳密**：$r\ge3$、$x\ge2$ なら
+$H_r(H_r(x,y),0)=1 < x = H_r(x,H_r(y,0))$。
+（外部査読の指摘：「等号 ⟺ $z=1$」を閉じるには $z=0$ の場合が要る。） -/
+theorem ht_lt_at_zero {r : Nat} (hr : 3 ≤ r) {x : Nat} (hx : 2 ≤ x) (y : Nat) :
+    hyper r (hyper r x y) 0 < hyper r x (hyper r y 0) := by
+  obtain ⟨s, rfl⟩ : ∃ s, r = s + 3 := ⟨r - 3, by omega⟩
+  rw [hyper_succ_succ_zero, hyper_succ_succ_zero, hyper_one_arg (show 2 ≤ s + 3 by omega)]
+  omega
 
 /-- ★★★**等号の完全分類（相転移）**
 
@@ -480,10 +547,13 @@ theorem equality_classification :
     ∧ (∀ t x y z : Nat, 2 ≤ x → 2 ≤ y → 2 ≤ z →
          hyper (t + 4) (hyper (t + 4) x y) z ≠ hyper (t + 4) x (hyper (t + 4) y z))
     ∧ (∀ r x y : Nat, 2 ≤ r →
-         hyper r (hyper r x y) 1 = hyper r x (hyper r y 1)) :=
+         hyper r (hyper r x y) 1 = hyper r x (hyper r y 1))
+    ∧ (∀ r x y : Nat, 3 ≤ r → 2 ≤ x →
+         hyper r (hyper r x y) 0 ≠ hyper r x (hyper r y 0)) :=
   ⟨ht_rank3_equality_witness,
    fun t x y z hx hy hz => Nat.ne_of_lt (ht_strict_general t x y z hx hy hz),
-   fun _ x y hr => ht_eq_at_one hr x y⟩
+   fun _ x y hr => ht_eq_at_one hr x y,
+   fun _ x y hr hx => Nat.ne_of_lt (ht_lt_at_zero hr hx y)⟩
 
 
 end HyperTamari
@@ -514,4 +584,7 @@ end HyperTamari
 #print axioms HyperTamari.add_lt_hyper
 #print axioms HyperTamari.ht_strict_general
 #print axioms HyperTamari.ht_eq_at_one
+#print axioms HyperTamari.ht_lt_at_zero
+#print axioms HyperTamari.hyper_lt_base
+#print axioms HyperTamari.Rot.eval_lt
 #print axioms HyperTamari.equality_classification

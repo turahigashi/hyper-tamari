@@ -59,10 +59,12 @@ We classify equality completely. For $x,y\ge2$:
   \qquad
   r\ge4:\quad \text{equality}\iff z=1 .
 \]
-Thus rank $3$ carries exactly one non-trivial collision --- already visible for
-$n=4$ leaves, where the Tamari cover $((aa)a)a\lessdot(aa)(aa)$ has equal
+Thus rank $3$ carries exactly one non-trivial \emph{equality pattern} --- already
+visible for $n=4$ leaves, where the Tamari cover $((aa)a)a\lessdot(aa)(aa)$ has equal
 endpoints --- and from rank $4$ on the evaluation is strictly increasing along
-every such cover. The mechanism is identified: the collapsing law
+\emph{every} such cover (Theorem~\ref{thm:strictcover}). (At rank~$3$ with $a=2$ and
+$n=4$ several trees share a value; what is unique is the non-trivial equality pattern
+$(y,z)=(2,2)$ of the local law itself.) The mechanism is identified: the collapsing law
 $(x^{y})^{z}=x^{yz}$, which produces the rank-$3$ equality, has no analogue at
 rank~$4$ or above.
 
@@ -72,7 +74,8 @@ not blow up with the rank: $\HH_r(2,2)=4$ for every $r\ge2$. Moreover the
 hypothesis $y\ge2$ is sharp at every rank: for $y=1$ the inequality reverses.
 
 All statements are formalized and machine-checked in Lean~4; the development
-contains no \texttt{sorry} and every theorem is audited with \verb|#print axioms|.
+contains no \texttt{sorry}, every theorem is audited with \verb|#print axioms|, and
+no declaration depends on \verb|Classical.choice|.
 \end{abstract}
 
 \section{Introduction}
@@ -121,11 +124,24 @@ right comb $R_n$ with $n$ leaves,
 $\ev_{r,a}(R_n)=\HH_{r+1}(a,n)$.
 \end{proposition}
 
-\begin{corollary}[Dichotomy]\label{cor:C}
-The monotonicity of Proposition~\ref{prop:tamari} is \emph{not strict} at rank~$3$:
-the cover $((aa)a)a\lessdot(aa)(aa)$ carries equal values, both $256$, when $a=2$.
-For every $r\ge4$, by contrast, a root rotation is strict as soon as the value of the
-third subtree is at least $2$, which holds automatically for $a\ge2$.
+\begin{theorem}[Strict Tamari monotonicity from rank four]\label{thm:strictcover}
+Let $a\ge2$ and $r\ge4$. If $T\lessdot U$ is a Tamari cover, then
+\[
+  \ev_{r,a}(T)<\ev_{r,a}(U).
+\]
+Thus for $r\ge4$ the evaluation is strictly increasing along \emph{every} cover of the
+Tamari lattice, not merely along root rotations.
+\end{theorem}
+
+\begin{corollary}[Rank dichotomy]\label{cor:C}
+For $a\ge2$ the evaluation $\ev_{r,a}$ is order-preserving for the Tamari order at
+every rank $r\ge3$ (Proposition~\ref{prop:tamari}), and
+\begin{itemize}
+\item at rank~$3$ it is \emph{not} strict on covers: the cover
+      $((aa)a)a\lessdot(aa)(aa)$ carries equal values, both $256$, when $a=2$;
+\item at every rank $r\ge4$ it is strict on covers
+      (Theorem~\ref{thm:strictcover}).
+\end{itemize}
 \end{corollary}
 
 \begin{theorem}[All ranks]\label{thm:D}
@@ -141,8 +157,11 @@ Let $x\ge2$ and $y\ge2$.
 \item For every $r\ge2$, equality holds in Theorem~\ref{thm:D} when $z=1$.
 \item For $r=3$ the only further equality is $(y,z)=(2,2)$.
 \item For $r\ge4$ and $z\ge2$ the inequality is \emph{strict}.
+\item For every $r\ge3$ the inequality is strict when $z=0$, since
+      $\HH_r(\HH_r(x,y),0)=1<x=\HH_r(x,\HH_r(y,0))$.
 \end{enumerate}
-Hence for $r\ge4$ equality holds if and only if $z=1$.
+Items (1), (3) and (4) together give: for $r\ge4$ equality holds if and only if
+$z=1$.
 \end{theorem}
 
 Theorems~\ref{thm:D} and~\ref{thm:E} are proved in Section~\ref{sec:general} by
@@ -321,11 +340,12 @@ for every $z\ge2$; only the uniform argument degrades at $y\tw z=2$.
 \section{The dichotomy}\label{sec:dicho}
 
 \begin{proof}[Proof of Corollary~\ref{cor:C}]
-Monotonicity along a root rotation is exactly \eqref{eq:HT} instantiated at the
-values of the three subtrees; since $\ev_{r,a}(T)\ge2$ for $a\ge2$, the
-hypotheses of Theorems~\ref{thm:A} and~\ref{thm:B} are met.
-Non-strictness at rank~$3$ is Example~\ref{ex:collide}. Strictness at rank~$4$
-is Theorem~\ref{thm:B}.
+Order-preservation at every rank $r\ge3$ is Proposition~\ref{prop:tamari}.
+Non-strictness at rank~$3$ is Example~\ref{ex:collide}. Strictness at rank~$4$ is
+Theorem~\ref{thm:B}; for general $r\ge4$ it is Theorem~\ref{thm:strictcover},
+which is proved in Section~\ref{sec:general} and rests on
+Theorem~\ref{thm:E}(3). (The present section proves only the rank-$4$ case, so that
+the dichotomy is available before the general induction.)
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{prop:tamari}]
@@ -439,6 +459,28 @@ required inequality
 is the inductive hypothesis at rank $r-1$ applied to $(x,x,A)$, and $A\ge2$.
 \end{proof}
 
+We can now upgrade Proposition~\ref{prop:tamari} to its strict form.
+
+\begin{proof}[Proof of Theorem~\ref{thm:strictcover}]
+Induction on the derivation of the cover, exactly as for
+Proposition~\ref{prop:tamari} but with every inequality replaced by its strict
+counterpart. At the root the claim is Theorem~\ref{thm:E}(3) instantiated at the
+values of the three subtrees, which are all $\ge2$ because $a\ge2$
+(so in particular the hypothesis $z\ge2$ of that item is met). If the rotation takes
+place inside the left subtree, one needs
+\[
+  2\le u<u' \implies \HH_r(u,v)<\HH_r(u',v) \qquad (v\ge1),
+\]
+the strict form of monotonicity in the first argument; if it takes place inside the
+right subtree, one needs
+\[
+  1\le v<v' \implies \HH_r(u,v)<\HH_r(u,v') \qquad (u\ge2,\ r\ge2),
+\]
+the strict form of monotonicity in the second argument. Both are proved by the same
+double induction on the rank and on the argument as their non-strict counterparts,
+and both apply here because every subtree value is $\ge2$.
+\end{proof}
+
 The auxiliary facts used above --- monotonicity of $\HH_r(x,\cdot)$ in its second
 argument, monotonicity in the rank, and $n+1\le\HH_r(x,n)$ for $x\ge2$, $r\ge2$,
 $n\ge1$ --- are elementary and are proved in the formalization by a sequence of
@@ -485,8 +527,11 @@ the raw \verb|lake build| output recording the axiom audit
 \item \verb|tet_ht_strict_of_two_le|, the strengthening in Remark~\ref{rem:strict};
 \item \verb|hyper_two_two| ($\HH_r(2,2)=4$) and \verb|hyper_one_base|,
       Remark~\ref{rem:nontriv};
-\item \verb|add_lt_hyper|, \verb|ht_strict_general| and
-      \verb|equality_classification|, Theorem~\ref{thm:E}.
+\item \verb|add_lt_hyper|, \verb|ht_strict_general|, \verb|ht_lt_at_zero| and
+      \verb|equality_classification|, Theorem~\ref{thm:E};
+\item \verb|hyper_lt_base| and \verb|Rot.eval_lt|, Theorem~\ref{thm:strictcover};
+\item \verb|pow_lt_pow_right'| and \verb|pow_right_injective'|, choice-free
+      replacements for the corresponding Mathlib lemmas (see below).
 \end{itemize}
 Every numbered statement of Sections~\ref{sec:prelim}--\ref{sec:general} has a named
 counterpart in the development; the list above gives the correspondence in full.
@@ -497,13 +542,34 @@ quoted above. A version DOI will be minted and inserted here at the moment this
 paper is submitted, and the archive record will be linked to the submission.
 Until then the repository URL is the only pointer.}
 No declaration uses \verb|sorry|, \verb|native_decide| or any private axiom.
-Every one of the \textbf{77} theorems in these three files is audited with
+Every one of the \textbf{82} theorems in these three files is audited with
 \verb|#print axioms|, and the audit is machine-checked to cover them all
-(declared 77, audited 77, missing 0); \verb|sorryAx| does not occur.
-The axiom dependencies are \verb|propext| alone (2 theorems),
-\verb|propext, Quot.sound| (45) and
-\verb|propext, Classical.choice, Quot.sound| (30); the uses of choice come from
-library lemmas on \verb|Nat| and are not essential to the arguments.
+(declared 82, audited 82, missing 0); \verb|sorryAx| does not occur.
+The axiom dependencies are \verb|propext| alone (3 theorems) and
+\verb|propext, Quot.sound| (79). In particular
+\[
+  \textbf{no declaration depends on } \verb|Classical.choice|.
+\]
+
+This is not a foundational claim, and choice-freeness is not what the paper is
+about: every statement here is an elementary assertion about natural numbers, and
+nobody would expect it to need choice. We record it because it costs nothing and
+makes the artifact reusable --- a development free of \verb|Classical.choice| can be
+transported into constructive settings, or used inside a larger development that
+must itself avoid choice, without reproving anything.
+
+It is worth saying where the choice had been hiding, since it was not in the
+mathematics. An earlier version of this development did depend on
+\verb|Classical.choice| in $30$ of its declarations, and the dependency was traced
+to exactly four sources, all of them incidental: the Mathlib lemmas
+\verb|Nat.pow_lt_pow_right| and \verb|Nat.pow_right_injective| (whose companion
+\verb|Nat.pow_le_pow_right| is proved with no axioms at all), the \verb|nlinarith|
+tactic, and --- the one that is easiest to miss --- \verb|norm_num| applied to a
+numeric \emph{inequality}, which pulls in choice, while \verb|omega| discharges the
+same goal without it and \verb|norm_num| applied to an \emph{equation} does not.
+Replacing these by \verb|omega|, by \verb|decide|, by \verb|Nat.add_le_mul|, and by
+two short inductions built on the axiom-free \verb|Nat.pow_lt_pow_succ| removed the
+dependency entirely, with no change to any statement.
 
 \section{Related work}\label{sec:related}
 

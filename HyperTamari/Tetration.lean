@@ -68,7 +68,7 @@ theorem tet_lt_succ {x : Nat} (hx : 2 ≤ x) (n : Nat) : tet x n < tet x (n + 1)
   | zero => simp; omega
   | succ n ih =>
       rw [tet_succ, tet_succ]
-      exact Nat.pow_lt_pow_right (by omega) ih
+      exact pow_lt_pow_right' (by omega) ih
 
 theorem tet_strictMono {x : Nat} (hx : 2 ≤ x) {m n : Nat} (h : m < n) :
     tet x m < tet x n := by
@@ -96,7 +96,7 @@ theorem two_mul_le_two_pow : ∀ {t : Nat}, 1 ≤ t → 2 * t ≤ 2 ^ t := by
   | zero => omega
   | succ t ih =>
       rcases Nat.eq_zero_or_pos t with rfl | ht'
-      · norm_num
+      · decide
       · have h := ih ht'
         have h1 : (2 : Nat) ≤ 2 ^ t := by
           calc (2 : Nat) = 2 ^ 1 := by norm_num
@@ -137,7 +137,7 @@ theorem add_two_le_pow {y : Nat} (hy : 2 ≤ y) : ∀ {m : Nat}, 2 ≤ m → m +
     | succ k ih =>
         rcases Nat.lt_or_ge k 2 with hk2 | hk2
         · have : k = 1 := by omega
-          subst this; norm_num
+          subst this; decide
         · have h := ih hk2
           have h1 : (1 : Nat) ≤ 2 ^ k := Nat.one_le_pow _ _ (by omega)
           calc k + 1 + 2 = (k + 2) + 1 := by ring
@@ -210,7 +210,7 @@ theorem add_three_le_pow {y : Nat} (hy : 2 ≤ y) : ∀ {m : Nat}, 3 ≤ m → m
     | succ k ih =>
         rcases Nat.lt_or_ge k 3 with hk3 | hk3
         · have : k = 2 := by omega
-          subst this; norm_num
+          subst this; decide
         · have h := ih hk3
           have h1 : (1 : Nat) ≤ 2 ^ k := Nat.one_le_pow _ _ (by omega)
           calc k + 1 + 3 = (k + 3) + 1 := by ring
@@ -238,7 +238,7 @@ theorem tet_ht_strict {x y : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) {w : Nat}
   obtain ⟨y', rfl⟩ : ∃ y', y = y' + 1 := ⟨y - 1, by omega⟩
   have hz : 1 ≤ w := by
     rcases Nat.eq_zero_or_pos w with rfl | h
-    · simp at hm3
+    · rw [tet_zero] at hm3; omega
     · exact h
   have hm2 : 2 ≤ tet (y' + 1) w := by omega
   have hA1 : 1 ≤ tet x (y' + 1) := one_le_tet hx _
@@ -261,7 +261,7 @@ theorem tet_ht_strict {x y : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) {w : Nat}
     _ ≤ x ^ (tet x (tet (y' + 1) w + 1)) :=
         Nat.pow_le_pow_right (by omega) (sq_tet_le hx (by omega))
     _ < x ^ (tet x k) :=
-        Nat.pow_lt_pow_right (by omega) (tet_strictMono hx hmk)
+        pow_lt_pow_right' (by omega) (tet_strictMono hx hmk)
     _ = tet x (k + 1) := (tet_succ x k).symm
     _ = tet x ((y' + 1) ^ (tet (y' + 1) w)) := by rw [hk]
     _ = tet x (tet (y' + 1) (w + 1)) := by rw [tet_succ]
@@ -274,7 +274,7 @@ theorem tet_ht_strict_of_three_le {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) (h
 
 /-- ★**残った場合の証人**：$z=2,\;y=2,\;x=2$ でも厳密（$256 < 65536$）。 -/
 theorem tet_ht_strict_witness_2_2_2 : tet (tet 2 2) 2 < tet 2 (tet 2 2) := by
-  norm_num [tet]
+  decide
 
 /-! ## ★★★二分法を `hyper` の言葉で述べる -/
 
@@ -488,10 +488,10 @@ theorem tet_ht_strict_two_two {x : Nat} (hx : 2 ≤ x) :
     rw [e22]
     simp only [tet_succ, tet_zero, pow_one]
   rw [hL, hR]
-  refine Nat.pow_lt_pow_right (by omega) ?_
+  refine pow_lt_pow_right' (by omega) ?_
   -- x * x^x = x^(x+1) < x^(x^x)
   calc x * x ^ x = x ^ (x + 1) := by rw [pow_succ]; ring
-  _ < x ^ (x ^ x) := Nat.pow_lt_pow_right (by omega) (succ_lt_pow_self hx)
+  _ < x ^ (x ^ x) := pow_lt_pow_right' (by omega) (succ_lt_pow_self hx)
 
 /-- ★★**定理 B の厳密性を $z\ge2$ に強化**（外部査読の指摘 ② に対応）。 -/
 theorem tet_ht_strict_of_two_le {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) (hz : 2 ≤ z) :

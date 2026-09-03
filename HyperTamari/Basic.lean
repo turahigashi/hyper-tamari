@@ -149,6 +149,31 @@ theorem ht_rank3 {x y : Nat} (hx : 1 ≤ x) (hy : 2 ≤ y) (z : Nat) :
   rw [← pow_mul]
   exact Nat.pow_le_pow_right hx (mul_le_pow_of_two_le hy z)
 
+/-! ### choice を使わない補助補題
+
+★Mathlib の `Nat.pow_lt_pow_right` と `Nat.pow_right_injective` は
+`Classical.choice` に依存する。ここでは同じ主張を `Nat.pow_lt_pow_succ`
+（公理ゼロ）からの帰納で構成的に組み直し、開発全体から choice を除く。 -/
+
+/-- `Nat.pow_lt_pow_right` の choice を使わない版。 -/
+theorem pow_lt_pow_right' {b : Nat} (hb : 1 < b) : ∀ {m n : Nat}, m < n → b ^ m < b ^ n := by
+  intro m n h
+  induction n with
+  | zero => omega
+  | succ n ih =>
+      rcases Nat.lt_or_ge m n with hmn | hmn
+      · exact lt_trans (ih hmn) (Nat.pow_lt_pow_succ hb)
+      · have : m = n := by omega
+        subst this
+        exact Nat.pow_lt_pow_succ hb
+
+/-- `Nat.pow_right_injective` の choice を使わない版。 -/
+theorem pow_right_injective' {b : Nat} (hb : 2 ≤ b) {m n : Nat} (h : b ^ m = b ^ n) : m = n := by
+  rcases Nat.lt_trichotomy m n with hmn | hmn | hmn
+  · exact absurd h (Nat.ne_of_lt (pow_lt_pow_right' (by omega) hmn))
+  · exact hmn
+  · exact absurd h.symm (Nat.ne_of_lt (pow_lt_pow_right' (by omega) hmn))
+
 /-- ★★**rank 3 の等号は完全に決まる**：$x\ge2,\;y\ge2$ のとき
 $(x^y)^z = x^{y^z}$ ⟺ $z=1$ または $(y,z)=(2,2)$。 -/
 theorem ht_rank3_eq_iff {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) :
@@ -157,7 +182,7 @@ theorem ht_rank3_eq_iff {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) :
   rw [← pow_mul]
   constructor
   · intro h
-    exact (mul_eq_pow_iff hy).mp (Nat.pow_right_injective hx h)
+    exact (mul_eq_pow_iff hy).mp (pow_right_injective' hx h)
   · intro h
     rw [(mul_eq_pow_iff hy).mpr h]
 
@@ -265,15 +290,15 @@ $(2\uparrow\uparrow2)\uparrow\uparrow2 = 256 < 65536 = 2\uparrow\uparrow(2\uparr
 theorem ht_rank4_strict_smallest :
     hyper 4 (hyper 4 2 2) 2 < hyper 4 2 (hyper 4 2 2) := by
   have h2 : hyper 4 2 2 = 4 := by
-    have h0 : hyper 4 2 0 = 1 := by simp
+    have h0 : hyper 4 2 0 = 1 := hyper_succ_succ_zero 1 2
     have h1 : hyper 4 2 1 = 2 := by rw [hyper_succ, h0, hyper_three]; norm_num
     rw [hyper_succ, h1, hyper_three]; norm_num
   have hL : hyper 4 4 2 = 256 := by
-    have h0 : hyper 4 4 0 = 1 := by simp
+    have h0 : hyper 4 4 0 = 1 := hyper_succ_succ_zero 1 4
     have h1 : hyper 4 4 1 = 4 := by rw [hyper_succ, h0, hyper_three]; norm_num
     rw [hyper_succ, h1, hyper_three]; norm_num
   rw [h2, hL, tetration_two_four]
-  norm_num
+  omega
 
 /-! ## ★残る証明義務（proof obligations）— 一般階数
 
@@ -303,6 +328,8 @@ end HyperTamari
 
 
 
+#print axioms HyperTamari.pow_lt_pow_right'
+#print axioms HyperTamari.pow_right_injective'
 #print axioms HyperTamari.mul_le_pow_of_two_le
 #print axioms HyperTamari.mul_eq_pow_iff
 #print axioms HyperTamari.ht_rank3
