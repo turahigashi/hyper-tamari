@@ -35,7 +35,7 @@ print("population:", len(pop), dict(Counter(e for e, _ in pop)))
 outside = re.findall(r"\\begin\{(" + ENVS + r")\}", src[i1:])
 print("numbered environments in sections 7-8:", len(outside))
 
-tm = re.search(r"\\begin\{table\}.*?\\label\{tab:map\}.*?\\end\{table\}", src, re.S)
+tm = re.search(r"\\begin\{(table|longtable)\}.*?\\label\{tab:map\}.*?\\end\{\1\}", src, re.S)
 table = tm.group(0)
 refs = set(re.findall(r"\\ref\{([^}]*)\}", table))
 poplabels = {lab for _, lab in pop}
