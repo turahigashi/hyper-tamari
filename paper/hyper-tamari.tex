@@ -852,33 +852,44 @@ $r\ge3$ of the Goodstein hierarchy; the complete classification of its equality 
 with the isolated rank-$3$ exception $(y,z)=(2,2)$; the resulting dichotomy, strict on
 every Tamari cover from rank $4$ on; and the machine-checked formalization.
 
-\section*{Use of AI assistance}
+\section*{Acknowledgements}
 
-In accordance with current disclosure practice, the author states the following.
+\subsection*{Use of AI assistance}
 
-Artificial-intelligence assistants were used substantially in the preparation of
-this work. The question studied here was formulated by the author. Large language
-models were then used to search for the shape of the proofs, to write the entire
-Lean~4 development, to draft this text, and to check the literature; further
-language models were used as adversarial readers, and their criticism led to the
-present form of the main theorem, in particular to the classification of the
-equality cases in Theorem~\ref{thm:E}. All mathematical decisions, the choice of
-what to claim, and the final text are the author's responsibility.
+Artificial-intelligence assistants were used substantially in the preparation of this
+work, and the author sets that use out in detail here. The question studied was
+formulated by the author. Large language models were then used to search for the shape
+of the proofs, to write the whole of the Lean~4 development, to draft this text, and to
+check the literature; further language models were used as adversarial readers, and
+their criticism led to the present form of the main theorem, in particular to the
+classification of the equality cases in Theorem~\ref{thm:E} and to the extension to
+arbitrary leaf values in Section~\ref{sec:varleaf}. No AI system is an author. The
+overall direction of the work and the choice of what to claim are the author's, and the
+author is responsible for all of the submitted content.
 
-The reader is asked to note what this does and does not mean, and we state it as
-narrowly as we can. Every clause of every numbered statement of
-Sections~1--\ref{sec:varleaf} that asserts an inequality or an equality about $\HH_r$
-or about the evaluation of trees has been formalised and checked by the Lean~4
-kernel; Table~\ref{tab:map} says, clause by clause, which declaration carries it, and
-marks the places where the paper relies instead on classical background about the
-Tamari lattice or on explanatory prose. The informal proofs printed in the text are
-the author's rendering of the formal ones and are not themselves checked. For the statements
-marked \textsc{exact} or \textsc{collective} there, correctness does not rest on the
-reliability of any language model.
+\draftnote{\textbf{Draft note --- not part of the submission.}
+The journal's policy requires that, where AI has assisted with a proof or an argument,
+the author verify every step personally and also verify every citation and attribution.
+When that has been done, the following sentence belongs here, and it must not be
+included before then: \emph{The author has independently verified every step of the
+mathematical arguments printed in this paper, and every citation and attribution.}
+The bibliographic data have already been checked against the publishers' records; what
+remains is to read the three items still marked \textsuperscript{\dag} in the original,
+and to check the printed arguments by hand.}
 
-What does rest on human and machine judgement, and is stated here so that it can be
-checked independently, is the choice of definitions, the claim of novelty, the
-attribution of prior work, and the \textsc{prose} rows of Table~\ref{tab:map}.
+Two independent checks stand behind the mathematical content. Every clause of every
+numbered statement of Sections~1--\ref{sec:varleaf} that asserts an inequality or an
+equality about $\HH_r$ or about the evaluation of trees has been formalised and checked
+by the Lean~4 kernel; Table~\ref{tab:map} says, clause by clause, which declaration
+carries it, and marks the places where the paper relies instead on classical background
+about the Tamari lattice or on explanatory prose. The informal proofs printed in the
+text are the author's rendering of the formal ones and are not themselves
+machine-checked; they are set out in full so that a reader can follow them without
+consulting the Lean sources.
+
+What rests on judgement rather than on either check, and is stated here so that it can
+be examined, is the choice of definitions, the claim of novelty, the attribution of
+prior work, and the \textsc{prose} rows of Table~\ref{tab:map}.
 
 \draftnote{\textbf{Draft note --- not part of the submission.}
 Items marked \textsuperscript{\dag} in the list below have \emph{not} been consulted
