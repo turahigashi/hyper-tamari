@@ -3,12 +3,12 @@ import HyperTamari.Basic
 /-
 # rank 4（テトレーション）の Hyperoperation–Tamari 不等式
 
-★本ファイルの目標＝**folklore の rank 3 を超えた最初の場合**を完全に証明する。
+本ファイルの目標＝**folklore の rank 3 を超えた最初の場合**を完全に証明する。
 
 > **定理** $x\ge2,\;y\ge2$ のとき $(x\uparrow\uparrow y)\uparrow\uparrow z \;\le\; x\uparrow\uparrow(y\uparrow\uparrow z)$。
 > さらに $z\ge2$ なら**厳密**。
 
-★これが rank 3 との**二分法**を確定させる：
+これが rank 3 との**二分法**を確定させる：
 rank 3 では $(y,z)=(2,2)$ で**等号**が起きる（`ht_rank3_eq_iff`）が、
 rank 4 では $z\ge2$ で**常に厳密**。理由は
 **潰す法則 $(x^y)^z=x^{yz}$ が 4 階以上に存在しない**こと。
@@ -21,8 +21,8 @@ rank 4 では $z\ge2$ で**常に厳密**。理由は
   `tet x y' * tet x m ≤ tet x (y^m - 1)`
 
 に落ちる。左辺は `tet x y' ≤ tet x m` で `(tet x m)^2` に抑えられ、
-★**二乗補題** `(tet x m)^2 ≤ tet x (m+1)` と
-★**指数の下界** `m + 2 ≤ y^m` で右辺に収まる。
+**二乗補題** `(tet x m)^2 ≤ tet x (m+1)` と
+**指数の下界** `m + 2 ≤ y^m` で右辺に収まる。
 -/
 
 namespace HyperTamari
@@ -35,7 +35,7 @@ def tet (x : Nat) : Nat → Nat
 @[simp] theorem tet_zero (x : Nat) : tet x 0 = 1 := rfl
 @[simp] theorem tet_succ (x n : Nat) : tet x (n + 1) = x ^ tet x n := rfl
 
-/-- ★`tet` は `hyper 4` と一致する（規約の接続）。 -/
+/-- `tet` は `hyper 4` と一致する（規約の接続）。 -/
 theorem tet_eq_hyper4 (x n : Nat) : tet x n = hyper 4 x n := by
   induction n with
   | zero => simp
@@ -62,7 +62,7 @@ theorem one_le_tet {x : Nat} (hx : 2 ≤ x) (n : Nat) : 1 ≤ tet x n := by
   | zero => simp
   | succ n ih => rw [tet_succ]; exact Nat.one_le_pow _ _ (by omega)
 
-/-- ★`tet x ·` は狭義単調（$x\ge2$）。 -/
+/-- `tet x ·` は狭義単調（$x\ge2$）。 -/
 theorem tet_lt_succ {x : Nat} (hx : 2 ≤ x) (n : Nat) : tet x n < tet x (n + 1) := by
   induction n with
   | zero => simp; omega
@@ -87,7 +87,7 @@ theorem tet_mono {x : Nat} (hx : 2 ≤ x) {m n : Nat} (h : m ≤ n) :
   · exact le_refl _
   · exact (tet_strictMono hx h').le
 
-/-! ## ★鍵となる二つの補題 -/
+/-! ## 鍵となる二つの補題 -/
 
 /-- $2t \le 2^t$（$t\ge1$）。 -/
 theorem two_mul_le_two_pow : ∀ {t : Nat}, 1 ≤ t → 2 * t ≤ 2 ^ t := by
@@ -105,7 +105,7 @@ theorem two_mul_le_two_pow : ∀ {t : Nat}, 1 ≤ t → 2 * t ≤ 2 ^ t := by
         _ ≤ 2 ^ t + 2 ^ t := by omega
         _ = 2 ^ (t + 1) := by ring
 
-/-- ★★**二乗補題**：$x\ge2,\;m\ge1$ のとき $(x\uparrow\uparrow m)^2 \le x\uparrow\uparrow(m+1)$。 -/
+/-- **二乗補題**：$x\ge2,\;m\ge1$ のとき $(x\uparrow\uparrow m)^2 \le x\uparrow\uparrow(m+1)$。 -/
 theorem sq_tet_le {x : Nat} (hx : 2 ≤ x) : ∀ {m : Nat}, 1 ≤ m →
     (tet x m) ^ 2 ≤ tet x (m + 1) := by
   intro m hm
@@ -127,7 +127,7 @@ theorem sq_tet_le {x : Nat} (hx : 2 ≤ x) : ∀ {m : Nat}, 1 ≤ m →
         _ ≤ x ^ (x ^ tet x m) := Nat.pow_le_pow_right (by omega) key
         _ = tet x (m + 2) := by rw [tet_succ, tet_succ]
 
-/-- ★**指数の下界**：$y\ge2,\;m\ge2$ のとき $m + 2 \le y^m$。 -/
+/-- **指数の下界**：$y\ge2,\;m\ge2$ のとき $m + 2 \le y^m$。 -/
 theorem add_two_le_pow {y : Nat} (hy : 2 ≤ y) : ∀ {m : Nat}, 2 ≤ m → m + 2 ≤ y ^ m := by
   intro m hm
   have h2 : ∀ k : Nat, 2 ≤ k → k + 2 ≤ 2 ^ k := by
@@ -146,15 +146,15 @@ theorem add_two_le_pow {y : Nat} (hy : 2 ≤ y) : ∀ {m : Nat}, 2 ≤ m → m +
   calc m + 2 ≤ 2 ^ m := h2 m hm
   _ ≤ y ^ m := Nat.pow_le_pow_left hy m
 
-/-! ## ★★★主定理（rank 4） -/
+/-! ## 主定理（rank 4） -/
 
-/-- ★★**Hyperoperation–Tamari 不等式・rank 4**
+/-- **Hyperoperation–Tamari 不等式・rank 4**
 $$(x\uparrow\uparrow y)\uparrow\uparrow z \;\le\; x\uparrow\uparrow(y\uparrow\uparrow z)
 \qquad (x\ge2,\;y\ge2).$$
 
-★rank 3 と違い**潰す法則 $(x^y)^z=x^{yz}$ がない**ので、証明は
+rank 3 と違い**潰す法則 $(x^y)^z=x^{yz}$ がない**ので、証明は
 $z$ の帰納＋**二乗補題**＋**指数の下界**で進む。
-★$z=1$ を独立の基底に置く必要がある（$z=0\to1$ では帰納法の仮定が緩みすぎる）。 -/
+$z=1$ を独立の基底に置く必要がある（$z=0\to1$ では帰納法の仮定が緩みすぎる）。 -/
 theorem tet_ht {x y : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) :
     ∀ z, tet (tet x y) z ≤ tet x (tet y z) := by
   obtain ⟨y', rfl⟩ : ∃ y', y = y' + 1 := ⟨y - 1, by omega⟩
@@ -166,7 +166,7 @@ theorem tet_ht {x y : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) :
       omega
   | succ z ih =>
       rcases Nat.eq_zero_or_pos z with rfl | hz
-      · -- z = 0：両辺とも `tet x (y'+1)`（★等号）
+      · -- z = 0：両辺とも `tet x (y'+1)`（等号）
         simp only [tet_zero, tet_succ, pow_one]
         exact le_refl _
       · -- z ≥ 1
@@ -198,7 +198,7 @@ theorem tet_ht {x y : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) :
           _ = tet x ((y' + 1) ^ (tet (y' + 1) z)) := by rw [hk]
           _ = tet x (tet (y' + 1) (z + 1)) := by rw [tet_succ]
 
-/-! ## ★★厳密性（rank 3 との二分法の芯） -/
+/-! ## 厳密性（rank 3 との二分法の芯） -/
 
 /-- $y\ge2,\;m\ge3$ のとき $m+3 \le y^m$。 -/
 theorem add_three_le_pow {y : Nat} (hy : 2 ≤ y) : ∀ {m : Nat}, 3 ≤ m → m + 3 ≤ y ^ m := by
@@ -229,8 +229,8 @@ theorem three_le_tet {y : Nat} (hy : 2 ≤ y) {w : Nat} (hw : 2 ≤ w) : 3 ≤ t
   have := tet_mono hy hw
   omega
 
-/-- ★★**rank 4 では (HT) は厳密**（$y\uparrow\uparrow w \ge 3$ のとき）。
-★rank 3 では $(y,z)=(2,2)$ で等号が起きた（`ht_rank3_eq_iff`）が、
+/-- **rank 4 では (HT) は厳密**（$y\uparrow\uparrow w \ge 3$ のとき）。
+rank 3 では $(y,z)=(2,2)$ で等号が起きた（`ht_rank3_eq_iff`）が、
 rank 4 には**潰す法則がない**のでここが厳密になる。 -/
 theorem tet_ht_strict {x y : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) {w : Nat}
     (hm3 : 3 ≤ tet y w) :
@@ -266,17 +266,17 @@ theorem tet_ht_strict {x y : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) {w : Nat}
     _ = tet x ((y' + 1) ^ (tet (y' + 1) w)) := by rw [hk]
     _ = tet x (tet (y' + 1) (w + 1)) := by rw [tet_succ]
 
-/-- ★**系**：$z\ge3$ なら rank 4 の (HT) は厳密。 -/
+/-- **系**：$z\ge3$ なら rank 4 の (HT) は厳密。 -/
 theorem tet_ht_strict_of_three_le {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) (hz : 3 ≤ z) :
     tet (tet x y) z < tet x (tet y z) := by
   obtain ⟨w, rfl⟩ : ∃ w, z = w + 1 := ⟨z - 1, by omega⟩
   exact tet_ht_strict hx hy (three_le_tet hy (by omega))
 
-/-- ★**残った場合の証人**：$z=2,\;y=2,\;x=2$ でも厳密（$256 < 65536$）。 -/
+/-- **残った場合の証人**：$z=2,\;y=2,\;x=2$ でも厳密（$256 < 65536$）。 -/
 theorem tet_ht_strict_witness_2_2_2 : tet (tet 2 2) 2 < tet 2 (tet 2 2) := by
   decide
 
-/-! ## ★★★二分法を `hyper` の言葉で述べる -/
+/-! ## 二分法を `hyper` の言葉で述べる -/
 
 /-- rank 4 の (HT) を `hyper` で。 -/
 theorem ht_rank4 {x y : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) (z : Nat) :
@@ -290,12 +290,12 @@ theorem ht_rank4_strict {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) (hz : 3 ≤ 
   rw [← tet_eq_hyper4, ← tet_eq_hyper4, ← tet_eq_hyper4, ← tet_eq_hyper4]
   exact tet_ht_strict_of_three_le hx hy hz
 
-/-- ★★★**二分法**：
+/-- **二分法**：
 * **rank 3** — $(x^2)^2 = x^{2^2}$ が**すべての $x$** で成り立つ（等号が実際に起きる）
 * **rank 4** — $x,y\ge2,\;z\ge3$ では**常に厳密**
 
 ⇒ 評価が Tamari 被覆に沿って**厳密単調か否か**が、rank 3 と rank 4 で分かれる。
-★理由は**潰す法則 $(x^y)^z = x^{yz}$ が 4 階以上に存在しない**こと
+理由は**潰す法則 $(x^y)^z = x^{yz}$ が 4 階以上に存在しない**こと
 （rank 3 の等号条件 `ht_rank3_eq_iff` はまさにこの法則から出ていた）。 -/
 theorem rank3_vs_rank4_dichotomy :
     (∀ x : Nat, hyper 3 (hyper 3 x 2) 2 = hyper 3 x (hyper 3 2 2))
@@ -330,9 +330,9 @@ end HyperTamari
 
 namespace HyperTamari
 
-/-! ## ★Tamari 被覆（任意の節点での右回転）に沿う単調性
+/-! ## Tamari 被覆（任意の節点での右回転）に沿う単調性
 
-★根での回転だけでは「left comb が最小・right comb が最大」は出ない。
+根での回転だけでは「left comb が最小・right comb が最大」は出ない。
 Tamari 被覆は**任意の節点**での右回転なので、文脈についての帰納が要る。 -/
 
 /-- Tamari の被覆関係：任意の節点での一回の右回転。 -/
@@ -364,7 +364,7 @@ theorem tet_mono_base {x x' : Nat} (hx : 1 ≤ x) (h : x ≤ x') (n : Nat) :
       calc x ^ tet x n ≤ x' ^ tet x n := Nat.pow_le_pow_left h _
       _ ≤ x' ^ tet x' n := Nat.pow_le_pow_right (by omega) ih
 
-/-- ★★**rank 3：Tamari 被覆に沿って評価は減少しない**（任意の節点での回転）。 -/
+/-- **rank 3：Tamari 被覆に沿って評価は減少しない**（任意の節点での回転）。 -/
 theorem Rot.eval_le_rank3 {a : Nat} (ha : 2 ≤ a) {T U : BTree} (h : Rot T U) :
     BTree.eval 3 a T ≤ BTree.eval 3 a U := by
   induction h with
@@ -378,7 +378,7 @@ theorem Rot.eval_le_rank3 {a : Nat} (ha : 2 ≤ a) {T U : BTree} (h : Rot T U) :
       simp only [BTree.eval_node, hyper_three]
       exact Nat.pow_le_pow_right (by have := two_le_eval_rank3 ha l; omega) ih
 
-/-- ★★**rank 4：Tamari 被覆に沿って評価は減少しない**。 -/
+/-- **rank 4：Tamari 被覆に沿って評価は減少しない**。 -/
 theorem Rot.eval_le_rank4 {a : Nat} (ha : 2 ≤ a) {T U : BTree} (h : Rot T U) :
     BTree.eval 4 a T ≤ BTree.eval 4 a U := by
   induction h with
@@ -393,7 +393,7 @@ theorem Rot.eval_le_rank4 {a : Nat} (ha : 2 ≤ a) {T U : BTree} (h : Rot T U) :
       simp only [BTree.eval_node, ← tet_eq_hyper4]
       exact tet_mono (by have := two_le_eval_rank4 ha l; omega) ih
 
-/-- ★rank 4 では被覆に沿って**厳密**とは限らない（根の回転で $z<3$ の場合が残る）
+/-- rank 4 では被覆に沿って**厳密**とは限らない（根の回転で $z<3$ の場合が残る）
 ことを明示するため、根の回転が厳密になる十分条件を切り出しておく。 -/
 theorem Rot.root_lt_rank4 {a : Nat} (ha : 2 ≤ a) (p q c : BTree)
     (hc : 3 ≤ BTree.eval 4 a c) :
@@ -425,14 +425,14 @@ theorem hyper_one_arg {r : Nat} (hr : 2 ≤ r) (x : Nat) : hyper r x 1 = x := by
       _ = x := ih (by omega)
 
 
-/-! ## ★right comb の閉形式 -/
+/-! ## right comb の閉形式 -/
 
 /-- $n+1$ 葉の right comb。 -/
 def rightComb : Nat → BTree
   | 0 => BTree.leaf
   | (n + 1) => BTree.node BTree.leaf (rightComb n)
 
-/-- ★★**right comb の値は一つ上の階数**：
+/-- **right comb の値は一つ上の階数**：
 $\mathrm{ev}_{r,a}(\text{right comb with } n{+}1 \text{ leaves}) = H_{r+1}(a,n{+}1)$。 -/
 theorem eval_rightComb {r : Nat} (hr : 1 ≤ r) (a : Nat) :
     ∀ n : Nat, BTree.eval r a (rightComb n) = hyper (r + 1) a (n + 1) := by
@@ -452,7 +452,7 @@ end HyperTamari
 
 namespace HyperTamari
 
-/-! ## ★注意 4.4 の穴を埋める：$y=z=2$ の場合（外部査読の指摘）
+/-! ## 注意 4.4 の残るケース：$y=z=2$
 
 一般論から残るのは $y=z=2$ かつ $x\ge2$ の**全体**であり、
 $x=y=z=2$ の数値例だけでは足りない。実際に計算すると
@@ -469,7 +469,7 @@ theorem succ_lt_pow_self {x : Nat} (hx : 2 ≤ x) : x + 1 < x ^ x := by
   have h4 : x ^ 2 = x * x := by ring
   omega
 
-/-- ★**$y=z=2$ での厳密性**（すべての $x\ge2$）。 -/
+/-- **$y=z=2$ での厳密性**（すべての $x\ge2$）。 -/
 theorem tet_ht_strict_two_two {x : Nat} (hx : 2 ≤ x) :
     tet (tet x 2) 2 < tet x (tet 2 2) := by
   have e2 : tet x 2 = x ^ x := by simp
@@ -493,7 +493,7 @@ theorem tet_ht_strict_two_two {x : Nat} (hx : 2 ≤ x) :
   calc x * x ^ x = x ^ (x + 1) := by rw [pow_succ]; ring
   _ < x ^ (x ^ x) := pow_lt_pow_right' (by omega) (succ_lt_pow_self hx)
 
-/-- ★★**定理 B の厳密性を $z\ge2$ に強化**（外部査読の指摘 ② に対応）。 -/
+/-- **定理 B の厳密性を $z\ge2$ に強化**。 -/
 theorem tet_ht_strict_of_two_le {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) (hz : 2 ≤ z) :
     tet (tet x y) z < tet x (tet y z) := by
   rcases Nat.eq_or_lt_of_le hz with hz2 | hz3
@@ -509,7 +509,7 @@ theorem tet_ht_strict_of_two_le {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) (hz 
       exact tet_ht_strict hx hy this
   · exact tet_ht_strict_of_three_le hx hy (by omega)
 
-/-- `hyper` の言葉で：★$z\ge2$ なら rank 4 は厳密。 -/
+/-- `hyper` の言葉で：$z\ge2$ なら rank 4 は厳密。 -/
 theorem ht_rank4_strict_two {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) (hz : 2 ≤ z) :
     hyper 4 (hyper 4 x y) z < hyper 4 x (hyper 4 y z) := by
   rw [← tet_eq_hyper4, ← tet_eq_hyper4, ← tet_eq_hyper4, ← tet_eq_hyper4]

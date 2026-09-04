@@ -11,26 +11,26 @@ import Mathlib.Tactic.Push
 /-
 # 超演算の括弧付けと Tamari 順序
 
-★出典・動機 = ユーザーの内部引き継ぎ資料 §7.2「Hyperoperation–Tamari 予想」。
+出典・動機 = ユーザーの内部引き継ぎ資料 §7.2「Hyperoperation–Tamari 予想」。
 本ファイルはその**定式化・領域の確定・rank 3 の完全解**を機械検証する。
 
 ## 先行研究（2026-09-04 の照合）
 
 * **既知（folklore）** rank 3 の $(x^y)^z\le x^{y^z}$ と「right comb が最大」。
-* **既知（査読）** B. Csákány, T. Waldhauser,
+* **既知** B. Csákány, T. Waldhauser,
   *Associative spectra of binary operations*（arXiv:1102.2124）§3.4
   「指数演算は **Catalan** である」＝**相異なる括弧付けは相異なる値**を与える
-  （★ただし葉に**相異なる素数**を置く場合）。
-  ★★彼らが扱うのは「**いくつ**異なる値が出るか」であって「**どういう順序**か」ではない。
+  （ただし葉に**相異なる素数**を置く場合）。
+  彼らが扱うのは「**いくつ**異なる値が出るか」であって「**どういう順序**か」ではない。
 * **見つからなかった** 値の順序が **Tamari 順序と整合**すること、および全 rank への一般化。
-  （★これは新規性の証明ではない。）
+  （これは新規性の証明ではない。）
 
 ## 本ファイルが確定させること
 
 `hyper r` を Goodstein の超演算（`hyper 1 = +`, `hyper 2 = *`, `hyper 3 = ^`）とするとき、
 
 * (HT) `hyper r (hyper r x y) z ≤ hyper r x (hyper r y z)` の**領域**は `x ≥ 1, y ≥ 2`。
-* ★rank 3 では **等号の条件が完全に決まる**：`y*z = y^z` ⟺ `(y,z) = (2,2)`（`y,z ≥ 2` の下で）。
+* rank 3 では **等号の条件が完全に決まる**：`y*z = y^z` ⟺ `(y,z) = (2,2)`（`y,z ≥ 2` の下で）。
   ⇒ **rank 3 の評価は Tamari 被覆に沿って厳密単調ではない**。
 -/
 
@@ -52,7 +52,7 @@ def hyper : Nat → Nat → Nat → Nat
 @[simp] theorem hyper_succ (n a b : Nat) :
     hyper (n + 1) a (b + 1) = hyper n a (hyper (n + 1) a b) := by simp [hyper]
 
-/-! ## ★階数 1,2,3 が +, *, ^ と一致することを機械検証する（規約の固定） -/
+/-! ## 階数 1,2,3 が +, *, ^ と一致することを機械検証する（規約の固定） -/
 
 theorem hyper_one (a b : Nat) : hyper 1 a b = a + b := by
   induction b with
@@ -69,10 +69,10 @@ theorem hyper_three (a b : Nat) : hyper 3 a b = a ^ b := by
   | zero => simp
   | succ b ih => rw [hyper_succ, ih, hyper_two, pow_succ]; ring
 
-/-! ## ★rank 3 の完全解
+/-! ## rank 3 の完全解
 
 $(x^y)^z = x^{yz}$ なので、rank 3 の (HT) は**指数の比較 $yz \le y^z$ に還元する**。
-★等号の条件まで完全に決まる。 -/
+等号の条件まで完全に決まる。 -/
 
 /-- $y\ge2$、$z\ge1$ ならば $y \le y^z$。 -/
 theorem self_le_pow_of_one_le {y : Nat} (hy : 2 ≤ y) {z : Nat} (hz : 1 ≤ z) : y ≤ y ^ z := by
@@ -120,7 +120,7 @@ theorem mul_lt_pow_of_three_le {y : Nat} (hy : 2 ≤ y) :
         _ ≤ y ^ z * y := by omega
         _ = y ^ (z + 1) := (pow_succ y z).symm
 
-/-- ★$y\ge2$ のとき $yz = y^z$ となるのは **$z=1$ または $(y,z)=(2,2)$ に限る**。 -/
+/-- $y\ge2$ のとき $yz = y^z$ となるのは **$z=1$ または $(y,z)=(2,2)$ に限る**。 -/
 theorem mul_eq_pow_iff {y z : Nat} (hy : 2 ≤ y) :
     y * z = y ^ z ↔ z = 1 ∨ (y = 2 ∧ z = 2) := by
   constructor
@@ -142,7 +142,7 @@ theorem mul_eq_pow_iff {y z : Nat} (hy : 2 ≤ y) :
     · simp
     · norm_num
 
-/-- ★**rank 3 の (HT)**（`hyper 3 = (^)`）。 -/
+/-- **rank 3 の (HT)**（`hyper 3 = (^)`）。 -/
 theorem ht_rank3 {x y : Nat} (hx : 1 ≤ x) (hy : 2 ≤ y) (z : Nat) :
     hyper 3 (hyper 3 x y) z ≤ hyper 3 x (hyper 3 y z) := by
   simp only [hyper_three]
@@ -151,7 +151,7 @@ theorem ht_rank3 {x y : Nat} (hx : 1 ≤ x) (hy : 2 ≤ y) (z : Nat) :
 
 /-! ### choice を使わない補助補題
 
-★Mathlib の `Nat.pow_lt_pow_right` と `Nat.pow_right_injective` は
+Mathlib の `Nat.pow_lt_pow_right` と `Nat.pow_right_injective` は
 `Classical.choice` に依存する。ここでは同じ主張を `Nat.pow_lt_pow_succ`
 （公理ゼロ）からの帰納で構成的に組み直し、開発全体から choice を除く。 -/
 
@@ -174,7 +174,7 @@ theorem pow_right_injective' {b : Nat} (hb : 2 ≤ b) {m n : Nat} (h : b ^ m = b
   · exact hmn
   · exact absurd h.symm (Nat.ne_of_lt (pow_lt_pow_right' (by omega) hmn))
 
-/-- ★★**rank 3 の等号は完全に決まる**：$x\ge2,\;y\ge2$ のとき
+/-- **rank 3 の等号は完全に決まる**：$x\ge2,\;y\ge2$ のとき
 $(x^y)^z = x^{y^z}$ ⟺ $z=1$ または $(y,z)=(2,2)$。 -/
 theorem ht_rank3_eq_iff {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) :
     hyper 3 (hyper 3 x y) z = hyper 3 x (hyper 3 y z) ↔ z = 1 ∨ (y = 2 ∧ z = 2) := by
@@ -186,14 +186,14 @@ theorem ht_rank3_eq_iff {x y z : Nat} (hx : 2 ≤ x) (hy : 2 ≤ y) :
   · intro h
     rw [(mul_eq_pow_iff hy).mpr h]
 
-/-- ★具体的な等号の証人：$(x^2)^2 = x^{2^2}$。 -/
+/-- 具体的な等号の証人：$(x^2)^2 = x^{2^2}$。 -/
 theorem ht_rank3_equality_witness (x : Nat) :
     hyper 3 (hyper 3 x 2) 2 = hyper 3 x (hyper 3 2 2) := by
   simp only [hyper_three]
   norm_num
   ring
 
-/-! ## ★Tamari 側：二分木・右回転・評価
+/-! ## Tamari 側：二分木・右回転・評価
 
 Tamari 順序は**右回転** $((AB)C)\to(A(BC))$ で生成される（[Tamari 1962]、
 論理化は [Zeilberger 2019]）。ここでは根での右回転に限って、
@@ -240,7 +240,7 @@ theorem two_le_eval_rank3 {a : Nat} (ha : 2 ≤ a) : ∀ T : BTree, 2 ≤ BTree.
       _ ≤ BTree.eval 3 a l ^ BTree.eval 3 a r :=
             Nat.pow_le_pow_right (by omega) (by omega)
 
-/-- ★**根の右回転は rank 3 の評価を減少させない**（Tamari 被覆に沿う単調性）。 -/
+/-- **根の右回転は rank 3 の評価を減少させない**（Tamari 被覆に沿う単調性）。 -/
 theorem rotR_mono_rank3 {a : Nat} (ha : 2 ≤ a) {T U : BTree}
     (h : BTree.rotR T = some U) : BTree.eval 3 a T ≤ BTree.eval 3 a U := by
   match T, h with
@@ -251,7 +251,7 @@ theorem rotR_mono_rank3 {a : Nat} (ha : 2 ≤ a) {T U : BTree}
       exact ht_rank3 (by have := two_le_eval_rank3 ha p; omega)
                      (two_le_eval_rank3 ha q) _
 
-/-- ★★**rank 3 では厳密単調性が破れる**：Tamari 被覆
+/-- **rank 3 では厳密単調性が破れる**：Tamari 被覆
 $((aa)a)a \lessdot (aa)(aa)$ の両端で **値が一致する**（$a=2$ で共に $256$）。 -/
 theorem rank3_rotation_not_strict :
     BTree.rotR (BTree.node (BTree.node (BTree.node BTree.leaf BTree.leaf) BTree.leaf) BTree.leaf)
@@ -270,9 +270,9 @@ theorem rank3_collision_value :
   simp only [BTree.eval_node, BTree.eval_leaf, hyper_three]
   norm_num
 
-/-! ## ★領域が鋭いこと（$y\ge2$ は落とせない） -/
+/-! ## 領域が鋭いこと（$y\ge2$ は落とせない） -/
 
-/-- ★**$y=1$ は (HT) を壊す**：$(x^1)^z = x^z$ だが $x^{1^z} = x$。 -/
+/-- **$y=1$ は (HT) を壊す**：$(x^1)^z = x^z$ だが $x^{1^z} = x$。 -/
 theorem ht_needs_two_le_y :
     hyper 3 (hyper 3 3 1) 3 = 27 ∧ hyper 3 3 (hyper 3 1 3) = 3 := by
   simp only [hyper_three]; norm_num
@@ -300,13 +300,13 @@ theorem ht_rank4_strict_smallest :
   rw [h2, hL, tetration_two_four]
   omega
 
-/-! ## ★残る証明義務（proof obligations）— 一般階数
+/-! ## 残る証明義務（proof obligations）— 一般階数
 
 以下は**数値的に確認済みだが未形式化**。証明の骨格は閉じている。
 
 **(ABS)** $x,a,b\ge2$ のとき
 $H_{r-1}\!\big(H_r(x,a),H_r(x,b)\big)\le H_r\!\big(x,H_{r-2}(a,b)\big)$
-（★$r=3$ では**等号** $x^a\cdot x^b = x^{a+b}$。$a=1$ または $b=1$ で破れる。）
+（$r=3$ では**等号** $x^a\cdot x^b = x^{a+b}$。$a=1$ または $b=1$ で破れる。）
 
 **(RANKMONO)** $y,m\ge2$ のとき $H_{r-2}(y,m)\le H_{r-1}(y,m)$。
 
@@ -314,10 +314,10 @@ $H_{r-1}\!\big(H_r(x,a),H_r(x,b)\big)\le H_r\!\big(x,H_{r-2}(a,b)\big)$
 `hyper r A (z+1) = hyper (r-1) A (hyper r A z)`
 から始め、帰納法の仮定 → 単調性 → **(ABS)** → **(RANKMONO)** と進み、
 $H_{r-1}(y,m) = H_r(y,z+1)$ でちょうど右辺に着地する。
-★「外側を 1 階下げると内側は 2 階下がる」という一様な形。
+「外側を 1 階下げると内側は 2 階下がる」という一様な形。
 
 **(STRICT)** $r\ge4$、$x,y,z\ge2$ では (HT) は**厳密**。
-★rank 3 との差は `mul_eq_pow_iff` が示す等号 $(y,z)=(2,2)$ の存在に対応し、
+rank 3 との差は `mul_eq_pow_iff` が示す等号 $(y,z)=(2,2)$ の存在に対応し、
 rank 4 以上ではその等号機構（$(x^y)^z=x^{yz}$）が存在しない。
 
 数値確認（2026-09-04）：rank 3–6 × $x,y,z\in[0,5]$ で

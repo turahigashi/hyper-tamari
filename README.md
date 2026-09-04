@@ -25,8 +25,9 @@ order-preserving from the Tamari lattice to `(ℕ, ≤)`, the left comb is a min
 and the right comb — whose value is `H_{r+1}(a,n)` — is a maximiser.
 
 **From rank 4 the evaluation is strictly increasing along every Tamari cover**
-(`Rot.eval_lt`), not merely along root rotations — so the rank dichotomy is a
-statement about the whole lattice order.
+(`Rot.eval_lt`), not merely along root rotations, and hence along the Tamari order
+itself (`Rot.eval_lt_of_transGen`, the transitive closure of the cover relation);
+the non-strict version lifts likewise (`Rot.eval_le_of_reflTransGen`).
 
 **The main result is a complete classification of the equality cases.**
 For `x, y ≥ 2`:
@@ -44,8 +45,9 @@ rank-3 equality, has no analogue at rank 4 or above.
 
 The statement is not an asymptotic triviality: the two sides compare a growing first
 argument against a growing second one, and small arguments do not blow up with the
-rank, since `H_r(2,2) = 4` for every `r ≥ 2`. The hypothesis `y ≥ 2` is sharp at
-every rank — for `y = 1` the inequality reverses.
+rank, since `H_r(2,2) = 4` for every `r ≥ 2`. The hypothesis `y ≥ 2` is sharp as a
+uniform hypothesis: for every `r ≥ 3` and all `x, z ≥ 2`, taking `y = 1` reverses the
+inequality.
 
 ## Contents
 
@@ -53,24 +55,30 @@ every rank — for `y = 1` the inequality reverses.
 |---|---:|---|
 | `HyperTamari/Basic.lean` | 356 | `hyper`, verification of the conventions, the complete rank-3 analysis, `BTree` / `eval` / the rotation relation `Rot` |
 | `HyperTamari/Tetration.lean` | 523 | rank 4 (tetration): `tet_ht`, strictness, the dichotomy |
-| `HyperTamari/General.lean` | 590 | general rank: `sum_lemma`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero` |
+| `HyperTamari/General.lean` | 616 | general rank: `sum_lemma`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero` |
 | `logs/axiom-audit.txt` | — | raw `lake build` output recording the axiom audit |
 | `paper/` | — | the paper (LaTeX source and PDF) |
 
-Section 7 of the paper (*The Lean development*) maps every numbered statement of the
-paper to a named declaration here.
+Section 7 of the paper (*The Lean development*) contains a statement-by-statement
+correspondence table. It classifies each numbered statement as **exact** (one
+declaration with the same quantifiers, hypotheses and conclusion), **collective**
+(covered by a combination of declarations) or **prose** (background facts about the
+Tamari lattice, or explanatory remarks, that are *not* formalized here). The paper
+does not claim that everything it says is machine-checked; what is machine-checked is
+every inequality and equality assertion about `H_r` and about the evaluation of
+trees.
 
 ## Audit
 
 Measured, not asserted (`logs/axiom-audit.txt` is the raw evidence):
 
 - `lake build` exits 0.
-- **82** theorems and lemmas; **82** audited with `#print axioms`; **0** missing.
+- **84** theorems and lemmas; **84** audited with `#print axioms`; **0** missing.
   Coverage is checked mechanically by comparing declaration names against the audit
   output.
 - **No `sorryAx`.** No `sorry`, no `native_decide`, no private `axiom`, no
   `ofReduceBool`.
-- Axiom dependencies: `propext` alone (3) and `propext, Quot.sound` (79).
+- Axiom dependencies: `propext` alone (3) and `propext, Quot.sound` (81).
   In particular **no declaration depends on `Classical.choice`.**
 
 Choice-freeness is not what the paper is about — every statement here is an
