@@ -42,8 +42,9 @@ with four leaves, where the Tamari cover `((aa)a)a ⋖ (aa)(aa)` has equal endpo
 and from rank 4 onwards the evaluation is strictly increasing along every such cover.
 (Several trees do share a value at rank 3 with `a = 2` and four leaves; what is unique
 is the non-trivial equality pattern `(y,z) = (2,2)` of the local law itself.) The
-mechanism is identified: the collapsing law `(x^y)^z = x^{yz}`, which produces the
-rank-3 equality, has no analogue at rank 4 or above.
+rank-3 equality is produced by the collapsing law `(x^y)^z = x^{yz}`, which reduces
+the rank-3 inequality to `yz ≤ y^z`; the classification shows that no equality of
+this kind survives at rank 4 or above.
 
 The statement is not an asymptotic triviality: the two sides compare a growing first
 argument against a growing second one, and small arguments do not blow up with the
@@ -55,20 +56,26 @@ inequality.
 
 | Path | Lines | Contents |
 |---|---:|---|
-| `HyperTamari/Basic.lean` | 356 | `hyper`, verification of the conventions, the complete rank-3 analysis, `BTree` / `eval` / the rotation relation `Rot` |
-| `HyperTamari/Tetration.lean` | 523 | rank 4 (tetration): `tet_ht`, strictness, the dichotomy |
-| `HyperTamari/General.lean` | 616 | general rank: `sum_lemma`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero` |
+| `HyperTamari/Basic.lean` | 351 | `hyper`, verification of the conventions, the complete rank-3 analysis, `BTree` / `eval`, the five values of `T_4` (`rank3_five_values`) |
+| `HyperTamari/Tetration.lean` | 535 | rank 4 (tetration): `tet_ht`, strictness, the dichotomy, the rotation relation `Rot`, `sq_le_pow_fails` |
+| `HyperTamari/General.lean` | 695 | general rank: `sum_lemma`, `ht_of_sum`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero`, `add_eq_hyper_iff`, `ht_reversed_at_y_one` |
 | `logs/axiom-audit.txt` | — | raw `lake build` output recording the axiom audit |
+| `scripts/check_audit.py` | — | checks declared theorems against the audit log (coverage, `sorryAx`, `Classical.choice`) |
+| `scripts/check_table.py` | — | checks the paper's correspondence table against its population and against the Lean declaration names |
 | `paper/` | — | the paper (LaTeX source and PDF) |
 
 Section 7 of the paper (*The Lean development*) contains a statement-by-statement
-correspondence table. It classifies each numbered statement as **exact** (one
+correspondence table whose population is defined explicitly: all 21 numbered
+environments of Sections 1–6 (5 theorems, 3 propositions, 6 lemmas, 1 corollary,
+3 definitions, 1 example, 2 remarks). It classifies each clause as **exact** (one
 declaration with the same quantifiers, hypotheses and conclusion), **collective**
 (covered by a combination of declarations) or **prose** (background facts about the
-Tamari lattice, or explanatory remarks, that are *not* formalized here). The paper
-does not claim that everything it says is machine-checked; what is machine-checked is
-every inequality and equality assertion about `H_r` and about the evaluation of
-trees.
+Tamari lattice, or explanatory remarks, that are *not* formalized here). That the
+table covers the whole population, nothing else, and only existing declaration names
+is checked by `scripts/check_table.py`. The paper does not claim that everything it
+says is machine-checked; what is machine-checked is every clause of every numbered
+statement that asserts an inequality or an equality about `H_r` or about the
+evaluation of trees.
 
 ## Prior work on the rank-3 case
 
@@ -97,12 +104,12 @@ bracketing varies. The two families of questions are orthogonal.
 Measured, not asserted (`logs/axiom-audit.txt` is the raw evidence):
 
 - `lake build` exits 0.
-- **84** theorems and lemmas; **84** audited with `#print axioms`; **0** missing.
-  Coverage is checked mechanically by comparing declaration names against the audit
-  output.
+- **92** theorems and lemmas; **92** audited with `#print axioms`; **0** missing.
+  Coverage is checked mechanically by `scripts/check_audit.py`, which compares the
+  declaration names in the sources against the audit output.
 - **No `sorryAx`.** No `sorry`, no `native_decide`, no private `axiom`, no
   `ofReduceBool`.
-- Axiom dependencies: `propext` alone (3) and `propext, Quot.sound` (81).
+- Axiom dependencies: `propext` alone (5) and `propext, Quot.sound` (87).
   In particular **no declaration depends on `Classical.choice`.**
 
 Choice-freeness is not what the paper is about — every statement here is an
@@ -118,7 +125,9 @@ on an *equation* is fine). Replacing them changed no statement.
 
 ```bash
 lake exe cache get
-lake build
+lake build > logs/axiom-audit.txt 2>&1
+python3 scripts/check_audit.py logs/axiom-audit.txt
+python3 scripts/check_table.py paper/hyper-tamari.tex
 ```
 
 Lean 4 **v4.30.0** with Mathlib **v4.30.0** (pinned in `lean-toolchain` and

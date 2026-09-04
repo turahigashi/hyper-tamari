@@ -127,6 +127,16 @@ theorem sq_tet_le {x : Nat} (hx : 2 ≤ x) : ∀ {m : Nat}, 1 ≤ m →
         _ ≤ x ^ (x ^ tet x m) := Nat.pow_le_pow_right (by omega) key
         _ = tet x (m + 2) := by rw [tet_succ, tet_succ]
 
+/-- 直接の不等式 $t^2 \le x^t$ は一般には**偽**：$(x,t)=(2,3)$ で $9 > 8$。
+だから二乗補題 `sq_tet_le` は帰納的な形で述べる必要がある（論文 Remark 4.2）。 -/
+theorem sq_le_pow_fails : ¬ (∀ x t : Nat, 2 ≤ x → 1 ≤ t → t ^ 2 ≤ x ^ t) := by
+  intro h
+  have h23 : 3 ^ 2 ≤ 2 ^ 3 := h 2 3 (by decide) (by decide)
+  exact absurd h23 (by decide)
+
+/-- 反例の証人そのもの：$2^3 < 3^2$。 -/
+theorem two_pow_three_lt_three_sq : 2 ^ 3 < 3 ^ 2 := by decide
+
 /-- **指数の下界**：$y\ge2,\;m\ge2$ のとき $m + 2 \le y^m$。 -/
 theorem add_two_le_pow {y : Nat} (hy : 2 ≤ y) : ∀ {m : Nat}, 2 ≤ m → m + 2 ≤ y ^ m := by
   intro m hm
@@ -327,6 +337,8 @@ end HyperTamari
 #print axioms HyperTamari.two_mul_le_two_pow
 #print axioms HyperTamari.sq_tet_le
 #print axioms HyperTamari.add_two_le_pow
+#print axioms HyperTamari.sq_le_pow_fails
+#print axioms HyperTamari.two_pow_three_lt_three_sq
 
 namespace HyperTamari
 
@@ -452,7 +464,7 @@ end HyperTamari
 
 namespace HyperTamari
 
-/-! ## 注意 4.4 の残るケース：$y=z=2$
+/-! ## 定理 1.2 の厳密性に残るケース：$y=z=2$
 
 一般論から残るのは $y=z=2$ かつ $x\ge2$ の**全体**であり、
 $x=y=z=2$ の数値例だけでは足りない。実際に計算すると

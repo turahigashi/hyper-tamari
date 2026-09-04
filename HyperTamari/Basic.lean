@@ -11,8 +11,7 @@ import Mathlib.Tactic.Push
 /-
 # 超演算の括弧付けと Tamari 順序
 
-出典・動機 = ユーザーの内部引き継ぎ資料 §7.2「Hyperoperation–Tamari 予想」。
-本ファイルはその**定式化・領域の確定・rank 3 の完全解**を機械検証する。
+本ファイルは Hyperoperation–Tamari 不等式の**定式化・領域の確定・rank 3 の完全解**を機械検証する。
 
 ## 先行研究（2026-09-04 の照合）
 
@@ -270,6 +269,17 @@ theorem rank3_collision_value :
   simp only [BTree.eval_node, BTree.eval_leaf, hyper_three]
   norm_num
 
+/-- 四葉の五つの括弧付けの値（rank 3、$a=2$）：
+$((aa)a)a=(a(aa))a=(aa)(aa)=256$、$a((aa)a)=a(a(aa))=65536$（論文 Example 3.3）。 -/
+theorem rank3_five_values :
+    BTree.eval 3 2 (BTree.node (BTree.node (BTree.node BTree.leaf BTree.leaf) BTree.leaf) BTree.leaf) = 256
+    ∧ BTree.eval 3 2 (BTree.node (BTree.node BTree.leaf (BTree.node BTree.leaf BTree.leaf)) BTree.leaf) = 256
+    ∧ BTree.eval 3 2 (BTree.node (BTree.node BTree.leaf BTree.leaf) (BTree.node BTree.leaf BTree.leaf)) = 256
+    ∧ BTree.eval 3 2 (BTree.node BTree.leaf (BTree.node (BTree.node BTree.leaf BTree.leaf) BTree.leaf)) = 65536
+    ∧ BTree.eval 3 2 (BTree.node BTree.leaf (BTree.node BTree.leaf (BTree.node BTree.leaf BTree.leaf))) = 65536 := by
+  simp only [BTree.eval_node, BTree.eval_leaf, hyper_three]
+  norm_num
+
 /-! ## 領域が鋭いこと（$y\ge2$ は落とせない） -/
 
 /-- **$y=1$ は (HT) を壊す**：$(x^1)^z = x^z$ だが $x^{1^z} = x$。 -/
@@ -300,29 +310,13 @@ theorem ht_rank4_strict_smallest :
   rw [h2, hL, tetration_two_four]
   omega
 
-/-! ## 残る証明義務（proof obligations）— 一般階数
+/-! ## 一般階数について
 
-以下は**数値的に確認済みだが未形式化**。証明の骨格は閉じている。
-
-**(ABS)** $x,a,b\ge2$ のとき
-$H_{r-1}\!\big(H_r(x,a),H_r(x,b)\big)\le H_r\!\big(x,H_{r-2}(a,b)\big)$
-（$r=3$ では**等号** $x^a\cdot x^b = x^{a+b}$。$a=1$ または $b=1$ で破れる。）
-
-**(RANKMONO)** $y,m\ge2$ のとき $H_{r-2}(y,m)\le H_{r-1}(y,m)$。
-
-**(HT)** の帰納段（$z\to z+1$）は
-`hyper r A (z+1) = hyper (r-1) A (hyper r A z)`
-から始め、帰納法の仮定 → 単調性 → **(ABS)** → **(RANKMONO)** と進み、
-$H_{r-1}(y,m) = H_r(y,z+1)$ でちょうど右辺に着地する。
-「外側を 1 階下げると内側は 2 階下がる」という一様な形。
-
-**(STRICT)** $r\ge4$、$x,y,z\ge2$ では (HT) は**厳密**。
-rank 3 との差は `mul_eq_pow_iff` が示す等号 $(y,z)=(2,2)$ の存在に対応し、
-rank 4 以上ではその等号機構（$(x^y)^z=x^{yz}$）が存在しない。
-
-数値確認（2026-09-04）：rank 3–6 × $x,y,z\in[0,5]$ で
-$x\ge2,y\ge2$ に制限すると反例ゼロ、rank 3 の等号は $(y,z)=(2,2)$ のみ、
-rank 4,5 は等号ゼロ。 -/
+本ファイルは rank 3 と rank 4 の最小事例までを扱う。一般階数 $r\ge3$ の (HT)、
+(SUM$_r$)、階数についての単調性、$r\ge4$ での厳密性（等号の完全分類）は
+`HyperTamari/General.lean` で証明する（`ht_general`, `sum_lemma`, `hyper_rank_mono`,
+`ht_strict_general`, `equality_classification`）。rank 3 との差は `mul_eq_pow_iff` が示す
+等号 $(y,z)=(2,2)$ の存在に対応する。 -/
 
 end HyperTamari
 
@@ -339,6 +333,7 @@ end HyperTamari
 #print axioms HyperTamari.rotR_mono_rank3
 #print axioms HyperTamari.rank3_rotation_not_strict
 #print axioms HyperTamari.rank3_collision_value
+#print axioms HyperTamari.rank3_five_values
 #print axioms HyperTamari.BTree.eval_leaf
 #print axioms HyperTamari.BTree.eval_node
 #print axioms HyperTamari.self_le_pow_of_one_le

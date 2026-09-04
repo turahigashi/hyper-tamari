@@ -64,8 +64,9 @@ visible for $n=4$ leaves, where the Tamari cover $((aa)a)a\lessdot(aa)(aa)$ has 
 endpoints --- and from rank $4$ on the evaluation is strictly increasing along
 \emph{every} such cover (Theorem~\ref{thm:strictcover}). (At rank~$3$ with $a=2$ and
 $n=4$ several trees share a value; what is unique is the non-trivial equality pattern
-$(y,z)=(2,2)$ of the local law itself.) The mechanism is identified: the collapsing law
-$(x^{y})^{z}=x^{yz}$, which produces the rank-$3$ equality, has no analogue at
+$(y,z)=(2,2)$ of the local law itself.) The rank-$3$ equality is produced by the
+collapsing law $(x^{y})^{z}=x^{yz}$, which reduces the rank-$3$ inequality to
+$yz\le y^{z}$; the classification shows that no equality of this kind survives at
 rank~$4$ or above.
 
 The result is not an asymptotic triviality. The two sides compare a growing
@@ -74,9 +75,12 @@ not blow up with the rank: $\HH_r(2,2)=4$ for every $r\ge2$. Moreover the
 hypothesis $y\ge2$ is sharp as a uniform hypothesis: for every $r\ge3$ and all
 $x,z\ge2$, taking $y=1$ reverses the inequality.
 
-All statements are formalized and machine-checked in Lean~4; the development
-contains no \texttt{sorry}, every theorem is audited with \verb|#print axioms|, and
-no declaration depends on \verb|Classical.choice|.
+Every numbered statement of the paper that asserts an inequality or an equality about
+$\HH_r$ or about the evaluation of trees is formalized and machine-checked in Lean~4;
+the classical structure of the Tamari lattice itself (that it is a lattice with the two
+combs as its extreme elements) is used as background and is not formalized. The
+development contains no \texttt{sorry}, every theorem is audited with
+\verb|#print axioms|, and no declaration depends on \verb|Classical.choice|.
 \end{abstract}
 
 \section{Introduction}
@@ -279,7 +283,8 @@ so $\ev_{3,2}$ is monotone but not strictly monotone; it is also not injective.
 
 \section{Rank four}\label{sec:rank4}
 
-At rank $4$ no collapsing law is available and a different argument is required.
+At rank $4$ we know of no identity that would play the role of $(x^{y})^{z}=x^{yz}$,
+and a different argument is required.
 The proof below is by induction on $z$; the base case $z=1$ must be treated
 separately, since the inductive hypothesis at $z=0$ is too weak to survive the step.
 
@@ -294,9 +299,10 @@ $(x\tw(m+1))^{2}=(x^{t})^{2}=x^{2t}\le x^{(x^{t})}=x\tw(m+2)$,
 where $2t\le 2^{t}\le x^{t}$ uses $t\ge1$ and $x\ge2$.
 \end{proof}
 
-\begin{remark}
+\begin{remark}\label{rem:sq}
 The direct inequality $t^{2}\le x^{t}$ is \emph{false} in general --- take $x=2$,
-$t=3$ --- so the inductive formulation in Lemma~\ref{lem:sq} is essential.
+$t=3$, where $t^{2}=9>8=x^{t}$ --- so the inductive formulation in Lemma~\ref{lem:sq}
+is essential.
 \end{remark}
 
 \begin{lemma}\label{lem:add-two}
@@ -323,22 +329,20 @@ Writing $A:=x\tw y=x^{(x\tw y')}$ we compute
    \ =\ x\tw\bigl(y\tw(z+1)\bigr),
 \end{align*}
 using the inductive hypothesis, $x\tw y'\le x\tw m$, Lemma~\ref{lem:sq}, and
-$m+1\le k$. If $z\ge2$ then $m\ge4$, so $y^{m}\ge m+3$ by
-Lemma~\ref{lem:add-two} and hence $m+1<k$; the penultimate step is then strict.
-\end{proof}
+$m+1\le k$. This proves the inequality.
 
-\begin{remark}\label{rem:strict}
-The argument above gives strictness whenever $y\tw z\ge3$, which covers all $z\ge3$
-and all $z\ge2$ with $y\ge3$. The remaining case is $y=z=2$ with $x\ge2$ arbitrary,
-and there strictness holds too:
+For strictness, note that the penultimate step is strict as soon as $m\ge3$: then
+$y^{m}\ge m+3$ by Lemma~\ref{lem:add-two}, hence $m+1<k$ and $x\tw(m+1)<x\tw k$.
+Now $m=y\tw z\ge3$ holds whenever $z\ge2$ (then $m\ge4$), and also when $z=1$ and
+$y\ge3$ (then $m=y$). This gives strictness at $z+1$ for every $z+1\ge2$ except
+$(y,z+1)=(2,2)$, which we compute directly:
 \[
-  (x\tw2)\tw2=(x^{x})^{x^{x}}=x^{\,x^{x+1}},
+  (x\tw2)\tw2=(x^{x})^{x^{x}}=x^{\,x\cdot x^{x}}=x^{\,x^{x+1}},
   \qquad
   x\tw(2\tw2)=x\tw4=x^{\,x^{x^{x}}},
 \]
-and $x+1<x^{x}$ for $x\ge2$. Hence the inequality of Theorem~\ref{thm:B} is strict
-for every $z\ge2$; only the uniform argument degrades at $y\tw z=2$.
-\end{remark}
+and $x+1<x^{x}$ for $x\ge2$. Hence the inequality is strict for every $z\ge2$.
+\end{proof}
 
 \section{The dichotomy}\label{sec:dicho}
 
@@ -364,14 +368,17 @@ $\HH_{r+1}(a,n+1)=\HH_r(a,\HH_{r+1}(a,n))$ together with $\HH_{r+1}(a,1)=a$.
 
 The mechanism is worth stating plainly. At rank $3$ the identity
 $(x^{y})^{z}=x^{yz}$ turns \eqref{eq:HT} into $yz\le y^{z}$, an inequality which
-is \emph{tight}: it becomes an equality at $(y,z)=(2,2)$, and this single
-coincidence is the source of every collapse in Example~\ref{ex:collide}. At rank
-$4$ there is no such identity, the comparison is genuinely two-dimensional, and
-the slack is enormous.
+is \emph{tight}: it becomes an equality at $(y,z)=(2,2)$. Each of the three
+coincidences in Example~\ref{ex:collide} is an instance of this one equality, applied
+at a node whose two lower subtrees both evaluate to $2$: the cover
+$((aa)a)a\lessdot(aa)(aa)$ is the root rotation with $(x,y,z)=(4,2,2)$, and the pairs
+$((aa)a)a,\,(a(aa))a$ and $a((aa)a),\,a(a(aa))$ differ only in a subtree
+$(aa)a=a(aa)=16$, which is the root rotation with $(x,y,z)=(2,2,2)$. At rank~$4$
+Theorem~\ref{thm:B} shows that no equality with $z\ge2$ occurs at all, and the gap is
+already visible at the smallest instance: for $x=y=z=2$ the two sides are $256$ and
+$65536$.
 
 \section{General rank}\label{sec:general}
-
-We record the general statement and the shape of a proof.
 
 We now prove Theorem~\ref{thm:D}. The engine is the following inequality; write
 \begin{equation}\label{eq:SUM}
@@ -440,8 +447,8 @@ Remark~\ref{rem:nontriv}.
 \begin{proof}[Proof of Theorem~\ref{thm:E}]
 (1) $\HH_r(\HH_r(x,y),1)=\HH_r(x,y)=\HH_r(x,\HH_r(y,1))$ since $\HH_r(a,1)=a$.
 (2) is Theorem~\ref{thm:A}.
-For (3) we induct on $r\ge4$, the base $r=4$ being Theorem~\ref{thm:B} with
-Remark~\ref{rem:strict}. Let $r\ge5$ and write $z=w+1$ with $w\ge1$, and
+For (3) we induct on $r\ge4$, the base $r=4$ being the strictness clause of
+Theorem~\ref{thm:B}. Let $r\ge5$ and write $z=w+1$ with $w\ge1$, and
 $m:=\HH_r(y,w)\ge2$.
 
 If $y\ge3$ or $w\ge2$, then $y\ge3$ or $m\ge4$, so Lemma~\ref{lem:addstrict} makes
@@ -493,10 +500,10 @@ The hypothesis $y\ge2$ of Theorem~\ref{thm:D} is sharp, in the following precise
 sense: for every $r\ge3$ and all $x,z\ge2$, taking $y=1$ reverses the inequality.
 Indeed $\HH_r(x,1)=x$, so the left side is $\HH_r(x,z)$, whereas $\HH_r(1,z)=1$ makes
 the right side $\HH_r(x,1)=x$, and $\HH_r(x,z)>x$ because $z\ge2$. The restriction to
-$x,z\ge2$ is necessary and not an artefact: for $x=1$ both sides are often equal, for
-$z=1$ they are equal by Theorem~\ref{thm:E}(1), and for $z=0$ the left side is $1$ and
-the right side is $x$, so the original inequality still holds. For $x=0$ the operations
-degenerate.
+$x,z\ge2$ is necessary and not an artefact: for $x=1$ both sides equal $1$, since
+$\HH_r(1,\cdot)=1$; for $z=1$ they are equal by Theorem~\ref{thm:E}(1); and for $z=0$
+the left side is $1$ and the right side is $x$, so the original inequality still holds.
+For $x=0$ the operations degenerate.
 
 \section{The Lean development}\label{sec:formal}
 
@@ -511,94 +518,113 @@ the raw \verb|lake build| output recording the axiom audit
 (\verb|logs/axiom-audit.txt|).
 
 The correspondence with the numbered statements of this paper is given in
-Table~\ref{tab:map}. We distinguish three cases, because they carry different
-evidential weight:
+Table~\ref{tab:map}. The population of the table is fixed as follows: it consists of
+\emph{every} numbered environment in Sections~1--6 --- that is, every
+\texttt{theorem}, \texttt{proposition}, \texttt{lemma}, \texttt{corollary},
+\texttt{definition}, \texttt{example} and \texttt{remark} environment in the source of
+those sections. There are $21$ of them: $5$ theorems, $3$ propositions, $6$ lemmas,
+$1$ corollary, $3$ definitions, $1$ example and $2$ remarks. (Sections~7 and~8
+contain no numbered environments.) Every one of the $21$ appears in the table, and the
+table contains nothing else; both facts, together with the existence in the
+development of every declaration name printed in the table, are checked by a script
+run on the source of this paper and of the Lean files. A numbered statement with
+several clauses may occupy several rows. We distinguish three cases, because they
+carry different evidential weight:
 \begin{description}
 \item[\textnormal{\textsc{exact}}] a single declaration with the same quantifiers,
-      hypotheses and conclusion as the printed statement;
-\item[\textnormal{\textsc{collective}}] the statement is covered by a combination of
-      declarations (typically because the paper states several clauses at once);
+      hypotheses and conclusion as the printed clause;
+\item[\textnormal{\textsc{collective}}] the clause is covered by a combination of
+      declarations (typically because the paper states several things at once);
 \item[\textnormal{\textsc{prose}}] background material that is \emph{not} formalized
       here --- standard facts about the Tamari lattice that we use as context, or
       explanatory remarks.
 \end{description}
 We stress the third row of this classification: the paper does \emph{not} claim that
-everything it says is machine-checked. What is machine-checked is every inequality
-and every equality assertion about $\HH_r$ and about the evaluation of trees.
+everything it says is machine-checked. What is machine-checked is every clause of
+every numbered statement that asserts an inequality or an equality about $\HH_r$ or
+about the evaluation of trees; the table says which declaration carries which clause.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{@{}p{0.30\linewidth}p{0.44\linewidth}l@{}}
+\begin{tabular}{@{}p{0.27\linewidth}p{0.49\linewidth}l@{}}
 \hline
 Statement & Lean declaration(s) & Status\\
 \hline
+Thm.~\ref{thm:A} (inequality) & \verb|ht_rank3| & \textsc{exact}\\
+Thm.~\ref{thm:A} (equality iff) & \verb|ht_rank3_eq_iff| & \textsc{exact}\\
+Thm.~\ref{thm:A} (sharpness of $y\ge2$) &
+  \verb|ht_reversed_at_y_one| at $r=3$ (universal), \verb|ht_needs_two_le_y|
+  (the witness $x=z=3$) & \textsc{collective}\\
+Thm.~\ref{thm:B} (inequality) & \verb|tet_ht|, \verb|ht_rank4| & \textsc{exact}\\
+Thm.~\ref{thm:B} (strict for $z\ge2$) &
+  \verb|tet_ht_strict_of_two_le|, \verb|ht_rank4_strict_two| & \textsc{exact}\\
+Prop.~\ref{prop:tamari} (covers) & \verb|Rot.eval_le| & \textsc{exact}\\
+Prop.~\ref{prop:tamari} (Tamari order) &
+  \verb|Rot.eval_le_of_reflTransGen| & \textsc{exact}\\
+Prop.~\ref{prop:tamari} (right comb) & \verb|rightComb|, \verb|eval_rightComb| &
+  \textsc{exact}\\
+Thm.~\ref{thm:strictcover} (covers) & \verb|Rot.eval_lt| & \textsc{exact}\\
+Thm.~\ref{thm:strictcover} (Tamari order) & \verb|Rot.eval_lt_of_transGen| &
+  \textsc{exact}\\
+Cor.~\ref{cor:C} &
+  \verb|Rot.eval_le|, \verb|rank3_rotation_not_strict|, \verb|Rot.eval_lt| &
+  \textsc{collective}\\
+Thm.~\ref{thm:D} & \verb|ht_general| & \textsc{exact}\\
+Thm.~\ref{thm:E} (1)--(4) & \verb|equality_classification|, whose four components are
+  \verb|ht_eq_at_one|, \verb|ht_rank3_equality_witness| with \verb|ht_rank3_eq_iff|
+  for (2), \verb|ht_strict_general|, \verb|ht_lt_at_zero| & \textsc{collective}\\
+Rem.~\ref{rem:nontriv} ($\HH_r(x,y)>x$; $\HH_r(2,2)=4$) &
+  \verb|self_lt_hyper|, \verb|hyper_two_two| & \textsc{collective}\\
+Rem.~\ref{rem:nontriv} (the two coordinates compete) & --- (explanatory) &
+  \textsc{prose}\\
 Def.~\ref{def:hyper} &
   \verb|hyper|, \verb|hyper_zero|, \verb|hyper_one_zero|, \verb|hyper_two_zero|,
   \verb|hyper_succ_succ_zero|, \verb|hyper_succ| & \textsc{exact}\\
 Lem.~\ref{lem:conv} &
-  \verb|hyper_one|, \verb|hyper_two|, \verb|hyper_three| & \textsc{collective}\\
+  \verb|hyper_one|, \verb|hyper_two|, \verb|hyper_three|, \verb|hyper_one_arg| &
+  \textsc{collective}\\
 Def.~\ref{def:trees} (trees, $\ev$) &
-  \verb|BTree|, \verb|BTree.eval| & \textsc{exact}\\
-Def.~\ref{def:rot} ($\Tam_n$, lattice, comb extremality) &
-  --- (\verb|BTree| is not restricted to a fixed number of leaves; the lattice
-  property and the extremality of the two combs are classical
-  \cite{FT,Tamari} and are used as background) & \textsc{prose}\\
-Def.~\ref{def:rot} (Tamari order) &
+  \verb|BTree|, \verb|BTree.eval| (not restricted to a fixed number of leaves) &
+  \textsc{exact}\\
+Def.~\ref{def:rot} (rotation, Tamari order) &
   \verb|Rot| (cover), \verb|Relation.ReflTransGen Rot| (the order) &
   \textsc{exact}\\
-Thm.~\ref{thm:A} (inequality, equality iff) &
-  \verb|ht_rank3|, \verb|ht_rank3_eq_iff|, \verb|mul_eq_pow_iff| &
-  \textsc{collective}\\
-Thm.~\ref{thm:A} (sharpness of $y\ge2$) &
-  \verb|ht_needs_two_le_y| --- a \emph{witness} at $x=z=3$, not the universal
-  statement & \textsc{collective}\\
+Def.~\ref{def:rot} ($\Tam_n$, lattice, comb extremality) &
+  --- (classical \cite{FT,Tamari}, used as background) & \textsc{prose}\\
 Lem.~\ref{lem:mul-le-pow} &
   \verb|mul_le_pow_of_two_le|, \verb|mul_lt_pow_of_three_le| & \textsc{collective}\\
 Prop.~\ref{prop:mul-eq-pow} & \verb|mul_eq_pow_iff| & \textsc{exact}\\
-Ex.~\ref{ex:collide} (the colliding cover) &
-  \verb|rank3_rotation_not_strict|, \verb|rank3_collision_value| &
-  \textsc{collective}\\
-Ex.~\ref{ex:collide} (the five values of $\Tam_4$) &
-  --- (only the colliding pair and its value $256$ are formalized) & \textsc{prose}\\
+Ex.~\ref{ex:collide} (the five values; the colliding cover) &
+  \verb|rank3_five_values|, \verb|rank3_rotation_not_strict| & \textsc{collective}\\
 Lem.~\ref{lem:sq} & \verb|sq_tet_le| & \textsc{exact}\\
+Rem.~\ref{rem:sq} & \verb|sq_le_pow_fails| (the negated universal statement),
+  \verb|two_pow_three_lt_three_sq| & \textsc{exact}\\
 Lem.~\ref{lem:add-two} & \verb|add_two_le_pow|, \verb|add_three_le_pow| &
   \textsc{collective}\\
-Thm.~\ref{thm:B} & \verb|tet_ht|, \verb|ht_rank4|,
-  \verb|tet_ht_strict_of_two_le| & \textsc{collective}\\
-Rem.~\ref{rem:strict} & \verb|tet_ht_strict_of_two_le| & \textsc{exact}\\
-Prop.~\ref{prop:tamari} (covers, order) &
-  \verb|Rot.eval_le|, \verb|Rot.eval_le_of_reflTransGen| & \textsc{exact}\\
-Prop.~\ref{prop:tamari} (right comb) & \verb|rightComb|, \verb|eval_rightComb| &
-  \textsc{exact}\\
-Prop.~\ref{prop:tamari} (combs are extremal) &
-  --- (classical property of the Tamari lattice, not formalized) & \textsc{prose}\\
-Thm.~\ref{thm:strictcover} &
-  \verb|Rot.eval_lt|, \verb|Rot.eval_lt_of_transGen|, \verb|hyper_lt_base| &
-  \textsc{exact}\\
-Cor.~\ref{cor:C} & \verb|rank3_rotation_not_strict|, \verb|Rot.eval_lt| &
+Prop.~\ref{prop:reduction} (1), (2) & \verb|sum_lemma|, \verb|ht_of_sum| &
   \textsc{collective}\\
 Lem.~\ref{lem:add} & \verb|add_le_hyper| & \textsc{exact}\\
-Lem.~\ref{lem:addstrict} & \verb|add_lt_hyper| & \textsc{exact}\\
-Prop.~\ref{prop:reduction} & \verb|sum_lemma| & \textsc{exact}\\
-Thm.~\ref{thm:D} & \verb|ht_general| & \textsc{exact}\\
-Thm.~\ref{thm:E} & \verb|equality_classification| (four components),
-  \verb|ht_eq_at_one|, \verb|ht_rank3_eq_iff|, \verb|ht_strict_general|,
-  \verb|ht_lt_at_zero| & \textsc{collective}\\
-Rem.~\ref{rem:nontriv} ($\HH_r(2,2)=4$) &
-  \verb|hyper_two_two|, \verb|hyper_one_base| & \textsc{exact}\\
-Rem.~\ref{rem:nontriv} (the two coordinates compete) &
-  --- (explanatory) & \textsc{prose}\\
+Lem.~\ref{lem:addstrict} (strict inequality; equality iff $u=v=2$; value $4$) &
+  \verb|add_lt_hyper|, \verb|add_eq_hyper_iff|, \verb|hyper_two_two| &
+  \textsc{collective}\\
 \hline
 \end{tabular}
-\caption{Correspondence between the numbered statements and the Lean development.}
+\caption{Correspondence between the $21$ numbered statements of Sections~1--6 and the
+Lean development. Clauses of one statement are listed on separate rows.}
 \label{tab:map}
 \end{table}
 
-The development also contains \verb|pow_lt_pow_right'| and
-\verb|pow_right_injective'|, choice-free replacements for the corresponding Mathlib
-lemmas (see below), and the auxiliary \verb|succ_le_hyper|, \verb|hyper_mono_arg|,
-\verb|hyper_mono_base| and \verb|hyper_rank_mono|.
+Two assertions of Section~\ref{sec:general} are not numbered and therefore lie outside
+the population of the table; both are formalized: the sharpness statement for all
+ranks (``for every $r\ge3$ and all $x,z\ge2$, taking $y=1$ reverses the inequality'')
+is \verb|ht_reversed_at_y_one|, and the equality of both sides at $x=1$ is
+\verb|ht_eq_at_x_one|. The value pair $256<65536$ quoted in Section~\ref{sec:dicho}
+is \verb|ht_rank4_strict_smallest|. The development also contains
+\verb|pow_lt_pow_right'| and \verb|pow_right_injective'|, choice-free replacements
+for the corresponding Mathlib lemmas (see below), and the auxiliary monotonicity
+facts \verb|succ_le_hyper|, \verb|hyper_mono_arg|, \verb|hyper_mono_base|,
+\verb|hyper_rank_mono|, \verb|hyper_lt_arg| and \verb|hyper_lt_base|.
 
 \draftnote{\textbf{Draft note --- not part of the submission.}
 The artifact has \emph{not} yet been deposited in a long-term archive, so no DOI is
@@ -606,11 +632,12 @@ quoted above. A version DOI will be minted and inserted here at the moment this
 paper is submitted, and the archive record will be linked to the submission.
 Until then the repository URL is the only pointer.}
 No declaration uses \verb|sorry|, \verb|native_decide| or any private axiom.
-Every one of the \textbf{82} theorems in these three files is audited with
+Every one of the \textbf{92} theorems in these three files is audited with
 \verb|#print axioms|, and the audit is machine-checked to cover them all
-(declared 82, audited 82, missing 0); \verb|sorryAx| does not occur.
-The axiom dependencies are \verb|propext| alone (3 theorems) and
-\verb|propext, Quot.sound| (79). In particular
+(declared 92, audited 92, missing 0; the script is \verb|scripts/check_audit.py|);
+\verb|sorryAx| does not occur.
+The axiom dependencies are \verb|propext| alone (5 theorems) and
+\verb|propext, Quot.sound| (87). In particular
 \[
   \textbf{no declaration depends on } \verb|Classical.choice|.
 \]
@@ -726,12 +753,13 @@ equality cases in Theorem~\ref{thm:E}. All mathematical decisions, the choice of
 what to claim, and the final text are the author's responsibility.
 
 The reader is asked to note what this does and does not mean, and we state it as
-narrowly as we can. Every inequality and every equality assertion about $\HH_r$ and
-about the evaluation of trees that appears in
-Sections~\ref{sec:rank3}--\ref{sec:general} has been formalised and checked by the
-Lean~4 kernel; Table~\ref{tab:map} says, statement by statement, which declaration
-carries it, and marks the places where the paper relies instead on classical
-background about the Tamari lattice or on explanatory prose. For the statements
+narrowly as we can. Every clause of every numbered statement of
+Sections~1--\ref{sec:general} that asserts an inequality or an equality about $\HH_r$
+or about the evaluation of trees has been formalised and checked by the Lean~4
+kernel; Table~\ref{tab:map} says, clause by clause, which declaration carries it, and
+marks the places where the paper relies instead on classical background about the
+Tamari lattice or on explanatory prose. The informal proofs printed in the text are
+the author's rendering of the formal ones and are not themselves checked. For the statements
 marked \textsc{exact} or \textsc{collective} there, correctness does not rest on the
 reliability of any language model.
 

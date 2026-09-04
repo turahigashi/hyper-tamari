@@ -458,7 +458,7 @@ theorem ht_strict_general : ∀ t : Nat, ∀ x y z : Nat, 2 ≤ x → 2 ≤ y �
           _ = hyper (t + 5) x (hyper (t + 5) y (w + 1)) := by
               rw [show t + 5 = t + 4 + 1 from by ring, hyper_succ]
       · -- 場合 (b)：y = 2 かつ w = 1（すなわち z = 2）。一階下の厳密性へ還元
-        push_neg at hcase
+        push Not at hcase
         obtain ⟨hy2, hw2⟩ := hcase
         have hy' : y = 2 := by omega
         have hw' : w = 1 := by omega
@@ -577,7 +577,81 @@ theorem equality_classification :
   ⟨ht_rank3_equality_witness,
    fun t x y z hx hy hz => Nat.ne_of_lt (ht_strict_general t x y z hx hy hz),
    fun _ x y hr => ht_eq_at_one hr x y,
-   fun _ x y hr hx => Nat.ne_of_lt (ht_lt_at_zero hr hx y)⟩
+   fun _ _ y hr hx => Nat.ne_of_lt (ht_lt_at_zero hr hx y)⟩
+
+
+/-! ## 補遺：論文の言明と一対一に対応させるための宣言 -/
+
+/-- **(ADD) の等号条件**（論文 Lemma 6.3 の後半）：$u,v\ge2$、$s\ge2$ のとき
+$u+v=H_s(u,v)$ ⟺ $u=v=2$。 -/
+theorem add_eq_hyper_iff {u v : Nat} (hu : 2 ≤ u) (hv : 2 ≤ v) {s : Nat} (hs : 2 ≤ s) :
+    u + v = hyper s u v ↔ u = 2 ∧ v = 2 := by
+  constructor
+  · intro h
+    rcases Nat.lt_or_ge u 3 with hu3 | hu3
+    · rcases Nat.lt_or_ge v 3 with hv3 | hv3
+      · exact ⟨by omega, by omega⟩
+      · have := add_lt_hyper hu hv (Or.inr hv3) hs; omega
+    · have := add_lt_hyper hu hv (Or.inl hu3) hs; omega
+  · rintro ⟨rfl, rfl⟩
+    rw [hyper_two_two hs]
+
+/-- $x < H_r(x,y)$（$x\ge2$、$r\ge2$、$y\ge2$）：左辺の第一引数は真に増える（論文 Remark 1.8）。 -/
+theorem self_lt_hyper {x : Nat} (hx : 2 ≤ x) {r : Nat} (hr : 2 ≤ r) {y : Nat} (hy : 2 ≤ y) :
+    x < hyper r x y := by
+  calc x = hyper r x 1 := (hyper_one_arg hr x).symm
+  _ < hyper r x y := hyper_lt_arg hx hr (le_refl 1) (by omega)
+
+/-- **仮定 $y\ge2$ の鋭さ（全称形）**：$r\ge3$、$x,z\ge2$ のとき $y=1$ は不等式を**反転**させる。
+$H_r(x,1)=x$、$H_r(1,z)=1$ なので右辺は $x$、左辺は $H_r(x,z)>x$。 -/
+theorem ht_reversed_at_y_one {r : Nat} (hr : 3 ≤ r) {x z : Nat} (hx : 2 ≤ x) (hz : 2 ≤ z) :
+    hyper r x (hyper r 1 z) < hyper r (hyper r x 1) z := by
+  rw [hyper_one_base hr, hyper_one_arg (show 2 ≤ r by omega)]
+  exact self_lt_hyper hx (by omega) hz
+
+/-- $x=1$ では両辺とも $1$（$r\ge3$）。 -/
+theorem ht_eq_at_x_one {r : Nat} (hr : 3 ≤ r) (y z : Nat) :
+    hyper r (hyper r 1 y) z = hyper r 1 (hyper r y z) := by
+  simp only [hyper_one_base hr]
+
+/-- **論文 Proposition 6.2(2) の単独形**：(SUM$_{s+1}$) と $u+v\le H_s(u,v)$ から
+(HT$_{s+1}$) が出る（$z$ の帰納）。`ht_general` の帰納段はこの形の議論である。 -/
+theorem ht_of_sum {x : Nat} (hx : 2 ≤ x) {s : Nat} (hs : 2 ≤ s)
+    (hsum : ∀ a b : Nat, 1 ≤ a → 1 ≤ b →
+      hyper s (hyper (s + 1) x a) (hyper (s + 1) x b) ≤ hyper (s + 1) x (a + b))
+    (hadd : ∀ u v : Nat, 2 ≤ u → 2 ≤ v → u + v ≤ hyper s u v)
+    {y : Nat} (hy : 2 ≤ y) :
+    ∀ z : Nat, hyper (s + 1) (hyper (s + 1) x y) z ≤ hyper (s + 1) x (hyper (s + 1) y z) := by
+  have hA : 2 ≤ hyper (s + 1) x y := two_le_hyper hx (by omega) (by omega)
+  intro z
+  induction z with
+  | zero =>
+      obtain ⟨u, rfl⟩ : ∃ u, s = u + 2 := ⟨s - 2, by omega⟩
+      rw [show u + 2 + 1 = u + 3 from by ring]
+      simp only [hyper_succ_succ_zero]
+      rw [hyper_one_arg (show 2 ≤ u + 3 by omega)]
+      omega
+  | succ z ihz =>
+      rcases Nat.eq_zero_or_pos z with rfl | hz
+      · simp only [Nat.zero_add]
+        rw [hyper_one_arg (show 2 ≤ s + 1 by omega) (hyper (s + 1) x y),
+            hyper_one_arg (show 2 ≤ s + 1 by omega) y]
+      · have hm : 2 ≤ hyper (s + 1) y z := two_le_hyper hy (by omega) hz
+        have hym : 1 ≤ y + hyper (s + 1) y z := by omega
+        have haddm : y + hyper (s + 1) y z ≤ hyper s y (hyper (s + 1) y z) := hadd y _ hy hm
+        have hAz : 1 ≤ hyper (s + 1) (hyper (s + 1) x y) z := by
+          have := two_le_hyper hA (show 2 ≤ s + 1 by omega) hz; omega
+        calc hyper (s + 1) (hyper (s + 1) x y) (z + 1)
+            = hyper s (hyper (s + 1) x y) (hyper (s + 1) (hyper (s + 1) x y) z) :=
+              hyper_succ _ _ _
+          _ ≤ hyper s (hyper (s + 1) x y) (hyper (s + 1) x (hyper (s + 1) y z)) :=
+              hyper_mono_arg hA hs hAz ihz
+          _ ≤ hyper (s + 1) x (y + hyper (s + 1) y z) :=
+              hsum y (hyper (s + 1) y z) (by omega) (by omega)
+          _ ≤ hyper (s + 1) x (hyper s y (hyper (s + 1) y z)) :=
+              hyper_mono_arg hx (by omega) hym haddm
+          _ = hyper (s + 1) x (hyper (s + 1) y (z + 1)) := by rw [hyper_succ]
+
 
 
 end HyperTamari
@@ -614,3 +688,8 @@ end HyperTamari
 #print axioms HyperTamari.hyper_lt_base
 #print axioms HyperTamari.Rot.eval_lt
 #print axioms HyperTamari.equality_classification
+#print axioms HyperTamari.add_eq_hyper_iff
+#print axioms HyperTamari.self_lt_hyper
+#print axioms HyperTamari.ht_reversed_at_y_one
+#print axioms HyperTamari.ht_eq_at_x_one
+#print axioms HyperTamari.ht_of_sum
