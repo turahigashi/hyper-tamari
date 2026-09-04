@@ -657,24 +657,49 @@ Zeilberger~\cite{Zeil} gives a sequent calculus for that law. Gryszka~\cite{Gry}
 by normalizing them, which concerns right-associated towers rather than general
 bracketings.
 
-The closest discussion we have found of an \emph{order} on bracketed exponentials is
-not in the literature but in a MathOverflow question of 2018, \emph{Is the order on
-repeated exponentiation the Dyck order?}~\cite{MO}. There one treats exponentiation on
-integers $\ge2$ as an ordered magma, orders bracketings by comparing their values
-\emph{for all assignments of leaf labels}, and asks how that order relates to the
-height (Stanley) order on Dyck paths; an answer exhibits an order-preserving map from
-the Stanley lattice. The present paper differs on every one of these axes: the order
-is the Tamari order rather than the Stanley order, the evaluation uses a single
-repeated label $a$ rather than a universal quantification over labels, the setting is
-the whole Goodstein hierarchy rather than exponentiation alone, and the object of
-study is the sharp classification of the equality cases of the local law rather than
-the comparison order itself.
+\subsection*{The rank-three case is not new}
 
-We should be explicit about the status of this: not finding a result is not a proof
-that it is new. What we can say is that we are not aware of a prior treatment of the
-Goodstein hyperoperation hierarchy under Tamari rotations proving the all-rank
-semi-associative inequality together with the rank-$3$/rank-$\ge4$ equality
-dichotomy.
+It is important to say clearly what part of Proposition~\ref{prop:tamari} is already
+known. In a MathOverflow question of January 2018~\cite{MO}, Spivak treats
+exponentiation on the integers $\ge2$ as an ordered magma and orders bracketings by
+the \emph{evaluation order}: $E\le F$ when the inequality holds \emph{for every}
+assignment of values to the leaves. He asks how this order relates to the height
+(Stanley) order on Dyck paths. In the answers, Chow proves that a Stanley cover does
+decrease the value, the computation resting on
+\[
+  B^{CD}=(B^{C})^{D}\ \ge\ (BC)^{D}\ \ge\ BC^{D}
+  \qquad (B,C\ge2,\ D\ge1),
+\]
+and Rubey reduces the same covering relation to the inequality
+$L_2^{(L_1^{xR})}\ge(L_2^{L_1})^{(x^{R})}$, which is exactly \eqref{eq:HT} at rank
+$3$ in a variable-leaf form.
+
+Since the evaluation order quantifies over \emph{all} leaf assignments it is stronger
+than the single-label evaluation $\ev_{3,a}$ used here, and since the Stanley lattice
+is an extension of the Tamari lattice, comparability in the Tamari order implies
+comparability in the Stanley order. Consequently \textbf{the rank-$3$ case of
+Proposition~\ref{prop:tamari} is already contained, in a stronger form, in that
+discussion,} and we do not claim it. What that discussion does not contain is any
+rank other than $3$, any analysis of when equality holds, or the strictness
+phenomenon; those are the subject of this paper.
+
+There is also a body of peer-reviewed work on orders attached to iterated
+exponentials: Brunson~\cite{Bru} on the partial order of iterated exponentials,
+Stembridge~\cite{Ste} and Griggs--Wachs~\cite{GW} on Bruhat order and towers of
+powers, and Griggs~\cite{Gri} on iterated exponentials of two numbers. These concern
+right-associated towers and permutations of the entries rather than the comparison of
+\emph{all} bracketings of a single repeated entry, so they do not address the
+inequality studied here; we record them because they are the closest peer-reviewed
+neighbours of the question.
+
+\subsection*{What we do claim}
+
+Not finding a result is not a proof that it is new, so we state the claim in pieces.
+The rank-$3$ monotonicity is known (above). For the following we have not found a
+prior occurrence: the local semi-associative law \eqref{eq:HT} for \emph{every} rank
+$r\ge3$ of the Goodstein hierarchy; the complete classification of its equality cases,
+with the isolated rank-$3$ exception $(y,z)=(2,2)$; the resulting dichotomy, strict on
+every Tamari cover from rank $4$ on; and the machine-checked formalization.
 
 \section*{Use of AI assistance}
 
@@ -710,9 +735,18 @@ secondary sources and independently cross-checked against Crossref, but the
 contents were not read. They are:
 \textbf{[FT]} Friedman--Tamari 1967, cited only for the origin of the lattice and of
 the term \emph{loi demi-associative} (the phrase occurs in the title itself);
-\textbf{[Gry]} Gryszka 2022, cited only as related work on comparing power towers;
+\textbf{[Gry]} --- \emph{now consulted in the original} (Lith.\ Math.\ J.\ \textbf{62}(2),
+192--206, 15 pages): it compares right-associated power towers with varying entries and
+heights and does not mention bracketings, binary trees, Catalan structures, rotations or
+any lattice, which confirms the description given in Section~\ref{sec:related};
 \textbf{[Tamari]} Tamari 1962, cited only for the enumeration of bracketings and for
-the two combs being the extreme elements.
+the two combs being the extreme elements; and
+\textbf{[Bru]}, \textbf{[Gri]}, \textbf{[GW]}, \textbf{[Ste]}, the four papers on
+orders attached to iterated exponentials, cited only to place the question among its
+peer-reviewed neighbours. The last four were identified after the first draft, in
+response to a referee report, and must be read before submission: if any of them
+treats the comparison of general bracketings of a single repeated entry, the novelty
+paragraph above has to be revised again.
 None of the results of the present paper depends on these three items: they are
 cited for attribution and context, and every mathematical statement used in the
 proofs is either proved here or formalised in the accompanying Lean development.
@@ -727,13 +761,22 @@ removed by setting \texttt{\textbackslash draftfalse}.}
   \emph{Probl\`emes d'associativit\'e: une structure de treillis finis induite par une
   loi demi-associative},
   Journal of Combinatorial Theory \textbf{2} (1967), no.~3, 215--242.
-\bibitem{MO} \emph{Is the order on repeated exponentiation the Dyck order?},
-  MathOverflow question 306584 (2018),
-  \url{https://mathoverflow.net/q/306584}.
+\bibitem{MO} D. Spivak, \emph{Is the order on repeated exponentiation the Dyck
+  order?}, MathOverflow question 289708 (1 January 2018), with answers by
+  T.~Chow and M.~Rubey, \url{https://mathoverflow.net/q/289708}.
+\bibitem{Bru}\unseen{}  B. W. Brunson,
+  \emph{The partial order of iterated exponentials},
+  American Mathematical Monthly \textbf{93} (1986), 779--786.
+\bibitem{Gri}\unseen{}  J. R. Griggs,
+  \emph{Iterated exponentials of two numbers},
+  Discrete Mathematics \textbf{88} (1991), 193--209.
+\bibitem{GW}\unseen{}  J. R. Griggs and M. L. Wachs,
+  \emph{Towers of powers and Bruhat order},
+  European Journal of Combinatorics \textbf{13} (1992), 367--370.
 \bibitem{Good} R. L. Goodstein,
   \emph{Transfinite ordinals in recursive number theory},
   Journal of Symbolic Logic \textbf{12} (1947), 123--129.
-\bibitem{Gry}\unseen{}  K. Gryszka, \emph{How to compare power towers?},
+\bibitem{Gry} K. Gryszka, \emph{How to compare power towers?},
   Lithuanian Mathematical Journal \textbf{62} (2022), no.~2, 192--206.
 \bibitem{HL} J. Huang and E. Lehtonen,
   \emph{The associative-commutative spectrum of a binary operation},
@@ -741,6 +784,9 @@ removed by setting \texttt{\textbackslash draftfalse}.}
 \bibitem{HMX} J. Huang, M. Mickey and J. Xu,
   \emph{The nonassociativity of the double minus operation},
   arXiv:1710.05651 (2017).
+\bibitem{Ste}\unseen{}  J. R. Stembridge,
+  \emph{The Bruhat order and iterated exponentials},
+  Journal of Combinatorial Theory Series A \textbf{50} (1989), 87--99.
 \bibitem{Tamari}\unseen{}  D. Tamari,
   \emph{The algebra of bracketings and their enumeration},
   Nieuw Archief voor Wiskunde (3) \textbf{10} (1962), 131--146.

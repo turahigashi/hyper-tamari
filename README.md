@@ -37,9 +37,11 @@ r  = 3 :   equality  ⟺  z = 1  or  (y,z) = (2,2)
 r ≥ 4 :   equality  ⟺  z = 1
 ```
 
-So rank 3 carries **exactly one** non-trivial collision — already visible with four
-leaves, where the Tamari cover `((aa)a)a ⋖ (aa)(aa)` has equal endpoints — and from
-rank 4 onwards the evaluation is strictly increasing along every such cover. The
+So rank 3 carries **exactly one** non-trivial *equality pattern* — already visible
+with four leaves, where the Tamari cover `((aa)a)a ⋖ (aa)(aa)` has equal endpoints —
+and from rank 4 onwards the evaluation is strictly increasing along every such cover.
+(Several trees do share a value at rank 3 with `a = 2` and four leaves; what is unique
+is the non-trivial equality pattern `(y,z) = (2,2)` of the local law itself.) The
 mechanism is identified: the collapsing law `(x^y)^z = x^{yz}`, which produces the
 rank-3 equality, has no analogue at rank 4 or above.
 
@@ -67,6 +69,18 @@ Tamari lattice, or explanatory remarks, that are *not* formalized here). The pap
 does not claim that everything it says is machine-checked; what is machine-checked is
 every inequality and equality assertion about `H_r` and about the evaluation of
 trees.
+
+## Prior work on the rank-3 case
+
+The rank-3 monotonicity is **not new**. A MathOverflow discussion of January 2018
+(question 289708, asked by D. Spivak) orders bracketings of exponentiation by
+comparing values *for every* assignment of leaf labels, and in the answers T. Chow
+proves that a Stanley cover decreases the value, while M. Rubey reduces the same
+covering relation to exactly the rank-3 semi-associative inequality. Since that
+evaluation order quantifies over all leaf assignments and the Stanley lattice extends
+the Tamari lattice, the rank-3 case here is already contained in that discussion, in
+a stronger form. What is not there is any rank other than 3, the equality analysis, or
+the strictness phenomenon. See Section 8 of the paper.
 
 ## Audit
 
