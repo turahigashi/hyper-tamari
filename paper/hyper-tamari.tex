@@ -31,7 +31,9 @@
 %% ─────────────────────────────────────────────────────────────
 
 \title{Bracketing hyperoperations:\\ a rank dichotomy for the Tamari order}
-\author{Toshihisa Urahigashi}
+\author{Toshihisa Urahigashi\\[2pt]
+  \normalsize Independent researcher, Nara, Japan\\[1pt]
+  \normalsize ORCID: \href{https://orcid.org/0009-0004-0460-6242}{0009-0004-0460-6242}}
 \date{}
 
 \begin{document}
@@ -78,8 +80,11 @@ hypothesis $y\ge2$ is sharp as a uniform hypothesis: for every $r\ge3$ and all
 $x,z\ge2$, taking $y=1$ reverses the inequality.
 
 The monotonicity and strictness statements are proved for arbitrary leaf values
-$\ge2$, not only for a single repeated one, which extends to the whole hierarchy a
-rank-$3$ observation that appears to have been made only for exponentiation.
+$\ge2$, not only for a single repeated one. We stress what is \emph{not} new: at
+rank~$3$ the monotonicity direction is already known, in a stronger form, from a 2018
+MathOverflow discussion of exponentiation, and we do not claim it. What we add is the
+extension of that direction to every rank of the hierarchy, the classification of the
+equality cases, the strictness from rank~$4$ on, and the formalization.
 
 Every numbered statement of the paper that asserts an inequality or an equality about
 $\HH_r$ or about the evaluation of trees is formalized and machine-checked in Lean~4;
@@ -754,7 +759,8 @@ quoted above. A version DOI will be minted and inserted here at the moment this
 paper is submitted, and the archive record will be linked to the submission.
 Until then the repository URL is the only pointer.}
 No declaration uses \verb|sorry|, \verb|native_decide| or any private axiom.
-Every one of the \textbf{116} theorems in these four files is audited with
+Every one of the \textbf{116} theorems and lemmas in these four files is audited
+with
 \verb|#print axioms|, and the audit is machine-checked to cover them all
 (declared 116, audited 116, missing 0; the script is
 \texttt{scripts/\allowbreak check\_audit.py}); \verb|sorryAx| does not occur.
@@ -897,14 +903,17 @@ the released version.
 \paragraph{Use in preparing the manuscript.} Language models drafted this text,
 including the abstract and the expository passages, from the author's outline and from
 the formal statements. Every sentence was read and, where necessary, rewritten by the
-author before submission.
+author before submission. All model output was treated as an untrusted suggestion.
 
 \paragraph{What the author verified personally.} The choice of definitions and
 conventions (Definition~\ref{def:hyper} in particular); the correspondence, statement
 by statement, between each informal claim of Sections~1--\ref{sec:varleaf} and the Lean
 declaration named for it in Table~\ref{tab:map}; the bibliographic data of every
 reference, against the publishers' records; and the reproduction of the build and of
-the axiom audit from the released sources.
+the axiom audit from the released sources, with Lean~4 v4.30.0 and Mathlib v4.30.0 at
+revision \verb|c5ea00351c28| as pinned in the repository. No confidential third-party
+material --- no unpublished manuscript and no referee report --- was supplied to any
+external AI system.
 
 \paragraph{Record.} The Lean development, the source of this paper, the raw build log
 containing every \verb|#print axioms| result, and the scripts that check the audit and
