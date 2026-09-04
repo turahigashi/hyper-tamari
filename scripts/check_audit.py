@@ -39,8 +39,8 @@ for f in files:
                re.match(r"^\s*" + tok.strip() + r"\b", line):
                 bad_tokens[tok] += 1
 
-aud_dep = re.compile(r"'([^']+(?:'[^' ]*)?)' depends on axioms: \[([^\]]*)\]")
-aud_none = re.compile(r"'([^']+(?:'[^' ]*)?)' does not depend on any axioms")
+aud_dep = re.compile(r"'([^'\n]+(?:'[^'\n ]*)?)' depends on axioms: \[([^\]]*)\]")
+aud_none = re.compile(r"'([^'\n]+(?:'[^'\n ]*)?)' does not depend on any axioms")
 audited = {}
 text = log.read_text(encoding="utf-8", errors="replace")
 for m in aud_dep.finditer(text):

@@ -90,14 +90,22 @@ info: HyperTamari/General.lean:692:0: 'HyperTamari.self_lt_hyper' depends on axi
 info: HyperTamari/General.lean:693:0: 'HyperTamari.ht_reversed_at_y_one' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/General.lean:694:0: 'HyperTamari.ht_eq_at_x_one' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/General.lean:695:0: 'HyperTamari.ht_of_sum' depends on axioms: [propext, Quot.sound]
-info: HyperTamari/VarLeaves.lean:183:0: 'HyperTamari.eval_ofBTree' depends on axioms: [propext, Quot.sound]
-info: HyperTamari/VarLeaves.lean:184:0: 'HyperTamari.allLeaves_ofBTree' does not depend on any axioms
-info: HyperTamari/VarLeaves.lean:185:0: 'HyperTamari.rot_ofBTree' does not depend on any axioms
-info: HyperTamari/VarLeaves.lean:186:0: 'HyperTamari.Rot.eval_lt_of_var' depends on axioms: [propext, Quot.sound]
-info: HyperTamari/VarLeaves.lean:187:0: 'HyperTamari.LRot.preserves_star' does not depend on any axioms
-info: HyperTamari/VarLeaves.lean:188:0: 'HyperTamari.LRot.eval_le_of_reflTransGen' depends on axioms: [propext, Quot.sound]
-info: HyperTamari/VarLeaves.lean:189:0: 'HyperTamari.LRot.eval_lt_of_transGen' depends on axioms: [propext, Quot.sound]
-info: HyperTamari/VarLeaves.lean:190:0: 'HyperTamari.LTree.two_le_eval' depends on axioms: [propext, Quot.sound]
-info: HyperTamari/VarLeaves.lean:191:0: 'HyperTamari.LRot.preserves' does not depend on any axioms
-info: HyperTamari/VarLeaves.lean:192:0: 'HyperTamari.LRot.eval_le' depends on axioms: [propext, Quot.sound]
-info: HyperTamari/VarLeaves.lean:193:0: 'HyperTamari.LRot.eval_lt' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:295:0: 'HyperTamari.LTree.four_le_eval_node' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:296:0: 'HyperTamari.LTree.eval_eq_two_iff' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:297:0: 'HyperTamari.LRot.root_eq_rank3_iff' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:298:0: 'HyperTamari.LRot.root_lt_rank3_of_three_le' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:299:0: 'HyperTamari.rank3_root_lt_of_three_le' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:300:0: 'HyperTamari.cover_strict_unless_rank3_two' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:301:0: 'HyperTamari.eval_ofBTree' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:302:0: 'HyperTamari.allLeaves_ofBTree' does not depend on any axioms
+info: HyperTamari/VarLeaves.lean:303:0: 'HyperTamari.rot_ofBTree' does not depend on any axioms
+info: HyperTamari/VarLeaves.lean:304:0: 'HyperTamari.Rot.eval_lt_of_var' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:305:0: 'HyperTamari.LRot.preserves_star' does not depend on any axioms
+info: HyperTamari/VarLeaves.lean:306:0: 'HyperTamari.LRot.eval_le_of_reflTransGen' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:307:0: 'HyperTamari.LRot.eval_lt_of_transGen' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:308:0: 'HyperTamari.LTree.eval_leaf' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:309:0: 'HyperTamari.LTree.eval_node' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:310:0: 'HyperTamari.LTree.two_le_eval' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:311:0: 'HyperTamari.LRot.preserves' does not depend on any axioms
+info: HyperTamari/VarLeaves.lean:312:0: 'HyperTamari.LRot.eval_le' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:313:0: 'HyperTamari.LRot.eval_lt' depends on axioms: [propext, Quot.sound]

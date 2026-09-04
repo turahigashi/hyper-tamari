@@ -37,6 +37,11 @@ exponentiation, in a 2018 MathOverflow discussion whose author states he complet
 "half of the proof". The single-label case is recovered by specialisation
 (`Rot.eval_lt_of_var`).
 
+**The collapse at rank 3 is completely located** (`cover_strict_unless_rank3_two`):
+a Tamari cover fails to be strict exactly when the two rotated subtrees are both
+leaves labelled `2`. So for a single repeated label `a`, every cover is strict unless
+`(r, a) = (3, 2)`.
+
 **The main result is a complete classification of the equality cases.**
 For `x, y ≥ 2`:
 
@@ -112,12 +117,12 @@ bracketing varies. The two families of questions are orthogonal.
 Measured, not asserted (`logs/axiom-audit.txt` is the raw evidence):
 
 - `lake build` exits 0.
-- **103** theorems and lemmas; **103** audited with `#print axioms`; **0** missing.
+- **111** theorems and lemmas; **111** audited with `#print axioms`; **0** missing.
   Coverage is checked mechanically by `scripts/check_audit.py`, which compares the
   declaration names in the sources against the audit output.
 - **No `sorryAx`.** No `sorry`, no `native_decide`, no private `axiom`, no
   `ofReduceBool`.
-- Axiom dependencies: `propext` alone (5), `propext, Quot.sound` (94), and four
+- Axiom dependencies: `propext` alone (5), `propext, Quot.sound` (102), and four
   theorems depending on no axioms at all.
   In particular **no declaration depends on `Classical.choice`.**
 

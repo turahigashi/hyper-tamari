@@ -75,9 +75,9 @@ not blow up with the rank: $\HH_r(2,2)=4$ for every $r\ge2$. Moreover the
 hypothesis $y\ge2$ is sharp as a uniform hypothesis: for every $r\ge3$ and all
 $x,z\ge2$, taking $y=1$ reverses the inequality.
 
-Everything is proved for arbitrary leaf values, not only for a single repeated one,
-which extends to the whole hierarchy a rank-$3$ observation that appears to have been
-made only for exponentiation.
+The monotonicity and strictness statements are proved for arbitrary leaf values
+$\ge2$, not only for a single repeated one, which extends to the whole hierarchy a
+rank-$3$ observation that appears to have been made only for exponentiation.
 
 Every numbered statement of the paper that asserts an inequality or an equality about
 $\HH_r$ or about the evaluation of trees is formalized and machine-checked in Lean~4;
@@ -165,7 +165,8 @@ For every $r\ge3$ and all $x\ge2$, $y\ge2$ and $z\ge0$,
 \begin{theorem}[Complete equality classification]\label{thm:E}
 Let $x\ge2$ and $y\ge2$.
 \begin{enumerate}
-\item For every $r\ge2$, equality holds in Theorem~\ref{thm:D} when $z=1$.
+\item For every $r\ge2$ the two sides are equal when $z=1$; in particular equality
+      holds in Theorem~\ref{thm:D} for every $r\ge3$.
 \item For $r=3$ the only further equality is $(y,z)=(2,2)$.
 \item For $r\ge4$ and $z\ge2$ the inequality is \emph{strict}.
 \item For every $r\ge3$ the inequality is strict when $z=0$, since
@@ -551,6 +552,31 @@ $\HH_r(u,\cdot)$. The passage to the closures is by induction on the length of t
 chain.
 \end{proof}
 
+We can now say exactly when a cover fails to be strict. At rank $3$ the only
+non-trivial equality of \eqref{eq:HT} is $(y,z)=(2,2)$, and in a labelled tree whose
+labels are all $\ge2$ an \emph{internal} node evaluates to at least
+$\HH_r(2,2)=4$; so a subtree evaluates to $2$ exactly when it is a leaf labelled $2$.
+
+\begin{corollary}[Equality along a cover]\label{cor:coveq}
+Let all labels be $\ge2$ and consider the rotation
+$((A\!\cdot\!B)\!\cdot\!C)\to(A\!\cdot\!(B\!\cdot\!C))$ at rank~$3$. Its two sides are
+equal if and only if $B$ and $C$ are both leaves labelled~$2$. Consequently, for a
+single repeated label $a$, every cover is strict unless $(r,a)=(3,2)$; and for
+$(r,a)=(3,2)$ equality does occur, as Example~\ref{ex:collide} shows.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:A} the two sides agree exactly when $\ev(C)=1$ or
+$(\ev(B),\ev(C))=(2,2)$. The first is impossible because every label is $\ge2$. For the
+second, a subtree evaluates to $2$ only if it is a leaf labelled~$2$, by the remark
+above. For a single label $a$: if $a\ge3$ no leaf is labelled~$2$, so no cover at
+rank~$3$ is an equality, and from rank~$4$ on Theorem~\ref{thm:strictcover} applies.
+\end{proof}
+
+Thus the collapse at rank $3$ is not merely rare but completely located: it happens at
+exactly one local configuration, two leaves labelled $2$ being rotated past each other,
+and from rank $4$ on it does not happen at all.
+
 Setting every label equal to $a$ recovers Proposition~\ref{prop:tamari} and
 Theorem~\ref{thm:strictcover}; the formalization carries out this specialisation
 explicitly, so the earlier statements are corollaries rather than separate results.
@@ -575,12 +601,12 @@ the raw \verb|lake build| output recording the axiom audit
 
 The correspondence with the numbered statements of this paper is given in
 Table~\ref{tab:map}. The population of the table is fixed as follows: it consists of
-\emph{every} numbered environment in Sections~1--6 --- that is, every
+\emph{every} numbered environment in Sections~1--7 --- that is, every
 \texttt{theorem}, \texttt{proposition}, \texttt{lemma}, \texttt{corollary},
 \texttt{definition}, \texttt{example} and \texttt{remark} environment in the source of
-those sections. There are $21$ of them: $5$ theorems, $3$ propositions, $6$ lemmas,
-$1$ corollary, $3$ definitions, $1$ example and $2$ remarks. (Sections~7 and~8
-contain no numbered environments.) Every one of the $21$ appears in the table, and the
+those sections. There are $24$ of them: $6$ theorems, $3$ propositions, $6$ lemmas,
+$2$ corollaries, $4$ definitions, $1$ example and $2$ remarks. (Section~8
+contains no numbered environments.) Every one of the $24$ appears in the table, and the
 table contains nothing else; both facts, together with the existence in the
 development of every declaration name printed in the table, are checked by a script
 run on the source of this paper and of the Lean files. A numbered statement with
@@ -641,6 +667,10 @@ Thm.~\ref{thm:varleaf} & \verb|LRot.eval_le|, \verb|LRot.eval_lt|,
   \verb|LRot.preserves|, \verb|LTree.two_le_eval| & \textsc{collective}\\
 Specialisation to a single label & \verb|ofBTree|, \verb|eval_ofBTree|,
   \verb|rot_ofBTree|, \verb|Rot.eval_lt_of_var| & \textsc{exact}\\
+Cor.~\ref{cor:coveq} & \verb|LTree.four_le_eval_node|,
+  \verb|LTree.eval_eq_two_iff|, \verb|LRot.root_eq_rank3_iff|,
+  \verb|LRot.root_lt_rank3_of_three_le|, \verb|rank3_root_lt_of_three_le|,
+  \verb|cover_strict_unless_rank3_two| & \textsc{collective}\\
 Def.~\ref{def:hyper} &
   \verb|hyper|, \verb|hyper_zero|, \verb|hyper_one_zero|, \verb|hyper_two_zero|,
   \verb|hyper_succ_succ_zero|, \verb|hyper_succ| & \textsc{exact}\\
@@ -695,12 +725,12 @@ quoted above. A version DOI will be minted and inserted here at the moment this
 paper is submitted, and the archive record will be linked to the submission.
 Until then the repository URL is the only pointer.}
 No declaration uses \verb|sorry|, \verb|native_decide| or any private axiom.
-Every one of the \textbf{103} theorems in these four files is audited with
+Every one of the \textbf{111} theorems in these four files is audited with
 \verb|#print axioms|, and the audit is machine-checked to cover them all
-(declared 103, audited 103, missing 0; the script is \verb|scripts/check_audit.py|);
+(declared 111, audited 111, missing 0; the script is \verb|scripts/check_audit.py|);
 \verb|sorryAx| does not occur.
 The axiom dependencies are \verb|propext| alone (5 theorems),
-\verb|propext, Quot.sound| (94), and four theorems that depend on no axioms at all. In particular
+\verb|propext, Quot.sound| (102), and four theorems that depend on no axioms at all. In particular
 \[
   \textbf{no declaration depends on } \verb|Classical.choice|.
 \]
