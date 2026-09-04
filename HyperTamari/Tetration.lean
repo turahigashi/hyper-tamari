@@ -405,8 +405,10 @@ theorem Rot.eval_le_rank4 {a : Nat} (ha : 2 ≤ a) {T U : BTree} (h : Rot T U) :
       simp only [BTree.eval_node, ← tet_eq_hyper4]
       exact tet_mono (by have := two_le_eval_rank4 ha l; omega) ih
 
-/-- rank 4 では被覆に沿って**厳密**とは限らない（根の回転で $z<3$ の場合が残る）
-ことを明示するため、根の回転が厳密になる十分条件を切り出しておく。 -/
+/-- 根の回転が厳密になるための**十分条件**（回転先の右部分木の値が `3` 以上）。
+これは補題の段階のもので、`3 ≤ eval c` という仮定を必要とする。
+その仮定は後に外れる：`General.lean` の `Rot.eval_lt` は、階数 4 以上では
+`a ≥ 2` のもとで**任意の**被覆に沿って厳密であることを無条件に示す。 -/
 theorem Rot.root_lt_rank4 {a : Nat} (ha : 2 ≤ a) (p q c : BTree)
     (hc : 3 ≤ BTree.eval 4 a c) :
     BTree.eval 4 a (BTree.node (BTree.node p q) c)

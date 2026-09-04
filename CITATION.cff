@@ -8,7 +8,7 @@ authors:
     email: "123026.urahigashi.toshihisa@gmail.com"
     affiliation: "Independent researcher"
     orcid: "https://orcid.org/0009-0004-0460-6242"
-version: "1.10.0-pre"
+version: "1.11.0-pre"
 # No DOI yet: this artifact has not been deposited.  A version DOI will be
 # added here at the moment the accompanying paper is submitted.
 license: MIT

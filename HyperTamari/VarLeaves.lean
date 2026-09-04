@@ -246,6 +246,50 @@ theorem Rot.eval_lt_of_var {a : Nat} (ha : 2 ≤ a) {t : Nat} {T U : BTree} (h :
   have := (rot_ofBTree a h).eval_lt (t := t) (allLeaves_ofBTree ha T)
   simpa using this
 
+/-- **単一ラベルの単調性も特別な場合である**：`Rot.eval_le` は `LRot.eval_le` から従う。 -/
+theorem Rot.eval_le_of_var {a : Nat} (ha : 2 ≤ a) {t : Nat} {T U : BTree} (h : Rot T U) :
+    BTree.eval (t + 3) a T ≤ BTree.eval (t + 3) a U := by
+  have := (rot_ofBTree a h).eval_le (t := t) (allLeaves_ofBTree ha T)
+  simpa using this
+
+/-- 単一ラベルの被覆関係の反射推移閉包は、変数葉版の反射推移閉包へ移る。 -/
+theorem reflTransGen_ofBTree (a : Nat) {T U : BTree}
+    (h : Relation.ReflTransGen Rot T U) :
+    Relation.ReflTransGen LRot (ofBTree a T) (ofBTree a U) := by
+  induction h with
+  | refl => exact Relation.ReflTransGen.refl
+  | @tail V W _ hstep ih => exact ih.tail (rot_ofBTree a hstep)
+
+/-- 単一ラベルの被覆関係の推移閉包は、変数葉版の推移閉包へ移る。 -/
+theorem transGen_ofBTree (a : Nat) {T U : BTree}
+    (h : Relation.TransGen Rot T U) :
+    Relation.TransGen LRot (ofBTree a T) (ofBTree a U) := by
+  induction h with
+  | single hstep => exact Relation.TransGen.single (rot_ofBTree a hstep)
+  | @tail V W _ hstep ih => exact ih.tail (rot_ofBTree a hstep)
+
+/-- **単一ラベル・Tamari 順序についての単調性は特別な場合である**。 -/
+theorem Rot.eval_le_of_reflTransGen_of_var {a : Nat} (ha : 2 ≤ a) {t : Nat} {T U : BTree}
+    (h : Relation.ReflTransGen Rot T U) :
+    BTree.eval (t + 3) a T ≤ BTree.eval (t + 3) a U := by
+  have := LRot.eval_le_of_reflTransGen (t := t) (reflTransGen_ofBTree a h)
+    (allLeaves_ofBTree ha T)
+  simpa using this
+
+/-- **単一ラベル・Tamari 順序についての厳密単調性は特別な場合である**。 -/
+theorem Rot.eval_lt_of_transGen_of_var {a : Nat} (ha : 2 ≤ a) {t : Nat} {T U : BTree}
+    (h : Relation.TransGen Rot T U) :
+    BTree.eval (t + 4) a T < BTree.eval (t + 4) a U := by
+  have := LRot.eval_lt_of_transGen (t := t) (transGen_ofBTree a h)
+    (allLeaves_ofBTree ha T)
+  simpa using this
+
+#print axioms HyperTamari.Rot.eval_le_of_var
+#print axioms HyperTamari.reflTransGen_ofBTree
+#print axioms HyperTamari.transGen_ofBTree
+#print axioms HyperTamari.Rot.eval_le_of_reflTransGen_of_var
+#print axioms HyperTamari.Rot.eval_lt_of_transGen_of_var
+
 /-! ## 単一ラベルでの二分法
 
 一様なラベル $a$ を入れた場合、階数 3 の等号は $a=2$ でしか起こりえない。 -/

@@ -70,22 +70,24 @@ inequality.
 | Path | Lines | Contents |
 |---|---:|---|
 | `HyperTamari/Basic.lean` | 351 | `hyper`, verification of the conventions, the complete rank-3 analysis, `BTree` / `eval`, the five values of `T_4` (`rank3_five_values`) |
-| `HyperTamari/Tetration.lean` | 535 | rank 4 (tetration): `tet_ht`, strictness, the dichotomy, the rotation relation `Rot`, `sq_le_pow_fails` |
+| `HyperTamari/Tetration.lean` | 537 | rank 4 (tetration): `tet_ht`, strictness, the dichotomy, the rotation relation `Rot`, `sq_le_pow_fails` |
 | `HyperTamari/General.lean` | 695 | general rank: `sum_lemma`, `ht_of_sum`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero`, `add_eq_hyper_iff`, `ht_reversed_at_y_one` |
+| `HyperTamari/VarLeaves.lean` | 357 | arbitrary leaf values: `LTree`, `LTree.eval`, the cover relation `LRot`, `LRot.eval_lt` and its transitive closure, `cover_strict_unless_rank3_two`, and the bridge theorems recovering the single-label statements (`Rot.eval_le_of_var`, `Rot.eval_lt_of_var`, `Rot.eval_le_of_reflTransGen_of_var`, `Rot.eval_lt_of_transGen_of_var`) |
 | `logs/axiom-audit.txt` | — | raw `lake build` output recording the axiom audit |
 | `scripts/check_audit.py` | — | checks declared theorems against the audit log (coverage, `sorryAx`, `Classical.choice`) |
 | `scripts/check_table.py` | — | checks the paper's correspondence table against its population and against the Lean declaration names |
 | `paper/` | — | the paper (LaTeX source and PDF) |
 
-Section 7 of the paper (*The Lean development*) contains a statement-by-statement
-correspondence table whose population is defined explicitly: all 21 numbered
-environments of Sections 1–6 (5 theorems, 3 propositions, 6 lemmas, 1 corollary,
-3 definitions, 1 example, 2 remarks). It classifies each clause as **exact** (one
+Section 8 of the paper (*The Lean development*) contains a statement-by-statement
+correspondence table whose population is defined explicitly: all 24 numbered
+environments of Sections 1–7 (6 theorems, 3 propositions, 6 lemmas, 2 corollaries,
+4 definitions, 1 example, 2 remarks). It classifies each clause as **exact** (one
 declaration with the same quantifiers, hypotheses and conclusion), **collective**
 (covered by a combination of declarations) or **prose** (background facts about the
-Tamari lattice, or explanatory remarks, that are *not* formalized here). That the
-table covers the whole population, nothing else, and only existing declaration names
-is checked by `scripts/check_table.py`. The paper does not claim that everything it
+Tamari lattice, or explanatory remarks, that are *not* formalized here). The only row outside that population is one recording the
+specialisation of the labelled-tree results to a single repeated label. That the
+table covers the whole population, adds nothing else beyond that row, and names only
+existing declarations is checked by `scripts/check_table.py`. The paper does not claim that everything it
 says is machine-checked; what is machine-checked is every clause of every numbered
 statement that asserts an inequality or an equality about `H_r` or about the
 evaluation of trees.
@@ -100,7 +102,7 @@ covering relation to exactly the rank-3 semi-associative inequality. Since that
 evaluation order quantifies over all leaf assignments and the Stanley lattice extends
 the Tamari lattice, the rank-3 case here is already contained in that discussion, in
 a stronger form. What is not there is any rank other than 3, the equality analysis, or
-the strictness phenomenon. See Section 8 of the paper.
+the strictness phenomenon. See Section 9 of the paper.
 
 ## Prior work on orders attached to iterated exponentials
 
@@ -117,12 +119,12 @@ bracketing varies. The two families of questions are orthogonal.
 Measured, not asserted (`logs/axiom-audit.txt` is the raw evidence):
 
 - `lake build` exits 0.
-- **111** theorems and lemmas; **111** audited with `#print axioms`; **0** missing.
+- **116** theorems and lemmas; **116** audited with `#print axioms`; **0** missing.
   Coverage is checked mechanically by `scripts/check_audit.py`, which compares the
   declaration names in the sources against the audit output.
 - **No `sorryAx`.** No `sorry`, no `native_decide`, no private `axiom`, no
   `ofReduceBool`.
-- Axiom dependencies: `propext` alone (5), `propext, Quot.sound` (102), and four
+- Axiom dependencies: `propext` alone (5), `propext, Quot.sound` (105), and six
   theorems depending on no axioms at all.
   In particular **no declaration depends on `Classical.choice`.**
 

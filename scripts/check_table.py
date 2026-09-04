@@ -68,6 +68,9 @@ sec7 = src[i1:src.index(r"\section{Related work}")]
 unknown = []
 for v in re.findall(r"\\verb\|([^|]*)\|", sec7):
     tok = v.split()[0] if v.split() else v
+    # file and directory names are not declaration names
+    if tok.endswith((".lean", ".txt", ".py", "/")) or "/" in tok:
+        continue
     if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_'.]*", tok) and tok not in names and tok not in ALLOW:
         unknown.append(v)
 print("verb names in section 7 not found in the development:", unknown)

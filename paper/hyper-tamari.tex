@@ -45,7 +45,7 @@ bracketed expression $\HH_r(a,\dots,a)$ depends on the bracketing, i.e.\ on a
 binary tree. We study how the value varies over the Tamari lattice of such trees.
 
 We prove that a \emph{semi-associative law} runs through the whole hierarchy: for
-every rank $r\ge3$ and all $x,y\ge2$,
+every rank $r\ge3$, all $x,y\ge2$ and all $z\ge0$,
 \[
   \HH_r(\HH_r(x,y),z)\ \le\ \HH_r(x,\HH_r(y,z)),
 \]
@@ -54,7 +54,7 @@ order-preserving from the Tamari lattice to $(\N,\le)$; the left comb is a
 minimiser and the right comb, whose value is $\HH_{r+1}(a,n)$, a maximiser.
 
 Our main result is that the \emph{degeneracy} of this law disappears at rank $4$.
-We classify equality completely. For $x,y\ge2$:
+We classify equality completely. For $x,y\ge2$ and $z\ge0$:
 \[
   r=3:\quad \text{equality}\iff z=1\ \text{ or }\ (y,z)=(2,2);
   \qquad
@@ -197,18 +197,30 @@ make everything large: since $\HH_r(a,1)=a$ for $r\ge2$, one gets
 for \emph{every} $r\ge2$. A degenerate corner therefore survives at every rank, and
 it is exactly this corner that carries the rank-$3$ equality of
 Theorem~\ref{thm:E}(2) and that has to be treated separately in the proof of
-Theorem~\ref{thm:E}(3).
+Theorem~\ref{thm:E}(3). Neither observation is by itself a proof that the
+statement is hard; what makes it worth isolating is the combination of the two with the
+fact that a single induction carries the law through every rank, that the degeneracy
+disappears exactly at rank $4$, and that the equality set can be described completely.
 \end{remark}
 
 \subsection*{Formalization}
 
-Every theorem stated here is proved in Lean~4 on top of Mathlib. The development
+Every numbered statement of this paper that asserts an inequality or an equality
+about $\HH_r$, or about the evaluation of trees, is proved in Lean~4 on top of
+Mathlib; the classical structure of the Tamari lattice is used as background and is
+not formalized here. Section~\ref{sec:formal} makes the division precise, statement by
+statement. The development
 defines the hyperoperation by the usual double recursion and \emph{verifies the
 convention} by proving $\HH_1=+$, $\HH_2=\cdot$, $\HH_3=(\ )^{(\ )}$; this matters
 because the literature on hyperoperations uses several incompatible indexings and
 initial values. Section~\ref{sec:formal} describes the development.
 
 \section{Preliminaries}\label{sec:prelim}
+
+The literature on hyperoperations uses several mutually incompatible indexings and
+initial values. Throughout, $\HH_r$ means the Goodstein-style convention fixed in
+Definition~\ref{def:hyper}; where a statement depends on the value at $b=0$ --- as the
+equality classification does at $z=0$ --- this is noted.
 
 \begin{definition}[Hyperoperation~\cite{Good}]\label{def:hyper}
 Define $\HH:\N\times\N\times\N\to\N$ by
@@ -583,7 +595,9 @@ and from rank $4$ on it does not happen at all.
 
 Setting every label equal to $a$ recovers Proposition~\ref{prop:tamari} and
 Theorem~\ref{thm:strictcover}; the formalization carries out this specialisation
-explicitly, so the earlier statements are corollaries rather than separate results.
+explicitly --- for covers, for the Tamari order, and in both the non-strict and the
+strict form --- so the earlier statements are corollaries rather than separate
+results.
 
 Theorem~\ref{thm:varleaf} is what extends the rank-$3$ discussion of
 Section~\ref{sec:related} to the whole hierarchy. We emphasise again what it does not
@@ -597,11 +611,10 @@ available at
 \begin{center}
 \url{https://github.com/turahigashi/hyper-tamari}
 \end{center}
-It consists of four files, \verb|HyperTamari/Basic.lean|,
-\verb|HyperTamari/Tetration.lean|, \verb|HyperTamari/General.lean| and
-\verb|HyperTamari/VarLeaves.lean|, together with
-the raw \verb|lake build| output recording the axiom audit
-(\verb|logs/axiom-audit.txt|).
+It consists of the four files \verb|Basic.lean|, \verb|Tetration.lean|,
+\verb|General.lean| and \verb|VarLeaves.lean| in the directory
+\verb|HyperTamari/|, together with the raw \verb|lake build| output recording the
+axiom audit (\verb|logs/axiom-audit.txt|).
 
 The correspondence with the numbered statements of this paper is given in
 Table~\ref{tab:map}. The population of the table is fixed as follows: it consists of
@@ -657,8 +670,9 @@ Thm.~\ref{thm:B} (strict for $z\ge2$) &
 Prop.~\ref{prop:tamari} (covers) & \verb|Rot.eval_le| & \textsc{exact}\\
 Prop.~\ref{prop:tamari} (Tamari order) &
   \verb|Rot.eval_le_of_reflTransGen| & \textsc{exact}\\
-Prop.~\ref{prop:tamari} (right comb) & \verb|rightComb|, \verb|eval_rightComb| &
-  \textsc{exact}\\
+Prop.~\ref{prop:tamari} (right comb) & \verb|rightComb|, \verb|eval_rightComb|
+  (the Lean \verb|rightComb n| has $n+1$ leaves, so the closed form is stated with the
+  index shifted by one) & \textsc{collective}\\
 Thm.~\ref{thm:strictcover} (covers) & \verb|Rot.eval_lt| & \textsc{exact}\\
 Thm.~\ref{thm:strictcover} (Tamari order) & \verb|Rot.eval_lt_of_transGen| &
   \textsc{exact}\\
@@ -679,7 +693,10 @@ Thm.~\ref{thm:varleaf} & \verb|LRot.eval_le|, \verb|LRot.eval_lt|,
   \verb|LRot.eval_le_of_reflTransGen|, \verb|LRot.eval_lt_of_transGen|,
   \verb|LRot.preserves|, \verb|LTree.two_le_eval| & \textsc{collective}\\
 Specialisation to a single label & \verb|ofBTree|, \verb|eval_ofBTree|,
-  \verb|rot_ofBTree|, \verb|Rot.eval_lt_of_var| & \textsc{exact}\\
+  \verb|rot_ofBTree|, \verb|reflTransGen_ofBTree|, \verb|transGen_ofBTree|,
+  \verb|Rot.eval_le_of_var|, \verb|Rot.eval_lt_of_var|,
+  \verb|Rot.eval_le_of_reflTransGen_of_var|,
+  \verb|Rot.eval_lt_of_transGen_of_var| & \textsc{collective}\\
 Cor.~\ref{cor:coveq} & \verb|LTree.four_le_eval_node|,
   \verb|LTree.eval_eq_two_iff|, \verb|LRot.root_eq_rank3_iff|,
   \verb|LRot.root_lt_rank3_of_three_le|, \verb|rank3_root_lt_of_three_le|,
@@ -691,11 +708,12 @@ Lem.~\ref{lem:conv} &
   \verb|hyper_one|, \verb|hyper_two|, \verb|hyper_three|, \verb|hyper_one_arg| &
   \textsc{collective}\\
 Def.~\ref{def:trees} (trees, $\ev$) &
-  \verb|BTree|, \verb|BTree.eval| (not restricted to a fixed number of leaves) &
-  \textsc{exact}\\
+  \verb|BTree|, \verb|BTree.eval|: an equivalent encoding, on all finite binary trees
+  rather than on the fixed-arity $\Tam_n$ & \textsc{collective}\\
 Def.~\ref{def:rot} (rotation, Tamari order) &
-  \verb|Rot| (cover), \verb|Relation.ReflTransGen Rot| (the order) &
-  \textsc{exact}\\
+  \verb|Rot| (cover), \verb|Relation.ReflTransGen Rot| (reachability): an equivalent
+  encoding; antisymmetry, and hence that this reachability relation is a partial
+  order, is not formalized & \textsc{collective}\\
 Def.~\ref{def:rot} (lattice, comb extremality) &
   --- (classical \cite{FT,Tamari}, used as background) & \textsc{prose}\\
 Lem.~\ref{lem:mul-le-pow} &
@@ -736,12 +754,13 @@ quoted above. A version DOI will be minted and inserted here at the moment this
 paper is submitted, and the archive record will be linked to the submission.
 Until then the repository URL is the only pointer.}
 No declaration uses \verb|sorry|, \verb|native_decide| or any private axiom.
-Every one of the \textbf{111} theorems in these four files is audited with
+Every one of the \textbf{116} theorems in these four files is audited with
 \verb|#print axioms|, and the audit is machine-checked to cover them all
-(declared 111, audited 111, missing 0; the script is \verb|scripts/check_audit.py|);
-\verb|sorryAx| does not occur.
-The axiom dependencies are \verb|propext| alone (5 theorems),
-\verb|propext, Quot.sound| (102), and four theorems that depend on no axioms at all. In particular
+(declared 116, audited 116, missing 0; the script is
+\texttt{scripts/\allowbreak check\_audit.py}); \verb|sorryAx| does not occur.
+The axiom dependencies are \verb|propext| alone (5 theorems), the pair
+\verb|propext|, \verb|Quot.sound| (105 theorems), and six theorems that depend on
+no axioms at all. In particular
 \[
   \textbf{no declaration depends on } \verb|Classical.choice|.
 \]
@@ -753,18 +772,11 @@ makes the artifact reusable --- a development free of \verb|Classical.choice| ca
 transported into constructive settings, or used inside a larger development that
 must itself avoid choice, without reproving anything.
 
-It is worth saying where the choice had been hiding, since it was not in the
-mathematics. An earlier version of this development did depend on
-\verb|Classical.choice| in $30$ of its declarations, and the dependency was traced
-to exactly four sources, all of them incidental: the Mathlib lemmas
-\verb|Nat.pow_lt_pow_right| and \verb|Nat.pow_right_injective| (whose companion
-\verb|Nat.pow_le_pow_right| is proved with no axioms at all), the \verb|nlinarith|
-tactic, and --- the one that is easiest to miss --- \verb|norm_num| applied to a
-numeric \emph{inequality}, which pulls in choice, while \verb|omega| discharges the
-same goal without it and \verb|norm_num| applied to an \emph{equation} does not.
-Replacing these by \verb|omega|, by \verb|decide|, by \verb|Nat.add_le_mul|, and by
-two short inductions built on the axiom-free \verb|Nat.pow_lt_pow_succ| removed the
-dependency entirely, with no change to any statement.
+An earlier version of the development did depend on \verb|Classical.choice| in $30$
+declarations. The dependency was not in the mathematics but in four incidental
+sources --- two Mathlib lemmas, the \verb|nlinarith| tactic, and \verb|norm_num|
+applied to a numeric inequality --- and removing it changed no statement. The details
+are recorded in the repository.
 
 \section{Related work}\label{sec:related}
 
@@ -802,8 +814,8 @@ decrease the value, the computation resting on
   \qquad (B,C\ge2,\ D\ge1),
 \]
 and Rubey reduces the same covering relation to the inequality
-$L_2^{(L_1^{xR})}\ge(L_2^{L_1})^{(x^{R})}$, which is exactly \eqref{eq:HT} at rank
-$3$ in a variable-leaf form.
+$L_2^{(L_1^{xR})}\ge(L_2^{L_1})^{(x^{R})}$, an instance of rank-$3$
+semi-associativity in a variable-leaf form.
 
 Since the evaluation order quantifies over \emph{all} leaf assignments it is stronger
 than the single-label evaluation $\ev_{3,a}$, and since the Stanley lattice is an
@@ -819,10 +831,13 @@ directions by a suitable choice of leaf values --- he leaves open, writing that 
 covering relation to the displayed inequality and stops there. Neither treats any rank
 above~$3$, and neither asks when equality holds.
 
-Theorem~\ref{thm:varleaf} above takes up the first half at every rank. It says that
-for arbitrary leaf values $\ge2$ the evaluation is monotone along the Tamari order at
-every rank $r\ge3$, and \emph{strictly} monotone from rank~$4$ on. We do not settle
-Chow's converse half, which remains open.
+What Theorem~\ref{thm:varleaf} above adds is the extension from exponentiation to
+the whole Goodstein hierarchy of the \emph{restriction to Tamari rotations} of that
+monotonicity direction: for arbitrary leaf values $\ge2$ the evaluation is monotone
+along the Tamari order at every rank $r\ge3$, and \emph{strictly} monotone from
+rank~$4$ on. We extend the rank; we do not extend the order, since the statement
+proved in that discussion is about the larger Stanley order. We do not settle Chow's
+converse half, which remains open.
 
 There is also a body of peer-reviewed work on orders attached to iterated
 exponentials, and it is worth saying precisely how it relates to the present question,
@@ -841,10 +856,10 @@ what varies is the assignment of entries to its leaves. In the single-label prob
 Sections~\ref{sec:prelim}--\ref{sec:general} the situation is exactly the reverse: the
 entries are fixed, all equal to $a$, and what varies is the bracketing. (Section~%
 \ref{sec:varleaf} then lets the entries vary as well, but still over \emph{all}
-bracketings rather than over the right comb alone.) The two families of questions are therefore orthogonal, and none of these
-papers contains the inequality studied here. (None of \cite{Bru,Gri,GW} contains an
-occurrence of the words \emph{bracketing}, \emph{Tamari}, \emph{binary tree},
-\emph{Catalan}, \emph{rotation} or \emph{Dyck}.)
+bracketings rather than over the right comb alone.) The two families of questions are therefore
+independent: neither the Tamari order on bracketings nor any inequality of the
+form~\eqref{eq:HT} occurs in that line of work, whose partial orders live on $S_n$ or
+on $\{a,b\}^n$ rather than on trees.
 
 \subsection*{What we do claim}
 
@@ -860,15 +875,41 @@ every Tamari cover from rank $4$ on; and the machine-checked formalization.
 \subsection*{Use of AI assistance}
 
 Artificial-intelligence assistants were used substantially in the preparation of this
-work, and the author sets that use out in detail here. The question studied was
-formulated by the author. Large language models were then used to search for the shape
-of the proofs, to write the whole of the Lean~4 development, to draft this text, and to
-check the literature; further language models were used as adversarial readers, and
-their criticism led to the present form of the main theorem, in particular to the
-classification of the equality cases in Theorem~\ref{thm:E} and to the extension to
-arbitrary leaf values in Section~\ref{sec:varleaf}. No AI system is an author. The
+work, and the author sets that use out in detail here. No AI system is an author. The
 overall direction of the work and the choice of what to claim are the author's, and the
 author is responsible for all of the submitted content.
+
+\paragraph{Systems used.} Anthropic's Claude (Opus~5, through the Claude Code
+command-line interface) and OpenAI's ChatGPT (Pro), during August and September~2026.
+
+\paragraph{Use as part of the research method.} The question studied was formulated by
+the author. Language models were then used to search for the shape of the proofs, to
+write the whole of the Lean~4 development, and to search the literature. Further
+language models were used as adversarial readers of successive drafts and of the
+formalization; their criticism led to the present form of the main theorem, in
+particular to the classification of the equality cases in Theorem~\ref{thm:E}, to the
+extension to arbitrary leaf values in Section~\ref{sec:varleaf}, and to the complete
+localisation of the rank-$3$ collapse in Corollary~\ref{cor:coveq}. Two defects in the
+verification scripts themselves --- a population count in Table~\ref{tab:map} and a
+parser that silently skipped two declarations --- were found this way and are fixed in
+the released version.
+
+\paragraph{Use in preparing the manuscript.} Language models drafted this text,
+including the abstract and the expository passages, from the author's outline and from
+the formal statements. Every sentence was read and, where necessary, rewritten by the
+author before submission.
+
+\paragraph{What the author verified personally.} The choice of definitions and
+conventions (Definition~\ref{def:hyper} in particular); the correspondence, statement
+by statement, between each informal claim of Sections~1--\ref{sec:varleaf} and the Lean
+declaration named for it in Table~\ref{tab:map}; the bibliographic data of every
+reference, against the publishers' records; and the reproduction of the build and of
+the axiom audit from the released sources.
+
+\paragraph{Record.} The Lean development, the source of this paper, the raw build log
+containing every \verb|#print axioms| result, and the scripts that check the audit and
+the correspondence table are all in the accompanying repository, whose commit history
+records the development.
 
 \draftnote{\textbf{Draft note --- not part of the submission.}
 The journal's policy requires that, where AI has assisted with a proof or an argument,
@@ -890,9 +931,16 @@ text are the author's rendering of the formal ones and are not themselves
 machine-checked; they are set out in full so that a reader can follow them without
 consulting the Lean sources.
 
-What rests on judgement rather than on either check, and is stated here so that it can
-be examined, is the choice of definitions, the claim of novelty, the attribution of
-prior work, and the \textsc{prose} rows of Table~\ref{tab:map}.
+It should be said precisely what the second of these checks does and does not
+establish. Conditional on the correctness of the formal statements, on the pinned
+versions of Lean and Mathlib, and on the released sources' checking successfully, the
+validity of the proofs of the formalized statements is reduced to the Lean~4 kernel and
+the trusted parts of the toolchain. It is not thereby certified that a formal statement
+says what the corresponding English sentence says; that the definitions chosen are the
+natural or the standard ones; that Table~\ref{tab:map} is complete; that the novelty
+claims and attributions are correct; or that the checking scripts are themselves right.
+Each of these rests on judgement and on the author's verification, and is stated here
+so that it can be examined.
 
 \draftnote{\textbf{Draft note --- not part of the submission.}
 Items marked \textsuperscript{\dag} in the list below have \emph{not} been consulted
