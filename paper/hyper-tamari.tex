@@ -61,8 +61,9 @@ We classify equality completely. For $x,y\ge2$:
   r\ge4:\quad \text{equality}\iff z=1 .
 \]
 Thus rank $3$ carries exactly one non-trivial \emph{equality pattern} --- already
-visible for $n=4$ leaves, where the Tamari cover $((aa)a)a\lessdot(aa)(aa)$ has equal
-endpoints --- and from rank $4$ on the evaluation is strictly increasing along
+visible for three leaves, where $a=2$ makes the single cover $(aa)a\lessdot a(aa)$ an
+equality, both sides being $16$, and producing several collisions by four leaves ---
+and from rank $4$ on the evaluation is strictly increasing along
 \emph{every} such cover (Theorem~\ref{thm:strictcover}). (At rank~$3$ with $a=2$ and
 $n=4$ several trees share a value; what is unique is the non-trivial equality pattern
 $(y,z)=(2,2)$ of the local law itself.) The rank-$3$ equality is produced by the
@@ -695,7 +696,7 @@ Def.~\ref{def:trees} (trees, $\ev$) &
 Def.~\ref{def:rot} (rotation, Tamari order) &
   \verb|Rot| (cover), \verb|Relation.ReflTransGen Rot| (the order) &
   \textsc{exact}\\
-Def.~\ref{def:rot} ($\Tam_n$, lattice, comb extremality) &
+Def.~\ref{def:rot} (lattice, comb extremality) &
   --- (classical \cite{FT,Tamari}, used as background) & \textsc{prose}\\
 Lem.~\ref{lem:mul-le-pow} &
   \verb|mul_le_pow_of_two_le|, \verb|mul_lt_pow_of_three_le| & \textsc{collective}\\
@@ -818,7 +819,7 @@ directions by a suitable choice of leaf values --- he leaves open, writing that 
 covering relation to the displayed inequality and stops there. Neither treats any rank
 above~$3$, and neither asks when equality holds.
 
-Theorem~\ref{thm:varleaf} below takes up the first half at every rank. It says that
+Theorem~\ref{thm:varleaf} above takes up the first half at every rank. It says that
 for arbitrary leaf values $\ge2$ the evaluation is monotone along the Tamari order at
 every rank $r\ge3$, and \emph{strictly} monotone from rank~$4$ on. We do not settle
 Chow's converse half, which remains open.
@@ -836,9 +837,11 @@ $\{a,b\}^n$, the tower again being ``evaluated in the conventional way, from top
 down''.
 
 In every one of these the \emph{bracketing is fixed} --- it is the right comb --- and
-what varies is the assignment of entries to its leaves. Here the situation is exactly
-the reverse: the entries are fixed, all equal to $a$, and what varies is the
-bracketing. The two families of questions are therefore orthogonal, and none of these
+what varies is the assignment of entries to its leaves. In the single-label problem of
+Sections~\ref{sec:prelim}--\ref{sec:general} the situation is exactly the reverse: the
+entries are fixed, all equal to $a$, and what varies is the bracketing. (Section~%
+\ref{sec:varleaf} then lets the entries vary as well, but still over \emph{all}
+bracketings rather than over the right comb alone.) The two families of questions are therefore orthogonal, and none of these
 papers contains the inequality studied here. (None of \cite{Bru,Gri,GW} contains an
 occurrence of the words \emph{bracketing}, \emph{Tamari}, \emph{binary tree},
 \emph{Catalan}, \emph{rotation} or \emph{Dyck}.)
