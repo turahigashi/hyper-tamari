@@ -29,6 +29,14 @@ and the right comb — whose value is `H_{r+1}(a,n)` — is a maximiser.
 itself (`Rot.eval_lt_of_transGen`, the transitive closure of the cover relation);
 the non-strict version lifts likewise (`Rot.eval_le_of_reflTransGen`).
 
+**Everything is proved for arbitrary leaf values** (`HyperTamari/VarLeaves.lean`), not
+only for a single repeated label — `LRot.eval_lt` gives strict monotonicity along every
+Tamari cover at every rank `r ≥ 4` for arbitrary leaf values `≥ 2`. This extends to the
+whole hierarchy a rank-3 observation that appears to have been made only for
+exponentiation, in a 2018 MathOverflow discussion whose author states he completed only
+"half of the proof". The single-label case is recovered by specialisation
+(`Rot.eval_lt_of_var`).
+
 **The main result is a complete classification of the equality cases.**
 For `x, y ≥ 2`:
 
@@ -104,12 +112,13 @@ bracketing varies. The two families of questions are orthogonal.
 Measured, not asserted (`logs/axiom-audit.txt` is the raw evidence):
 
 - `lake build` exits 0.
-- **92** theorems and lemmas; **92** audited with `#print axioms`; **0** missing.
+- **103** theorems and lemmas; **103** audited with `#print axioms`; **0** missing.
   Coverage is checked mechanically by `scripts/check_audit.py`, which compares the
   declaration names in the sources against the audit output.
 - **No `sorryAx`.** No `sorry`, no `native_decide`, no private `axiom`, no
   `ofReduceBool`.
-- Axiom dependencies: `propext` alone (5) and `propext, Quot.sound` (87).
+- Axiom dependencies: `propext` alone (5), `propext, Quot.sound` (94), and four
+  theorems depending on no axioms at all.
   In particular **no declaration depends on `Classical.choice`.**
 
 Choice-freeness is not what the paper is about — every statement here is an

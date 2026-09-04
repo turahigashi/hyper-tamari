@@ -75,6 +75,10 @@ not blow up with the rank: $\HH_r(2,2)=4$ for every $r\ge2$. Moreover the
 hypothesis $y\ge2$ is sharp as a uniform hypothesis: for every $r\ge3$ and all
 $x,z\ge2$, taking $y=1$ reverses the inequality.
 
+Everything is proved for arbitrary leaf values, not only for a single repeated one,
+which extends to the whole hierarchy a rank-$3$ observation that appears to have been
+made only for exponentiation.
+
 Every numbered statement of the paper that asserts an inequality or an equality about
 $\HH_r$ or about the evaluation of trees is formalized and machine-checked in Lean~4;
 the classical structure of the Tamari lattice itself (that it is a lattice with the two
@@ -505,6 +509,57 @@ $\HH_r(1,\cdot)=1$; for $z=1$ they are equal by Theorem~\ref{thm:E}(1); and for 
 the left side is $1$ and the right side is $x$, so the original inequality still holds.
 For $x=0$ the operations degenerate.
 
+\section{Arbitrary leaf values}\label{sec:varleaf}
+
+Nothing so far has used the fact that the leaves all carry the same value. The local
+law \eqref{eq:HT}, and its strict form, are statements about three independent
+arguments; only the evaluation $\ev_{r,a}$ was tied to a single label. Removing that
+restriction costs nothing and gives a strictly stronger statement, which is moreover
+the one that the discussion recalled in Section~\ref{sec:related} was about.
+
+\begin{definition}[Labelled trees]\label{def:ltree}
+A \emph{labelled tree} is a binary tree each of whose leaves carries a natural number.
+Its evaluation at rank $r$ is defined by $\ev_r(\ell)=\ell$ for a leaf labelled $\ell$
+and $\ev_r(T\!\cdot\!U)=\HH_r(\ev_r T,\ev_r U)$. Right rotation at a node is defined
+exactly as before; it permutes no labels.
+\end{definition}
+
+\begin{theorem}[Arbitrary leaf values]\label{thm:varleaf}
+Let $T$ be a labelled tree all of whose leaf labels are $\ge2$, and let $T\lessdot U$
+be a Tamari cover. Then
+\[
+  \ev_r(T)\le\ev_r(U)\quad(r\ge3),
+  \qquad
+  \ev_r(T)<\ev_r(U)\quad(r\ge4),
+\]
+and the same holds along the Tamari order itself, that is along the reflexive
+transitive closure of the covering relation in the first case and its transitive
+closure in the second.
+\end{theorem}
+
+\begin{proof}
+Rotation does not change the multiset of leaf labels, so the hypothesis is preserved
+along a cover, and every subtree of $T$ evaluates to at least $2$ at every rank
+$r\ge2$ by induction on the tree. The induction on the derivation of the cover is then
+the one already used for Proposition~\ref{prop:tamari} and
+Theorem~\ref{thm:strictcover}: at the root the claim is Theorem~\ref{thm:D}
+respectively Theorem~\ref{thm:E}(3), instantiated at the three subtree values, which
+are independent of one another and all $\ge2$; inside the left subtree one uses
+monotonicity, respectively strict monotonicity, of $\HH_r(\cdot,v)$ in its first
+argument, and inside the right subtree the corresponding statement for
+$\HH_r(u,\cdot)$. The passage to the closures is by induction on the length of the
+chain.
+\end{proof}
+
+Setting every label equal to $a$ recovers Proposition~\ref{prop:tamari} and
+Theorem~\ref{thm:strictcover}; the formalization carries out this specialisation
+explicitly, so the earlier statements are corollaries rather than separate results.
+
+Theorem~\ref{thm:varleaf} is what extends the rank-$3$ discussion of
+Section~\ref{sec:related} to the whole hierarchy. We emphasise again what it does not
+do: it does not decide when two incomparable bracketings can be separated in both
+directions, which is the half that was left open there.
+
 \section{The Lean development}\label{sec:formal}
 
 The development is written for Lean~4 (v4.30.0) with Mathlib (v4.30.0) and is
@@ -512,8 +567,9 @@ available at
 \begin{center}
 \url{https://github.com/turahigashi/hyper-tamari}
 \end{center}
-It consists of three files, \verb|HyperTamari/Basic.lean|,
-\verb|HyperTamari/Tetration.lean| and \verb|HyperTamari/General.lean|, together with
+It consists of four files, \verb|HyperTamari/Basic.lean|,
+\verb|HyperTamari/Tetration.lean|, \verb|HyperTamari/General.lean| and
+\verb|HyperTamari/VarLeaves.lean|, together with
 the raw \verb|lake build| output recording the axiom audit
 (\verb|logs/axiom-audit.txt|).
 
@@ -578,6 +634,13 @@ Rem.~\ref{rem:nontriv} ($\HH_r(x,y)>x$; $\HH_r(2,2)=4$) &
   \verb|self_lt_hyper|, \verb|hyper_two_two| & \textsc{collective}\\
 Rem.~\ref{rem:nontriv} (the two coordinates compete) & --- (explanatory) &
   \textsc{prose}\\
+Def.~\ref{def:ltree} & \verb|LTree|, \verb|LTree.eval|,
+  \verb|LTree.AllLeavesTwoLe|, \verb|LRot| & \textsc{exact}\\
+Thm.~\ref{thm:varleaf} & \verb|LRot.eval_le|, \verb|LRot.eval_lt|,
+  \verb|LRot.eval_le_of_reflTransGen|, \verb|LRot.eval_lt_of_transGen|,
+  \verb|LRot.preserves|, \verb|LTree.two_le_eval| & \textsc{collective}\\
+Specialisation to a single label & \verb|ofBTree|, \verb|eval_ofBTree|,
+  \verb|rot_ofBTree|, \verb|Rot.eval_lt_of_var| & \textsc{exact}\\
 Def.~\ref{def:hyper} &
   \verb|hyper|, \verb|hyper_zero|, \verb|hyper_one_zero|, \verb|hyper_two_zero|,
   \verb|hyper_succ_succ_zero|, \verb|hyper_succ| & \textsc{exact}\\
@@ -632,12 +695,12 @@ quoted above. A version DOI will be minted and inserted here at the moment this
 paper is submitted, and the archive record will be linked to the submission.
 Until then the repository URL is the only pointer.}
 No declaration uses \verb|sorry|, \verb|native_decide| or any private axiom.
-Every one of the \textbf{92} theorems in these three files is audited with
+Every one of the \textbf{103} theorems in these four files is audited with
 \verb|#print axioms|, and the audit is machine-checked to cover them all
-(declared 92, audited 92, missing 0; the script is \verb|scripts/check_audit.py|);
+(declared 103, audited 103, missing 0; the script is \verb|scripts/check_audit.py|);
 \verb|sorryAx| does not occur.
-The axiom dependencies are \verb|propext| alone (5 theorems) and
-\verb|propext, Quot.sound| (87). In particular
+The axiom dependencies are \verb|propext| alone (5 theorems),
+\verb|propext, Quot.sound| (94), and four theorems that depend on no axioms at all. In particular
 \[
   \textbf{no declaration depends on } \verb|Classical.choice|.
 \]
@@ -684,7 +747,7 @@ Zeilberger~\cite{Zeil} gives a sequent calculus for that law. Gryszka~\cite{Gry}
 by normalizing them, which concerns right-associated towers rather than general
 bracketings.
 
-\subsection*{The rank-three case is not new}
+\subsection*{Where the rank-three case comes from, and what we add}
 
 It is important to say clearly what part of Proposition~\ref{prop:tamari} is already
 known. In a MathOverflow question of January 2018~\cite{MO}, Spivak treats
@@ -702,13 +765,23 @@ $L_2^{(L_1^{xR})}\ge(L_2^{L_1})^{(x^{R})}$, which is exactly \eqref{eq:HT} at ra
 $3$ in a variable-leaf form.
 
 Since the evaluation order quantifies over \emph{all} leaf assignments it is stronger
-than the single-label evaluation $\ev_{3,a}$ used here, and since the Stanley lattice
-is an extension of the Tamari lattice, comparability in the Tamari order implies
-comparability in the Stanley order. Consequently \textbf{the rank-$3$ case of
-Proposition~\ref{prop:tamari} is already contained, in a stronger form, in that
-discussion,} and we do not claim it. What that discussion does not contain is any
-rank other than $3$, any analysis of when equality holds, or the strictness
-phenomenon; those are the subject of this paper.
+than the single-label evaluation $\ev_{3,a}$, and since the Stanley lattice is an
+extension of the Tamari lattice, comparability in the Tamari order implies
+comparability in the Stanley order. Consequently \textbf{the rank-$3$ monotonicity is
+already contained, in a stronger form, in that discussion, and we do not claim it.}
+
+That discussion is, however, explicitly unfinished, and it is confined to rank~$3$.
+Chow states that he can ``complete half of the proof'', the half we have just quoted;
+the converse half --- that incomparable bracketings can be separated in both
+directions by a suitable choice of leaf values --- he leaves open, writing that he has
+``not quite figured out how to say this rigorously''. Rubey likewise reduces the
+covering relation to the displayed inequality and stops there. Neither treats any rank
+above~$3$, and neither asks when equality holds.
+
+Theorem~\ref{thm:varleaf} below takes up the first half at every rank. It says that
+for arbitrary leaf values $\ge2$ the evaluation is monotone along the Tamari order at
+every rank $r\ge3$, and \emph{strictly} monotone from rank~$4$ on. We do not settle
+Chow's converse half, which remains open.
 
 There is also a body of peer-reviewed work on orders attached to iterated
 exponentials, and it is worth saying precisely how it relates to the present question,

@@ -1,4 +1,3 @@
-ℹ [808/812] Built HyperTamari.Basic (16s)
 info: HyperTamari/Basic.lean:325:0: 'HyperTamari.pow_lt_pow_right'' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/Basic.lean:326:0: 'HyperTamari.pow_right_injective'' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/Basic.lean:327:0: 'HyperTamari.mul_le_pow_of_two_le' depends on axioms: [propext, Quot.sound]
@@ -26,7 +25,6 @@ info: HyperTamari/Basic.lean:348:0: 'HyperTamari.hyper_succ' depends on axioms: 
 info: HyperTamari/Basic.lean:349:0: 'HyperTamari.hyper_one' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/Basic.lean:350:0: 'HyperTamari.hyper_two' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/Basic.lean:351:0: 'HyperTamari.hyper_three' depends on axioms: [propext, Quot.sound]
-ℹ [809/812] Built HyperTamari.Tetration (18s)
 info: HyperTamari/Tetration.lean:320:0: 'HyperTamari.tet_ht' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/Tetration.lean:321:0: 'HyperTamari.add_three_le_pow' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/Tetration.lean:322:0: 'HyperTamari.three_le_tet' depends on axioms: [propext, Quot.sound]
@@ -60,7 +58,6 @@ info: HyperTamari/Tetration.lean:532:0: 'HyperTamari.succ_lt_pow_self' depends o
 info: HyperTamari/Tetration.lean:533:0: 'HyperTamari.tet_ht_strict_two_two' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/Tetration.lean:534:0: 'HyperTamari.tet_ht_strict_of_two_le' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/Tetration.lean:535:0: 'HyperTamari.ht_rank4_strict_two' depends on axioms: [propext, Quot.sound]
-ℹ [810/812] Built HyperTamari.General (23s)
 info: HyperTamari/General.lean:664:0: 'HyperTamari.succ_le_hyper' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/General.lean:665:0: 'HyperTamari.two_le_hyper' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/General.lean:666:0: 'HyperTamari.self_le_hyper' depends on axioms: [propext, Quot.sound]
@@ -93,5 +90,14 @@ info: HyperTamari/General.lean:692:0: 'HyperTamari.self_lt_hyper' depends on axi
 info: HyperTamari/General.lean:693:0: 'HyperTamari.ht_reversed_at_y_one' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/General.lean:694:0: 'HyperTamari.ht_eq_at_x_one' depends on axioms: [propext, Quot.sound]
 info: HyperTamari/General.lean:695:0: 'HyperTamari.ht_of_sum' depends on axioms: [propext, Quot.sound]
-✔ [811/812] Built HyperTamari (10s)
-Build completed successfully (812 jobs).
+info: HyperTamari/VarLeaves.lean:183:0: 'HyperTamari.eval_ofBTree' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:184:0: 'HyperTamari.allLeaves_ofBTree' does not depend on any axioms
+info: HyperTamari/VarLeaves.lean:185:0: 'HyperTamari.rot_ofBTree' does not depend on any axioms
+info: HyperTamari/VarLeaves.lean:186:0: 'HyperTamari.Rot.eval_lt_of_var' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:187:0: 'HyperTamari.LRot.preserves_star' does not depend on any axioms
+info: HyperTamari/VarLeaves.lean:188:0: 'HyperTamari.LRot.eval_le_of_reflTransGen' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:189:0: 'HyperTamari.LRot.eval_lt_of_transGen' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:190:0: 'HyperTamari.LTree.two_le_eval' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:191:0: 'HyperTamari.LRot.preserves' does not depend on any axioms
+info: HyperTamari/VarLeaves.lean:192:0: 'HyperTamari.LRot.eval_le' depends on axioms: [propext, Quot.sound]
+info: HyperTamari/VarLeaves.lean:193:0: 'HyperTamari.LRot.eval_lt' depends on axioms: [propext, Quot.sound]
