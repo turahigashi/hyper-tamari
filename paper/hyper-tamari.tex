@@ -684,13 +684,24 @@ rank other than $3$, any analysis of when equality holds, or the strictness
 phenomenon; those are the subject of this paper.
 
 There is also a body of peer-reviewed work on orders attached to iterated
-exponentials: Brunson~\cite{Bru} on the partial order of iterated exponentials,
-Stembridge~\cite{Ste} and Griggs--Wachs~\cite{GW} on Bruhat order and towers of
-powers, and Griggs~\cite{Gri} on iterated exponentials of two numbers. These concern
-right-associated towers and permutations of the entries rather than the comparison of
-\emph{all} bracketings of a single repeated entry, so they do not address the
-inequality studied here; we record them because they are the closest peer-reviewed
-neighbours of the question.
+exponentials, and it is worth saying precisely how it relates to the present question,
+because the titles suggest a closer overlap than there is. Brunson~\cite{Bru} fixes
+$e\le x_1\le\dots\le x_n$ and, \emph{for each permutation} of the $x_i$, forms the
+tower $T(y,z,\dots,w)=y^{z^{\cdots^{w}}}$, in which ``association is always to the
+upper right''; the resulting partial order lives on the symmetric group $S_n$.
+Stembridge~\cite{Ste} and Griggs--Wachs~\cite{GW} compare that order with the Bruhat
+order on $S_n$, the latter exhibiting a counterexample at $n=5$ to their coincidence.
+Griggs~\cite{Gri} studies the poset of towers over the two-letter alphabet
+$\{a,b\}^n$, the tower again being ``evaluated in the conventional way, from top
+down''.
+
+In every one of these the \emph{bracketing is fixed} --- it is the right comb --- and
+what varies is the assignment of entries to its leaves. Here the situation is exactly
+the reverse: the entries are fixed, all equal to $a$, and what varies is the
+bracketing. The two families of questions are therefore orthogonal, and none of these
+papers contains the inequality studied here. (None of \cite{Bru,Gri,GW} contains an
+occurrence of the words \emph{bracketing}, \emph{Tamari}, \emph{binary tree},
+\emph{Catalan}, \emph{rotation} or \emph{Dyck}.)
 
 \subsection*{What we do claim}
 
@@ -741,12 +752,12 @@ heights and does not mention bracketings, binary trees, Catalan structures, rota
 any lattice, which confirms the description given in Section~\ref{sec:related};
 \textbf{[Tamari]} Tamari 1962, cited only for the enumeration of bracketings and for
 the two combs being the extreme elements; and
-\textbf{[Bru]}, \textbf{[Gri]}, \textbf{[GW]}, \textbf{[Ste]}, the four papers on
-orders attached to iterated exponentials, cited only to place the question among its
-peer-reviewed neighbours. The last four were identified after the first draft, in
-response to a referee report, and must be read before submission: if any of them
-treats the comparison of general bracketings of a single repeated entry, the novelty
-paragraph above has to be revised again.
+\textbf{[Ste]} Stembridge 1989, on Brunson's order, cited only to place the question
+among its peer-reviewed neighbours. \textbf{[Bru]}, \textbf{[Gri]} and \textbf{[GW]}
+were also identified late, in response to a referee report, but have since been
+consulted in the original and are no longer marked: all three fix the bracketing to
+the right comb and vary the entries, as now described in
+Section~\ref{sec:related}.
 None of the results of the present paper depends on these three items: they are
 cited for attribution and context, and every mathematical statement used in the
 proofs is either proved here or formalised in the accompanying Lean development.
@@ -764,13 +775,13 @@ removed by setting \texttt{\textbackslash draftfalse}.}
 \bibitem{MO} D. Spivak, \emph{Is the order on repeated exponentiation the Dyck
   order?}, MathOverflow question 289708 (1 January 2018), with answers by
   T.~Chow and M.~Rubey, \url{https://mathoverflow.net/q/289708}.
-\bibitem{Bru}\unseen{}  B. W. Brunson,
+\bibitem{Bru} B. W. Brunson,
   \emph{The partial order of iterated exponentials},
   American Mathematical Monthly \textbf{93} (1986), 779--786.
-\bibitem{Gri}\unseen{}  J. R. Griggs,
+\bibitem{Gri} J. R. Griggs,
   \emph{Iterated exponentials of two numbers},
   Discrete Mathematics \textbf{88} (1991), 193--209.
-\bibitem{GW}\unseen{}  J. R. Griggs and M. L. Wachs,
+\bibitem{GW} J. R. Griggs and M. L. Wachs,
   \emph{Towers of powers and Bruhat order},
   European Journal of Combinatorics \textbf{13} (1992), 367--370.
 \bibitem{Good} R. L. Goodstein,

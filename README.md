@@ -82,6 +82,16 @@ the Tamari lattice, the rank-3 case here is already contained in that discussion
 a stronger form. What is not there is any rank other than 3, the equality analysis, or
 the strictness phenomenon. See Section 8 of the paper.
 
+## Prior work on orders attached to iterated exponentials
+
+Brunson (*Amer. Math. Monthly* 93, 1986), Stembridge (*JCTA* 50, 1989),
+Griggs (*Discrete Math.* 88, 1991) and Griggs–Wachs (*European J. Combin.* 13, 1992)
+all study orders on iterated exponentials, but in every case **the bracketing is
+fixed** — it is the right comb, "association is always to the upper right" — and what
+varies is the assignment of entries to its leaves (a permutation, or a word over two
+letters). Here the reverse holds: the entries are fixed, all equal to `a`, and the
+bracketing varies. The two families of questions are orthogonal.
+
 ## Audit
 
 Measured, not asserted (`logs/axiom-audit.txt` is the raw evidence):
