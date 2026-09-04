@@ -1,8 +1,9 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage[margin=1.1in]{geometry}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{tikz}
+\usepackage{longtable}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -148,11 +149,13 @@ Tamari lattice, not merely along root rotations.
 For $a\ge2$ the evaluation $\ev_{r,a}$ is order-preserving for the Tamari order at
 every rank $r\ge3$ (Proposition~\ref{prop:tamari}), and
 \begin{itemize}
-\item at rank~$3$ it is \emph{not} strict on covers: the cover
+\item at rank~$3$ strictness can fail, but only for $a=2$: the cover
       $((aa)a)a\lessdot(aa)(aa)$ carries equal values, both $256$, when $a=2$;
 \item at every rank $r\ge4$ it is strict on covers
       (Theorem~\ref{thm:strictcover}).
 \end{itemize}
+In fact $(r,a)=(3,2)$ is the only exception: for every other pair with $r\ge3$ and
+$a\ge2$ every cover is strict (Corollary~\ref{cor:coveq}).
 \end{corollary}
 
 \begin{theorem}[All ranks]\label{thm:D}
@@ -607,7 +610,8 @@ Table~\ref{tab:map}. The population of the table is fixed as follows: it consist
 those sections. There are $24$ of them: $6$ theorems, $3$ propositions, $6$ lemmas,
 $2$ corollaries, $4$ definitions, $1$ example and $2$ remarks. (Section~8
 contains no numbered environments.) Every one of the $24$ appears in the table, and the
-table contains nothing else; both facts, together with the existence in the
+only other row is one recording the specialisation of the labelled-tree results to a
+single repeated label; both facts, together with the existence in the
 development of every declaration name printed in the table, are checked by a script
 run on the source of this paper and of the Lean files. A numbered statement with
 several clauses may occupy several rows. We distinguish three cases, because they
@@ -626,13 +630,21 @@ everything it says is machine-checked. What is machine-checked is every clause o
 every numbered statement that asserts an inequality or an equality about $\HH_r$ or
 about the evaluation of trees; the table says which declaration carries which clause.
 
-\begin{table}[htbp]
-\centering
-\small
-\begin{tabular}{@{}p{0.27\linewidth}p{0.49\linewidth}l@{}}
+{\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.49\linewidth}l@{}}
+\caption{Correspondence between the $24$ numbered statements of Sections~1--7 and the
+Lean development. Clauses of one statement are listed on separate rows.}\label{tab:map}\\
 \hline
 Statement & Lean declaration(s) & Status\\
 \hline
+\endfirsthead
+\multicolumn{3}{@{}l}{\small\itshape Table \thetable\ (continued)}\\
+\hline
+Statement & Lean declaration(s) & Status\\
+\hline
+\endhead
+\hline
+\endfoot
 Thm.~\ref{thm:A} (inequality) & \verb|ht_rank3| & \textsc{exact}\\
 Thm.~\ref{thm:A} (equality iff) & \verb|ht_rank3_eq_iff| & \textsc{exact}\\
 Thm.~\ref{thm:A} (sharpness of $y\ge2$) &
@@ -702,11 +714,9 @@ Lem.~\ref{lem:addstrict} (strict inequality; equality iff $u=v=2$; value $4$) &
   \verb|add_lt_hyper|, \verb|add_eq_hyper_iff|, \verb|hyper_two_two| &
   \textsc{collective}\\
 \hline
-\end{tabular}
-\caption{Correspondence between the $21$ numbered statements of Sections~1--6 and the
-Lean development. Clauses of one statement are listed on separate rows.}
-\label{tab:map}
-\end{table}
+\hline
+\end{longtable}
+}
 
 Two assertions of Section~\ref{sec:general} are not numbered and therefore lie outside
 the population of the table; both are formalized: the sharpness statement for all
@@ -857,7 +867,7 @@ what to claim, and the final text are the author's responsibility.
 
 The reader is asked to note what this does and does not mean, and we state it as
 narrowly as we can. Every clause of every numbered statement of
-Sections~1--\ref{sec:general} that asserts an inequality or an equality about $\HH_r$
+Sections~1--\ref{sec:varleaf} that asserts an inequality or an equality about $\HH_r$
 or about the evaluation of trees has been formalised and checked by the Lean~4
 kernel; Table~\ref{tab:map} says, clause by clause, which declaration carries it, and
 marks the places where the paper relies instead on classical background about the
@@ -892,7 +902,8 @@ Section~\ref{sec:related}.
 None of the results of the present paper depends on these three items: they are
 cited for attribution and context, and every mathematical statement used in the
 proofs is either proved here or formalised in the accompanying Lean development.
-Before submission each of the three must be checked in the original, and this note
+Before submission the three still-unchecked items \textbf{[FT]}, \textbf{[Tamari]}
+and \textbf{[Ste]} must be checked in the original, and this note
 removed by setting \texttt{\textbackslash draftfalse}.}
 
 \begin{thebibliography}{9}
