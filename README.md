@@ -10,6 +10,10 @@ A Lean 4 formalization accompanying the paper
 > draft, kept for reference. This development accompanies Part II of the merged paper,
 > whose source is not in this repository.)
 
+The state of this repository at tag `v1.14.0-pre` is archived at
+[10.5281/zenodo.22779442](https://doi.org/10.5281/zenodo.22779442). The archive is
+`git archive` of that tag, so it omits `paper/` (see the contents table below).
+
 ## What the paper proves
 
 Let `H_r` be the Goodstein hyperoperation hierarchy: `H_1` is addition, `H_2`
@@ -83,7 +87,7 @@ inequality.
 | `logs/axiom-audit.txt` | — | raw `lake build` output recording the axiom audit |
 | `scripts/check_audit.py` | — | checks declared theorems against the audit log (coverage, `sorryAx`, `Classical.choice`) |
 | `scripts/check_table.py` | — | checks the correspondence table of the merged paper against its population (pass the path of its source) |
-| `paper/` | — | the earlier draft (LaTeX source and PDF), kept for reference |
+| `paper/` | — | the earlier draft (LaTeX source and PDF), kept for reference; not part of the archived snapshot (`.gitattributes` marks it `export-ignore`) |
 | `part1/` | — | the **Part I** development (`ChowStanley`, rank three: Proposition 4.1, Lemmas 4.4 and 4.5, Theorem 1.2, Corollary 1.3 and the implication of Theorem 1.1 from the evaluation order to the Stanley order); a separate Lake project with its own README, audit script and log |
 
 Section 16 of the merged paper (*The Lean development*) contains a statement-by-statement
