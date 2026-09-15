@@ -582,7 +582,7 @@ theorem equality_classification :
 
 /-! ## 補遺：論文の言明と一対一に対応させるための宣言 -/
 
-/-- **(ADD) の等号条件**（論文 Lemma 6.3 の後半）：$u,v\ge2$、$s\ge2$ のとき
+/-- **(ADD) の等号条件**（論文 Lemma 12.3 の後半）：$u,v\ge2$、$s\ge2$ のとき
 $u+v=H_s(u,v)$ ⟺ $u=v=2$。 -/
 theorem add_eq_hyper_iff {u v : Nat} (hu : 2 ≤ u) (hv : 2 ≤ v) {s : Nat} (hs : 2 ≤ s) :
     u + v = hyper s u v ↔ u = 2 ∧ v = 2 := by
@@ -614,7 +614,7 @@ theorem ht_eq_at_x_one {r : Nat} (hr : 3 ≤ r) (y z : Nat) :
     hyper r (hyper r 1 y) z = hyper r 1 (hyper r y z) := by
   simp only [hyper_one_base hr]
 
-/-- **論文 Proposition 6.2(2) の単独形**：(SUM$_{s+1}$) と $u+v\le H_s(u,v)$ から
+/-- **論文 Proposition 12.1(2) の単独形**：(SUM$_{s+1}$) と $u+v\le H_s(u,v)$ から
 (HT$_{s+1}$) が出る（$z$ の帰納）。`ht_general` の帰納段はこの形の議論である。 -/
 theorem ht_of_sum {x : Nat} (hx : 2 ≤ x) {s : Nat} (hs : 2 ≤ s)
     (hsum : ∀ a b : Nat, 1 ≤ a → 1 ≤ b →

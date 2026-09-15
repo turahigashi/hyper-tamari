@@ -270,7 +270,7 @@ theorem rank3_collision_value :
   norm_num
 
 /-- 四葉の五つの括弧付けの値（rank 3、$a=2$）：
-$((aa)a)a=(a(aa))a=(aa)(aa)=256$、$a((aa)a)=a(a(aa))=65536$（論文 Example 3.3）。 -/
+$((aa)a)a=(a(aa))a=(aa)(aa)=256$、$a((aa)a)=a(a(aa))=65536$（論文 Example 3.1）。 -/
 theorem rank3_five_values :
     BTree.eval 3 2 (BTree.node (BTree.node (BTree.node BTree.leaf BTree.leaf) BTree.leaf) BTree.leaf) = 256
     ∧ BTree.eval 3 2 (BTree.node (BTree.node BTree.leaf (BTree.node BTree.leaf BTree.leaf)) BTree.leaf) = 256

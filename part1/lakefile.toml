@@ -1,0 +1,10 @@
+name = "ChowStanley"
+version = "0.1.0-pre"
+defaultTargets = ["ChowStanley"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+
+[[lean_lib]]
+name = "ChowStanley"

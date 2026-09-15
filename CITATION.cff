@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this artifact, please cite the accompanying paper and this software artifact."
-title: "hyper-tamari: a Lean 4 artifact for a rank dichotomy of bracketed hyperoperations over the Tamari order"
+title: "hyper-tamari: the Lean 4 developments accompanying Evaluation orders on bracketings in the hyperoperation hierarchy"
 type: software
 authors:
   - family-names: Urahigashi
@@ -8,7 +8,7 @@ authors:
     email: "123026.urahigashi.toshihisa@gmail.com"
     affiliation: "Independent researcher"
     orcid: "https://orcid.org/0009-0004-0460-6242"
-version: "1.12.0-pre"
+version: "1.13.0-pre"
 # No DOI yet: this artifact has not been deposited.  A version DOI will be
 # added here at the moment the accompanying paper is submitted.
 license: MIT

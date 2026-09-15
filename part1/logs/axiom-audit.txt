@@ -1,0 +1,293 @@
+prop/quot   ChowStanley.K_at_three : [propext]
+prop/quot   ChowStanley.K_at_two : [propext]
+prop/quot   ChowStanley.Mn : [propext]
+AXIOM-FREE  ChowStanley.PTree
+prop/quot   ChowStanley.PTree.F_rdepth_le_val : [propext, Quot.sound]
+prop/quot   ChowStanley.PTree.K : [propext]
+prop/quot   ChowStanley.PTree.K.eq_def : [propext]
+prop/quot   ChowStanley.PTree.K_eq_one_of_sibLeaves_zero : [propext, Quot.sound]
+prop/quot   ChowStanley.PTree.K_le : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.PTree.brecOn.eq
+AXIOM-FREE  ChowStanley.PTree.brecOn.go
+AXIOM-FREE  ChowStanley.PTree.ctorElimType
+AXIOM-FREE  ChowStanley.PTree.ctorIdx
+prop/quot   ChowStanley.PTree.exists_separating : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.PTree.hole
+AXIOM-FREE  ChowStanley.PTree.hole.sizeOf_spec
+AXIOM-FREE  ChowStanley.PTree.left
+prop/quot   ChowStanley.PTree.left.injEq : [propext]
+AXIOM-FREE  ChowStanley.PTree.left.sizeOf_spec
+prop/quot   ChowStanley.PTree.one_le_K : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.PTree.rdepth
+AXIOM-FREE  ChowStanley.PTree.rdepth.eq_def
+AXIOM-FREE  ChowStanley.PTree.right
+prop/quot   ChowStanley.PTree.right.injEq : [propext]
+AXIOM-FREE  ChowStanley.PTree.right.sizeOf_spec
+prop/quot   ChowStanley.PTree.separation : [propext, Quot.sound]
+prop/quot   ChowStanley.PTree.separation_of_le : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.PTree.sibLeaves
+prop/quot   ChowStanley.PTree.sibLeaves_succ : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.PTree.tree
+AXIOM-FREE  ChowStanley.PTree.tree.eq_def
+prop/quot   ChowStanley.PTree.two_le_val : [propext, Quot.sound]
+prop/quot   ChowStanley.PTree.val : [propext]
+prop/quot   ChowStanley.PTree.val.eq_def : [propext]
+prop/quot   ChowStanley.PTree.val_le_F_rdepth : [propext, Quot.sound]
+prop/quot   ChowStanley.PTree.val_two : [propext]
+AXIOM-FREE  ChowStanley.Step
+AXIOM-FREE  ChowStanley.T4
+AXIOM-FREE  ChowStanley.T4_U4_incomparable
+AXIOM-FREE  ChowStanley.T4_points_length
+AXIOM-FREE  ChowStanley.T4_rseq
+prop/quot   ChowStanley.Tower.F : [propext]
+prop/quot   ChowStanley.Tower.F_le_F_succ : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_mono_arg : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_mono_height : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_mul_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_pow_F_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_pow_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_sq_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_sq_le' : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_strictMono_arg : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.F_succ : [propext]
+prop/quot   ChowStanley.Tower.F_succ_arg : [propext]
+prop/quot   ChowStanley.Tower.F_zero : [propext]
+prop/quot   ChowStanley.Tower.mul_le_pow : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.pow_le_two_pow : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.succ_le_two_pow : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.threshold : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.two_le_F : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.two_mul_le_two_pow : [propext, Quot.sound]
+prop/quot   ChowStanley.Tower.two_pow_lt_two_pow : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree
+prop/quot   ChowStanley.Tree.IsSplit : [propext]
+prop/quot   ChowStanley.Tree.RaisesOne : [propext]
+AXIOM-FREE  ChowStanley.Tree.StCover
+AXIOM-FREE  ChowStanley.Tree.StRot
+AXIOM-FREE  ChowStanley.Tree.StRot.below
+AXIOM-FREE  ChowStanley.Tree.StRot.below.left
+AXIOM-FREE  ChowStanley.Tree.StRot.below.right
+AXIOM-FREE  ChowStanley.Tree.StRot.below.root
+AXIOM-FREE  ChowStanley.Tree.StRot.brecOn
+AXIOM-FREE  ChowStanley.Tree.StRot.left
+AXIOM-FREE  ChowStanley.Tree.StRot.right
+AXIOM-FREE  ChowStanley.Tree.StRot.root
+AXIOM-FREE  ChowStanley.Tree.SwapDU
+prop/quot   ChowStanley.Tree.T4_U4_evalIncomparable : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.T4_numLeaves
+AXIOM-FREE  ChowStanley.Tree.U4_numLeaves
+AXIOM-FREE  ChowStanley.Tree.barW
+prop/quot   ChowStanley.Tree.barW_barW : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.barW_length : [propext]
+AXIOM-FREE  ChowStanley.Tree.bot4
+AXIOM-FREE  ChowStanley.Tree.brecOn.eq
+AXIOM-FREE  ChowStanley.Tree.brecOn.go
+prop/quot   ChowStanley.Tree.countP_upPos_all : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.ctorElimType
+AXIOM-FREE  ChowStanley.Tree.ctorIdx
+prop/quot   ChowStanley.Tree.ev : [propext]
+prop/quot   ChowStanley.Tree.evAux : [propext]
+prop/quot   ChowStanley.Tree.evAux.eq_def : [propext]
+prop/quot   ChowStanley.Tree.evAux_replicate : [propext]
+prop/quot   ChowStanley.Tree.evAux_set : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.ev_T4 : [propext]
+prop/quot   ChowStanley.Tree.ev_U4 : [propext]
+prop/quot   ChowStanley.Tree.ev_node_leaf_leaf : [propext]
+prop/quot   ChowStanley.Tree.ev_set : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.ev_set_check : [propext]
+prop/quot   ChowStanley.Tree.evalLe : [propext]
+prop/quot   ChowStanley.Tree.evalLe_refl : [propext]
+prop/quot   ChowStanley.Tree.exists_stRot_of_swap : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.exists_stRot_step : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.firstDiff
+AXIOM-FREE  ChowStanley.Tree.firstDiff.eq_def
+prop/quot   ChowStanley.Tree.firstDiff_lt : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.firstDiff_ne : [propext]
+prop/quot   ChowStanley.Tree.firstDiff_none : [propext]
+AXIOM-FREE  ChowStanley.Tree.graftLeft
+AXIOM-FREE  ChowStanley.Tree.hq
+AXIOM-FREE  ChowStanley.Tree.hq.eq_def
+prop/quot   ChowStanley.Tree.hq_add_upCount : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.hq_length : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.ht_wword : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.isSplit_node : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.isSplit_unique : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.leaf
+AXIOM-FREE  ChowStanley.Tree.leaf.sizeOf_spec
+prop/quot   ChowStanley.Tree.list_eq_of_le_of_sum : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.list_sum_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.lt_length_of_getElem? : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.map_succ_injective : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.mem_points_tree : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.node
+prop/quot   ChowStanley.Tree.node.injEq : [propext]
+AXIOM-FREE  ChowStanley.Tree.node.sizeOf_spec
+prop/quot   ChowStanley.Tree.not_evalLe_T4_U4 : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.not_evalLe_U4_T4 : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.not_evalLe_of_rdepth_lt : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.not_stCover_bot4_top4 : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.not_stanleyLe_T4_U4
+AXIOM-FREE  ChowStanley.Tree.not_stanleyLe_U4_T4
+AXIOM-FREE  ChowStanley.Tree.numLeaves
+AXIOM-FREE  ChowStanley.Tree.numLeaves.eq_def
+prop/quot   ChowStanley.Tree.one_le_numLeaves : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.points
+AXIOM-FREE  ChowStanley.Tree.points.eq_def
+prop/quot   ChowStanley.Tree.points_getElem_left : [propext]
+prop/quot   ChowStanley.Tree.points_getElem_right : [propext]
+prop/quot   ChowStanley.Tree.points_length : [propext]
+prop/quot   ChowStanley.Tree.points_map_rdepth : [propext]
+AXIOM-FREE  ChowStanley.Tree.qDom
+prop/quot   ChowStanley.Tree.qDom_iff_stanleyLe : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.qDom_iff_upCount : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.qword
+AXIOM-FREE  ChowStanley.Tree.qword.eq_def
+prop/quot   ChowStanley.Tree.qword_balanced : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.qword_injective : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.qword_length : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.qword_length_eq : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.raise
+prop/quot   ChowStanley.Tree.raise_boundary : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.raise_left
+AXIOM-FREE  ChowStanley.Tree.raise_node
+prop/quot   ChowStanley.Tree.raise_right : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.raisesOne_of_stCover : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.raisesOne_of_stRot : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.rdepth_points_getElem : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.reflTransGen_stRot_aux : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.reflTransGen_stRot_of_stanleyLe : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.rseq
+AXIOM-FREE  ChowStanley.Tree.rseq.eq_def
+AXIOM-FREE  ChowStanley.Tree.rseq_bot4
+prop/quot   ChowStanley.Tree.rseq_cons : [propext]
+prop/quot   ChowStanley.Tree.rseq_cons_two : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.rseq_eq_of_le_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.rseq_getElem_succ : [propext]
+prop/quot   ChowStanley.Tree.rseq_getElem_zero : [propext]
+prop/quot   ChowStanley.Tree.rseq_graftLeft : [propext]
+prop/quot   ChowStanley.Tree.rseq_head_getElem? : [propext]
+prop/quot   ChowStanley.Tree.rseq_injective : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.rseq_length : [propext]
+prop/quot   ChowStanley.Tree.rseq_length_pos : [propext]
+prop/quot   ChowStanley.Tree.rseq_node_getElem? : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.rseq_raise : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.rseq_root_move : [propext]
+prop/quot   ChowStanley.Tree.rseq_step : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.rseq_sum_le : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.rseq_top4
+prop/quot   ChowStanley.Tree.rseq_zero_iff : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.sepAssign
+AXIOM-FREE  ChowStanley.Tree.sepAssign_example
+prop/quot   ChowStanley.Tree.sepAssign_length : [propext]
+prop/quot   ChowStanley.Tree.stCover_iff_raisesOne : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stCover_iff_stRot : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stCover_iff_swapDU : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stCover_of_raisesOne : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stCover_three : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.stDom
+prop/quot   ChowStanley.Tree.stDom_iff_qDom : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stDom_iff_stanleyLe : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stRot_iff_raisesOne : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stRot_of_raisesOne : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stRot_of_swapDU : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stRot_raise : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.stanleyLe
+prop/quot   ChowStanley.Tree.stanleyLe_bot4_top4 : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stanleyLe_iff_getElem? : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stanleyLe_iff_reflTransGen_stRot : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stanleyLe_iff_upHeights : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stanleyLe_of_evalLe : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stanleyLe_of_reflTransGen_stRot : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stanleyLe_of_rseq_eq : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.stanleyLe_of_testFamily : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.stanleyLe_refl
+prop/quot   ChowStanley.Tree.stanleyLe_trans : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.sum_set_succ : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.swapDU_iff_stRot : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.swapDU_of_stRot : [propext]
+prop/quot   ChowStanley.Tree.swapDU_three : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.top4
+prop/quot   ChowStanley.Tree.two : [propext]
+prop/quot   ChowStanley.Tree.two.eq_def : [propext]
+prop/quot   ChowStanley.Tree.two_le_F : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.two_le_of_mem_sepAssign : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.two_le_two : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.upCount
+prop/quot   ChowStanley.Tree.upCount_all : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upCount_le_iff_upPos : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upCount_node : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upCount_zero : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.upHeights
+AXIOM-FREE  ChowStanley.Tree.upHeights.eq_def
+prop/quot   ChowStanley.Tree.upHeights_eq_rseq_tail : [propext]
+prop/quot   ChowStanley.Tree.upHeights_len_node : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upHeights_length : [propext]
+AXIOM-FREE  ChowStanley.Tree.upPos
+AXIOM-FREE  ChowStanley.Tree.upPos.eq_def
+AXIOM-FREE  ChowStanley.Tree.upPosFrom
+prop/quot   ChowStanley.Tree.upPosFrom_append : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upPosFrom_qword : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upPosFrom_shift : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upPos_add_upHeights : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upPos_le_iff_upHeights : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upPos_len_node : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upPos_length : [propext]
+prop/quot   ChowStanley.Tree.upPos_length_eq : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upPos_mem_bounds : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.upPos_pairwise : [propext, Quot.sound]
+prop/quot   ChowStanley.Tree.ups_qword_eq_upCount : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.wword
+AXIOM-FREE  ChowStanley.Tree.wword.eq_def
+prop/quot   ChowStanley.Tree.wword_eq_barW_qword : [propext]
+prop/quot   ChowStanley.Tree.wword_graftLeft : [propext]
+prop/quot   ChowStanley.Tree.wword_injective : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Tree.wword_three_lower
+AXIOM-FREE  ChowStanley.Tree.wword_three_upper
+AXIOM-FREE  ChowStanley.U4
+AXIOM-FREE  ChowStanley.U4_points_length
+AXIOM-FREE  ChowStanley.U4_rseq
+prop/quot   ChowStanley.Word.countP_eq_zero_of_all : [propext]
+prop/quot   ChowStanley.Word.countP_ge_of_getElem_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.countP_le_iff_getElem_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.countP_le_of_lt_getElem : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.countP_map_add : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.countP_map_add_zero : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Word.ht
+prop/quot   ChowStanley.Word.ht_barW : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.ht_saturate : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.length_filter_map_not : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Word.ups
+prop/quot   ChowStanley.Word.ups_append : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.ups_barW : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.Word.ups_cons_false
+AXIOM-FREE  ChowStanley.Word.ups_cons_true
+prop/quot   ChowStanley.Word.ups_eq_length_filter : [propext]
+prop/quot   ChowStanley.Word.ups_le : [propext]
+prop/quot   ChowStanley.Word.ups_le_ups_length : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.ups_saturate : [propext]
+prop/quot   ChowStanley.Word.ups_singleton_false : [propext]
+prop/quot   ChowStanley.Word.ups_split : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.ups_sub_le : [propext, Quot.sound]
+prop/quot   ChowStanley.Word.ups_zero : [propext]
+AXIOM-FREE  ChowStanley.allTrees
+AXIOM-FREE  ChowStanley.allTreesAux
+AXIOM-FREE  ChowStanley.allTrees_card_five
+AXIOM-FREE  ChowStanley.allTrees_card_four
+AXIOM-FREE  ChowStanley.depths_at_three
+AXIOM-FREE  ChowStanley.instDecidableEqTree
+AXIOM-FREE  ChowStanley.instDecidableEqTree.decEq
+AXIOM-FREE  ChowStanley.instInhabitedPTree
+AXIOM-FREE  ChowStanley.instInhabitedPTree.default
+AXIOM-FREE  ChowStanley.instReprPTree
+AXIOM-FREE  ChowStanley.instReprPTree.repr
+AXIOM-FREE  ChowStanley.instReprTree
+AXIOM-FREE  ChowStanley.instReprTree.repr
+AXIOM-FREE  ChowStanley.knuthFig41
+prop/quot   ChowStanley.knuth_fig41_agrees : [propext, Quot.sound]
+prop/quot   ChowStanley.not_le_of_rseq_lt : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.rseq_four_leaves
+prop/quot   ChowStanley.sep_128 : [propext, Quot.sound]
+prop/quot   ChowStanley.sep_512 : [propext, Quot.sound]
+AXIOM-FREE  ChowStanley.shiftedFive
+prop/quot   ChowStanley.two_le_Mn : [propext, Quot.sound]
+TOTAL 292 | axiom-free 105 | propext/Quot.sound 187 | Classical.choice 0 | other/sorry 0
