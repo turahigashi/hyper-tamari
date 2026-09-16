@@ -8,9 +8,10 @@ authors:
     email: "123026.urahigashi.toshihisa@gmail.com"
     affiliation: "Independent researcher"
     orcid: "https://orcid.org/0009-0004-0460-6242"
-version: "1.14.0-pre"
-# Version DOI of the archived snapshot of tag v1.14.0-pre.
-doi: "10.5281/zenodo.22779442"
+version: "1.15.0-pre"
+# Version DOI of the archived snapshot of tag v1.15.0-pre.  The concept DOI
+# 10.5281/zenodo.22779441 always resolves to the latest deposited version.
+doi: "10.5281/zenodo.22789946"
 license: MIT
 repository-code: "https://github.com/turahigashi/hyper-tamari"
 keywords:

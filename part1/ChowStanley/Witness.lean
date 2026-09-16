@@ -15,7 +15,10 @@ that the numbers agree with the ones printed in the paper.
 * `sep_512` and `sep_128` are the two separations of Example 15.1, with the thresholds
   `512` and `128` obtained from `K = 16` and `K = 8` exactly as in the paper.
 
-Every proof here is by `decide`, so none of them depends on any axiom.
+The concrete computations here are closed by `decide`.  The two separations are not:
+they apply the general separation theorem `PTree.separation` to a decidable comparison
+of right depths, and so depend on `propext` and `Quot.sound`.  What each declaration
+depends on is recorded, declaration by declaration, in `logs/axiom-audit.txt`.
 -/
 
 namespace ChowStanley

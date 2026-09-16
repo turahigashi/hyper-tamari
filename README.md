@@ -10,9 +10,11 @@ A Lean 4 formalization accompanying the paper
 > draft, kept for reference. This development accompanies Part II of the merged paper,
 > whose source is not in this repository.)
 
-The state of this repository at tag `v1.14.0-pre` is archived at
-[10.5281/zenodo.22779442](https://doi.org/10.5281/zenodo.22779442). The archive is
-`git archive` of that tag, so it omits `paper/` (see the contents table below).
+The state of this repository at tag `v1.15.0-pre` is archived at
+[10.5281/zenodo.22789946](https://doi.org/10.5281/zenodo.22789946); the concept DOI
+[10.5281/zenodo.22779441](https://doi.org/10.5281/zenodo.22779441) always resolves to the
+latest version. The archive is `git archive` of that tag, so it omits `paper/` (see the
+contents table below).
 
 ## What the paper proves
 
@@ -85,7 +87,7 @@ inequality.
 | `HyperTamari/VarLeaves.lean` | 357 | arbitrary leaf values: `LTree`, `LTree.eval`, the cover relation `LRot`, `LRot.eval_lt` and its transitive closure, `cover_strict_unless_rank3_two`, and the bridge theorems recovering the single-label statements (`Rot.eval_le_of_var`, `Rot.eval_lt_of_var`, `Rot.eval_le_of_reflTransGen_of_var`, `Rot.eval_lt_of_transGen_of_var`) |
 | `HyperTamari/Stanley.lean` | 404 | the Stanley covering relation in local form `StRot`, strict increase along it at every rank `≥ 4` (`StRot.eval_lt`, `StRot.eval_lt_of_transGen`), and the rank-three inclusion (`StRot.eval_le_rank3`, `StRot.eval_le_rank3_star`) |
 | `logs/axiom-audit.txt` | — | raw `lake build` output recording the axiom audit |
-| `scripts/check_audit.py` | — | checks declared theorems against the audit log (coverage, `sorryAx`, `Classical.choice`) |
+| `scripts/check_audit.py` | — | checks declared theorems against the audit log: coverage, `sorryAx`, `Classical.choice`, that every axiom dependency lies inside the allow-list `{propext, Quot.sound}`, and that the log carries no build error |
 | `scripts/check_table.py` | — | checks the correspondence table of the merged paper against its population (pass the path of its source) |
 | `paper/` | — | the earlier draft (LaTeX source and PDF), kept for reference; not part of the archived snapshot (`.gitattributes` marks it `export-ignore`) |
 | `part1/` | — | the **Part I** development (`ChowStanley`, rank three: Proposition 4.1, Lemmas 4.4 and 4.5, Theorem 1.2, Corollary 1.3 and the implication of Theorem 1.1 from the evaluation order to the Stanley order); a separate Lake project with its own README, audit script and log |
@@ -165,7 +167,10 @@ Measured, not asserted (`logs/axiom-audit.txt` is the raw evidence):
 - `lake build` exits 0.
 - **156** theorems and lemmas; **156** audited with `#print axioms`; **0** missing.
   Coverage is checked mechanically by `scripts/check_audit.py`, which compares the
-  declaration names in the sources against the audit output.
+  declaration names in the sources against the audit output. It also fails on any axiom
+  outside `{propext, Quot.sound}` — an allow-list rather than a list of the axioms one
+  happens to fear — and on a log that carries a build error, so that a failed build
+  cannot be read as a passing audit.
 - **No `sorryAx`.** No `sorry`, no `native_decide`, no private `axiom`, no
   `ofReduceBool`.
 - Axiom dependencies: `propext` alone (5), `propext, Quot.sound` (139), and twelve

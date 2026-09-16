@@ -4,8 +4,9 @@ line in the build log, and summarise the axiom dependencies.
 
 Usage:  lake build > logs/axiom-audit.txt 2>&1 ; python3 scripts/check_audit.py logs/axiom-audit.txt
 
-Exit status 0 iff  declared == audited, no sorryAx, no Classical.choice,
-no `sorry` / `native_decide` / `axiom` in the sources.
+Exit status 0 iff  declared == audited, every axiom dependency lies inside the
+allow-list {propext, Quot.sound}, the log carries no error line, and there is no
+`sorry` / `native_decide` / `axiom` in the sources.
 """
 import re, sys, pathlib
 
@@ -55,6 +56,16 @@ hist = Counter(audited.values())
 n_sorry = sum(1 for v in audited.values() if "sorryAx" in v)
 n_choice = sum(1 for v in audited.values() if "Classical.choice" in v)
 
+# An allow-list, not a list of the axioms we happen to fear: anything outside it -- an
+# axiom we have never heard of included -- has to fail.  Checking only for sorryAx and
+# Classical.choice would pass a log carrying some other axiom entirely.
+ALLOWED = {"propext", "Quot.sound"}
+outside = sorted({(name, a) for name, v in audited.items() for a in v if a not in ALLOWED})
+
+# The log is the output of `lake build`; a build that failed must not be read as an audit
+# that passed, so an error line in it is a failure here too.
+errors = [l for l in text.splitlines() if l.startswith("error:") or ": error:" in l]
+
 print(f"declared theorems : {len(declared)}")
 print(f"audited (depends) : {sum(1 for v in audited.values() if v)}")
 print(f"audited (no axioms): {sum(1 for v in audited.values() if not v)}")
@@ -64,6 +75,9 @@ print(f"audited but not declared: {len(extra)} {extra}")
 for k, v in sorted(hist.items(), key=lambda kv: -kv[1]):
     print(f"  {', '.join(k) if k else '(none)'}: {v}")
 print(f"sorryAx: {n_sorry}   Classical.choice: {n_choice}   source tokens: {bad_tokens}")
-ok = not missing and not extra and n_sorry == 0 and n_choice == 0 and all(v == 0 for v in bad_tokens.values())
+print(f"axioms outside {sorted(ALLOWED)}: {len(outside)} {outside[:5]}")
+print(f"error lines in the log: {len(errors)} {errors[:3]}")
+ok = (not missing and not extra and n_sorry == 0 and n_choice == 0
+      and not outside and not errors and all(v == 0 for v in bad_tokens.values()))
 print("AUDIT", "PASS" if ok else "FAIL")
 sys.exit(0 if ok else 1)
