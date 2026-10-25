@@ -1,0 +1,11 @@
+The abstract as plain text, for the submission form.
+Generated from the abstract of paper/hyper-tamari.tex by scripts/sync_abstract.py; do not edit by hand.
+LaTeX math is allowed; user macros and non-math formatting are not, so \HH, \ev,
+\St, \emph and \textbf have been expanded or removed.  Paste the text below.
+========================================================================
+
+Let $\mathrm{H}_r$ be the Goodstein hyperoperation hierarchy, so that $\mathrm{H}_3$ is exponentiation and $\mathrm{H}_4$ tetration. For $r\ge3$ the operation is not associative, so the value of $\mathrm{H}_r(a_1,\dots,a_n)$ depends on the bracketing, that is on a binary tree with $n$ leaves. Write $T\le_{\mathrm{ev}}U$ when $\mathrm{ev}_r(T)\le\mathrm{ev}_r(U)$ for every assignment of leaf values $\ge2$, and let $\le_{\mathrm{St}}$ be the Stanley order on those trees, which extends the Tamari order.
+
+At rank $3$ we determine $\le_{\mathrm{ev}}$ completely: it is the Stanley order. The inclusion $\le_{\mathrm{St}}\subseteq\le_{\mathrm{ev}}$ is due to Chow; we prove its converse, which he left open, constructively and with a bound. If $T\not\le_{\mathrm{St}}U$ then a single leaf separates them, and the value to put there is written down in advance as $M=2K^{2}$, where $K$ is a product of subtree values read off from $U$. One family of $n-2$ assignments, given in closed form, therefore decides the entire order.
+
+For every $r\ge4$ we prove that $\le_{\mathrm{St}}\subseteq\le_{\mathrm{ev}}$, the value increasing strictly along every Stanley cover; the semi-associative law that underlies this is not new, and we say where it is already stated. Equality in that law is settled by one statement covering every rank and every boundary case. The device throughout is the vector of right depths of the leaves. Much of the paper is machine-checked in Lean 4, and it is explicit about what is not.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the correspondence table of the merged paper against its own population.
+"""Check the correspondence table of the paper against its own population.
 
 The paper fixes the population of `tab:map` explicitly.  This script recomputes it
 from the source and checks every claim made about it:
@@ -18,7 +18,7 @@ nor that the Lean declaration named in a row actually says what the row claims. 
 are read by eye.  `check_names.py` checks that the names exist; nothing here checks that
 a named theorem has the hypotheses and conclusion of the printed statement.
 
-Usage: python3 scripts/check_table.py [path/to/bracketing-orders.tex]
+Usage: python3 scripts/check_table.py [path/to/hyper-tamari.tex]
 """
 import re, sys, pathlib
 from collections import Counter
@@ -28,13 +28,9 @@ root = here.parent
 if len(sys.argv) > 1:
     tex = pathlib.Path(sys.argv[1])
 else:
-    candidates = [
-        root / "paper" / "bracketing-orders.tex",
-        root.parent / "paper" / "bracketing-orders.tex",
-    ]
-    tex = next((p for p in candidates if p.exists()), None)
-    if tex is None:
-        raise SystemExit("bracketing-orders.tex not found; pass its path explicitly")
+    tex = root / "paper" / "hyper-tamari.tex"
+    if not tex.exists():
+        raise SystemExit("paper/hyper-tamari.tex not found; pass its path explicitly")
 src = tex.read_text(encoding="utf-8")
 
 ENVS = "theorem|proposition|lemma|corollary|definition|example|remark|conjecture"

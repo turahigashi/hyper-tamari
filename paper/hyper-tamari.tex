@@ -2,7 +2,8 @@
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage[margin=1.1in]{geometry}
 \usepackage[hidelinks]{hyperref}
-\usepackage{tikz}
+\hypersetup{pdftitle={Evaluation orders on bracketings in the hyperoperation hierarchy},
+  pdfauthor={Toshihisa Urahigashi}}
 \usepackage{longtable}
 
 \theoremstyle{plain}
@@ -21,108 +22,158 @@
 \newcommand{\tw}{\uparrow\uparrow}
 \newcommand{\ev}{\mathrm{ev}}
 \newcommand{\Tam}{\mathcal{T}}
+\newcommand{\St}{\mathrm{St}}
 
-%% ─────────────────────────────────────────────────────────────
-%% DRAFT MARKERS.  To produce the submission version, change the
-%% next line to \draftfalse ; nothing else needs to be touched.
-\newif\ifdraft \drafttrue
-\newcommand{\unseen}{\ifdraft\textsuperscript{\dag}\fi}
-\newcommand{\draftnote}[1]{\ifdraft\par\medskip\noindent\fbox{\parbox{0.95\linewidth}{\small #1}}\par\medskip\fi}
-%% ─────────────────────────────────────────────────────────────
-
-\title{Bracketing hyperoperations:\\ a rank dichotomy for the Tamari order}
+\title{Evaluation orders on bracketings\\ in the hyperoperation hierarchy}
 \author{Toshihisa Urahigashi\\[2pt]
-  \normalsize Independent researcher, Nara, Japan\\[1pt]
-  \normalsize ORCID: \href{https://orcid.org/0009-0004-0460-6242}{0009-0004-0460-6242}}
+{\normalsize Independent researcher, Nara, Japan}\\[1pt]
+{\normalsize\texttt{123026.urahigashi.toshihisa@gmail.com}}\\[1pt]
+{\normalsize ORCID \href{https://orcid.org/0009-0004-0460-6242}{\texttt{0009-0004-0460-6242}}}}
 \date{}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Let $\HH_r$ denote the Goodstein hyperoperation hierarchy, so that
-$\HH_1$ is addition, $\HH_2$ multiplication, $\HH_3$ exponentiation and
-$\HH_4$ tetration. Since $\HH_r$ is non-associative for $r\ge 3$, the value of a
-bracketed expression $\HH_r(a,\dots,a)$ depends on the bracketing, i.e.\ on a
-binary tree. We study how the value varies over the Tamari lattice of such trees.
+Let $\HH_r$ be the Goodstein hyperoperation hierarchy, so that $\HH_3$ is
+exponentiation and $\HH_4$ tetration. For $r\ge3$ the operation is not associative, so
+the value of $\HH_r(a_1,\dots,a_n)$ depends on the bracketing, that is on a binary tree
+with $n$ leaves. Write $T\le_{\ev}U$ when $\ev_r(T)\le\ev_r(U)$ for \emph{every}
+assignment of leaf values $\ge2$, and let $\le_{\St}$ be the Stanley order on those
+trees, which extends the Tamari order.
 
-We prove that a \emph{semi-associative law} runs through the whole hierarchy: for
-every rank $r\ge3$, all $x,y\ge2$ and all $z\ge0$,
-\[
-  \HH_r(\HH_r(x,y),z)\ \le\ \HH_r(x,\HH_r(y,z)),
-\]
-so a right rotation at any node never decreases the value and evaluation is
-order-preserving from the Tamari lattice to $(\N,\le)$; the left comb is a
-minimiser and the right comb, whose value is $\HH_{r+1}(a,n)$, a maximiser.
+At rank $3$ we determine $\le_{\ev}$ completely: it is the Stanley order. The inclusion
+$\le_{\St}\subseteq\le_{\ev}$ is due to Chow; we prove its converse, which he left open,
+constructively and with a bound. If $T\not\le_{\St}U$ then a \emph{single} leaf separates
+them, and the value to put there is written down in advance as $M=2K^{2}$, where $K$ is a
+product of subtree values read off from $U$. One family of $n-2$ assignments, given in
+closed form, therefore decides the entire order.
 
-Our main result is that the \emph{degeneracy} of this law disappears at rank $4$.
-We classify equality completely. For $x,y\ge2$ and $z\ge0$:
-\[
-  r=3:\quad \text{equality}\iff z=1\ \text{ or }\ (y,z)=(2,2);
-  \qquad
-  r\ge4:\quad \text{equality}\iff z=1 .
-\]
-Thus rank $3$ carries exactly one non-trivial \emph{equality pattern} --- already
-visible for three leaves, where $a=2$ makes the single cover $(aa)a\lessdot a(aa)$ an
-equality, both sides being $16$, and producing several collisions by four leaves ---
-and from rank $4$ on the evaluation is strictly increasing along
-\emph{every} such cover (Theorem~\ref{thm:strictcover}). (At rank~$3$ with $a=2$ and
-$n=4$ several trees share a value; what is unique is the non-trivial equality pattern
-$(y,z)=(2,2)$ of the local law itself.) The rank-$3$ equality is produced by the
-collapsing law $(x^{y})^{z}=x^{yz}$, which reduces the rank-$3$ inequality to
-$yz\le y^{z}$; the classification shows that no equality of this kind survives at
-rank~$4$ or above.
-
-The result is not an asymptotic triviality. The two sides compare a growing
-\emph{first} argument against a growing \emph{second} one, and small arguments do
-not blow up with the rank: $\HH_r(2,2)=4$ for every $r\ge2$. Moreover the
-hypothesis $y\ge2$ is sharp as a uniform hypothesis: for every $r\ge3$ and all
-$x,z\ge2$, taking $y=1$ reverses the inequality.
-
-The monotonicity and strictness statements are proved for arbitrary leaf values
-$\ge2$, not only for a single repeated one. We stress what is \emph{not} new: at
-rank~$3$ the monotonicity direction is already known, in a stronger form, from a 2018
-MathOverflow discussion of exponentiation, and we do not claim it. What we add is the
-extension of that direction to every rank of the hierarchy, the classification of the
-equality cases, the strictness from rank~$4$ on, and the formalization.
-
-Every numbered statement of the paper that asserts an inequality or an equality about
-$\HH_r$ or about the evaluation of trees is formalized and machine-checked in Lean~4;
-the classical structure of the Tamari lattice itself (that it is a lattice with the two
-combs as its extreme elements) is used as background and is not formalized. The
-development contains no \texttt{sorry}, every theorem is audited with
-\verb|#print axioms|, and no declaration depends on \verb|Classical.choice|.
+For every $r\ge4$ we prove that $\le_{\St}\subseteq\le_{\ev}$, the value increasing
+strictly along every Stanley cover; the semi-associative law that underlies this is not
+new, and we say where it is already stated. Equality in that law is settled by one
+statement covering every rank and every boundary case. The device throughout is the
+vector of right depths of the leaves. Much of the paper is machine-checked in Lean~4,
+and it is explicit about what is not.
 \end{abstract}
 
-\section{Introduction}
+\medskip
+\noindent\textbf{Keywords}\quad Stanley order $\cdot$ Tamari lattice $\cdot$ Dyck paths
+$\cdot$ Hyperoperations $\cdot$ Iterated exponentiation $\cdot$ Formal verification
 
-Exponentiation is not associative, and it is classical that among all bracketings
-of $a^{a^{\cdots^{a}}}$ with $n$ occurrences of $a\ge2$ the right-associated one
-is the largest; its value is the tetration $a\tw n$. Orders on such bracketings have
-been discussed before --- see Section~\ref{sec:related} --- but we are not aware of a
-treatment of the \emph{Tamari} order on them, nor of the behaviour of that order
-further up the hyperoperation hierarchy.
+\section*{Acknowledgements}
 
-Two strands of existing work bracket the question. On the one hand, the
-\emph{associative spectrum} of a binary operation, introduced by Cs\'ak\'any and
-Waldhauser~\cite{CsW}, measures non-associativity by counting how many distinct
-values the $C_{n-1}$ bracketings can take; they prove in particular that
-exponentiation is \emph{Catalan}, i.e.\ distinct bracketings induce distinct
-operations. That line of work counts values. On the other hand, the set of
-bracketings carries the Tamari lattice~\cite{Tamari}, generated by right
-rotations, whose proof-theoretic content was isolated by Zeilberger~\cite{Zeil}
-as a semi-associative law. That line of work orders bracketings. The present
-paper connects the two: we show that for hyperoperations the Tamari order is
-\emph{respected} by evaluation, and we locate precisely where the correspondence
-degenerates.
+The rank-three question is Spivak's. The inclusion $\le_{\St}\subseteq\le_{\ev}$ is
+Chow's, and Rubey independently reduced it to a single inequality; we give a second
+proof of it in Section~\ref{sec:chow} but the result is Chow's. The suggestion that a
+single enlarged variable should do the work is Chow's as well, and Spivak's question
+already contains the smallest instance of it; Rubey sketched how the converse might be
+reduced to a simpler comparison. We thank the MathOverflow discussion~\cite{MO} for all
+of this.
 
-\subsection*{Results}
+\section{Introduction}\label{sec:intro}
+
+\subsection{The question}
+
+Exponentiation is not associative, so the $C_{n-1}$ bracketings of $a_1\star\dots\star
+a_n$ can take different values, and one may ask how those values are \emph{arranged}.
+Two orders present themselves. The bracketings are the binary trees with $n$ leaves;
+they carry the Tamari lattice, generated by right rotations, and, under the standard
+bijection with Dyck paths, the Stanley order, in which one path lies weakly below
+another. Against these stands the arithmetic order: write $T\le_{\ev}U$ when
+$\ev_r(T)\le\ev_r(U)$ holds \emph{for every} assignment of values $\ge2$ to the leaves.
+
+Spivak~\cite{MO} asked, for $r=3$, whether $\le_{\ev}$ and the Stanley order agree.
+Chow, following a comment of Rubey, proved the inclusion $\le_{\St}\subseteq\le_{\ev}$,
+writing that he could ``complete half of the proof''; Rubey, independently, reduced that
+inclusion to a single inequality and stopped there, writing ``it remains to check
+that\ldots''. Chow decomposed the
+whole problem into that inclusion together with its converse, and left the converse ---
+that bracketings which are \emph{not} Stanley-related can be made to compare either way
+by a suitable choice of leaf values --- open. Spivak's question already contains the
+smallest instance of that converse: ``To see that $C$ and $D$ are incomparable: use
+$a=b=c=2$ and $d=\text{large}$ to obtain $C>D$; and use $a=b=d=2$ and
+$c=\text{large}$ to obtain $D>C$.'' What is missing there, and what Theorem~\ref{thm:sep} supplies, is how large
+``large'' has to be, and that one leaf suffices at every $n$. The expected answer was not obvious: Stanley,
+commenting on the question, pointed to a paper of Stembridge on a different order
+attached to iterated exponentials and remarked that it ``lends credence to the
+possibility that the iterated exponentiation order is not the Dyck order''~\cite{MO}.
+
+Above rank $3$ the literature compares the bracketings of three arguments
+(Section~\ref{sec:related}), which is enough to relate evaluation to the Tamari order;
+the Stanley order, as far as we know, had not been related to evaluation there at all.
+Theorem~\ref{thm:strank} below supplies one of the two inclusions, and the converse
+remains open. The
+behaviour of the relation with the Tamari order changes with the rank in a way that can
+be pinned down exactly.
+
+\subsection{Plan}
+
+The paper has two parts. Part~I (Sections~\ref{sec:rank3}--\ref{sec:test}) settles
+rank~$3$: the evaluation order \emph{is} the Stanley order, with an explicit separating
+assignment and a finite test family. Part~II
+(Sections~\ref{sec:rank4}--\ref{sec:stanleyrank}) goes up the hierarchy: the
+semi-associative law at every rank, the complete classification of its equality cases,
+the resulting dichotomy between rank $3$ and rank $\ge4$, and strict Stanley
+monotonicity at every higher rank. Sections~\ref{sec:comp}
+and~\ref{sec:formal} describe the computations and the Lean development,
+Section~\ref{sec:related} the attribution, and Section~\ref{sec:open} what is left.
+
+\subsection{Results}
 
 Throughout, $\HH_r$ is the hyperoperation hierarchy fixed in
 Section~\ref{sec:prelim}, with $\HH_1(a,b)=a+b$, $\HH_2(a,b)=ab$,
-$\HH_3(a,b)=a^b$ and $\HH_4(a,b)=a\tw b$.
+$\HH_3(a,b)=a^{b}$ and $\HH_4(a,b)=a\tw b$; $\Tam_n$ is the set of binary trees with
+$n$ leaves, and $\ev_r$ their evaluation at leaf values $\ge2$.
 
-\begin{theorem}[Rank $3$, complete solution]\label{thm:A}
+\medskip
+\noindent\textbf{Part I: rank three.} Here the answer is complete.
+
+\begin{theorem}[Rank three: the evaluation order]\label{thm:main}
+For every $n$ and all $T,U\in\Tam_n$,
+\[
+  T\le_{\ev}U\quad\Longleftrightarrow\quad T\le_{\St}U .
+\]
+\end{theorem}
+
+The proof is constructive, and the witness it produces is unexpectedly simple: one leaf
+does all the work, and the value put there is written down in advance.
+
+\begin{theorem}[Separation by a single leaf]\label{thm:sep}
+Let $T,U\in\Tam_n$ with $T\not\le_{\St}U$, and let $i$ be an index with
+$r_i(T)>r_i(U)$ (Section~\ref{sec:coord} shows there is one). Put $K=K_i(U)$ as in
+Definition~\ref{def:K} and $M=2K^2$. Then, for the assignment that gives leaf $i$ the
+value $M$ and every other leaf the value $2$,
+\[
+  \ev_3(T)>\ev_3(U).
+\]
+\end{theorem}
+
+Because the value $M$ can be bounded uniformly over all trees with $n$ leaves, a single
+finite family of assignments decides the order.
+
+\begin{corollary}[A finite test family]\label{cor:test}
+Let $n\ge2$, let $F_0(t)=t$ and $F_{h+1}(t)=2^{F_h(t)}$, and put $M_n=2F_{n-2}(2)^2$. For
+$3\le i\le n$ let $\vec a^{(i)}$ be the assignment with leaf $i$ equal to $M_n$ and every
+other leaf equal to $2$. Then for all $T,U\in\Tam_n$,
+\[
+  T\le_{\St}U
+  \quad\Longleftrightarrow\quad
+  \ev_3(T)(\vec a^{(i)})\le\ev_3(U)(\vec a^{(i)})\ \text{ for } i=3,\dots,n .
+\]
+\end{corollary}
+
+So an order defined by a universal quantifier over infinitely many assignments is
+decided by $n-2$ of them, given in closed form. The first two leaves may be omitted
+because $r_1(T)=0$ and $r_2(T)=1$ for \emph{every} $T\in\Tam_n$
+(Lemma~\ref{lem:r12}), so those two coordinates never distinguish two trees.
+
+\medskip
+\noindent\textbf{Part II: up the hierarchy.} Above rank $3$ we do not know the analogue
+of Theorem~\ref{thm:main}; what survives, and can be made exact, are the relations with
+the Tamari and Stanley orders.
+
+\begin{theorem}[Rank three: the local law]\label{thm:A}
 Let $x\ge1$ and $y\ge2$. Then $(x^{y})^{z}\le x^{(y^{z})}$ for every $z\ge0$.
 If moreover $x\ge2$, equality holds if and only if $z=1$ or $(y,z)=(2,2)$.
 The hypothesis $y\ge2$ cannot be dropped: for $y=1$ and all $x,z\ge2$ the
@@ -135,8 +186,9 @@ If moreover $z\ge2$, the inequality is strict.
 \end{theorem}
 
 \begin{proposition}[Tamari monotonicity]\label{prop:tamari}
-Let $a\ge2$ and $r\ge3$. If $T\lessdot U$ is a Tamari cover, i.e.\ $U$ arises from
-$T$ by a right rotation at some node, then $\ev_{r,a}(T)\le\ev_{r,a}(U)$.
+Let $a\ge2$ and $r\ge3$. If $U$ arises from $T$ by a right rotation at some node (these
+rotations are exactly the covers $T\lessdot U$ of the Tamari lattice), then
+$\ev_{r,a}(T)\le\ev_{r,a}(U)$.
 Consequently $\ev_{r,a}$ is order-preserving for the Tamari order. Moreover, for the
 right comb $R_n$ with $n$ leaves,
 $\ev_{r,a}(R_n)=\HH_{r+1}(a,n)$.
@@ -202,30 +254,63 @@ make everything large: since $\HH_r(a,1)=a$ for $r\ge2$, one gets
 for \emph{every} $r\ge2$. A degenerate corner therefore survives at every rank, and
 it is exactly this corner that carries the rank-$3$ equality of
 Theorem~\ref{thm:E}(2) and that has to be treated separately in the proof of
-Theorem~\ref{thm:E}(3). Neither observation is by itself a proof that the
-statement is hard; what makes it worth isolating is the combination of the two with the
-fact that a single induction carries the law through every rank, that the degeneracy
-disappears exactly at rank $4$, and that the equality set can be described completely.
+Theorem~\ref{thm:E}(3).
 \end{remark}
 
-\subsection*{Formalization}
+\begin{remark}[How the two parts fit together]\label{rem:fit}
+The Tamari order is contained in the Stanley order. At rank $3$, therefore,
+Theorem~\ref{thm:main} contains Theorem~\ref{thm:varleaf} for $r=3$: Tamari
+comparability implies Stanley comparability, hence comparability in $\le_{\ev}$. What
+Theorem~\ref{thm:varleaf} adds is the ranks $r\ge4$, where Theorem~\ref{thm:main} has no
+known analogue; and what Theorem~\ref{thm:E} adds at rank $3$ is the classification of
+\emph{equality}, which an order statement does not see.
+\end{remark}
+\subsection{The mechanism, and what in it is not new}
 
-Every numbered statement of this paper that asserts an inequality or an equality
-about $\HH_r$, or about the evaluation of trees, is proved in Lean~4 on top of
-Mathlib; the classical structure of the Tamari lattice is used as background and is
-not formalized here. Section~\ref{sec:formal} makes the division precise, statement by
-statement. The development
-defines the hyperoperation by the usual double recursion and \emph{verifies the
-convention} by proving $\HH_1=+$, $\HH_2=\cdot$, $\HH_3=(\ )^{(\ )}$; this matters
-because the literature on hyperoperations uses several incompatible indexings and
-initial values. Section~\ref{sec:formal} describes the development.
+Everything turns on one vector. Let $r_i(T)$ be the number of \emph{right} branches on
+the path from the root to the $i$th leaf. The vector $r(T)=(r_1(T),\dots,r_n(T))$ does
+two things at once:
+
+\begin{itemize}
+\item it presents the Stanley order coordinatewise: $T\le_{\St}U$ if and only if
+      $r_i(T)\le r_i(U)$ for all $i$ (Proposition~\ref{prop:coord});
+\item it counts the exponentiations through which an enlarged leaf value passes, and
+      therefore the height of the tower that value generates
+      (Proposition~\ref{prop:bounds}).
+\end{itemize}
+
+\textbf{Both of these are already in the literature.} Knuth defines the Stanley lattice
+(introduced by Stanley~\cite[pp.~222--223]{Sta})
+on $n$-node forests by declaring $F\subseteq F'$ when the depth coordinates satisfy
+$c_j\le c_j'$ for every $j$~\cite[\S7.2.1.6, exercise 28 and Fig.~41]{Knuth}; the passage
+to binary trees is the identification of the depth of a vertex in a DFS tree with its
+right depth, stated explicitly by Lehtonen and Waldhauser~\cite[\S2.5]{LW}, who in turn
+attribute the underlying bijection to Cs\'ak\'any and Waldhauser~\cite[2.8]{CsW}
+(``Bracketings are uniquely determined by their right (or left) depth sequences''); the
+same material is restated in the Appendix of Waldhauser's dissertation~\cite{Wal}, whose
+Proposition~A.7 repeats the argument of \cite[3.4]{CsW} for exponentiation.
+And the second item is the key observation of~\cite[3.4]{CsW}: for exponentiation, ``the
+height of the level of $p_i$ in $b$ always equals the right depth of $x_i$ in $B$''.
+From this Cs\'ak\'any and Waldhauser deduce, by substituting distinct primes and
+invoking unique factorisation, that distinct bracketings induce distinct operations. We
+give a short proof of Proposition~\ref{prop:coord} in Section~\ref{sec:coord} only to
+fix conventions and to connect the coordinates to the Dyck-path convention of~\cite{MO}.
+
+The idea of enlarging a single variable is not new either: it is exactly what Chow
+proposes in the last paragraph of his answer as the way to attack the missing half, and
+Rubey, in comments under his own answer, expected it to work and sketched how the missing
+half might be reduced to a simpler comparison, without completing the sketch.
+
+What we supply is the step from \emph{difference} to \emph{direction}. Distinct primes
+show that two values are unequal but say nothing about which is larger; to get the
+order one needs a two-sided estimate for the tower that an enlarged leaf generates,
+and that is Proposition~\ref{prop:bounds}. With it in hand the remaining questions ---
+which leaf to enlarge, how far, and why every other leaf may be left at $2$ --- all have
+explicit answers.
 
 \section{Preliminaries}\label{sec:prelim}
 
-The literature on hyperoperations uses several mutually incompatible indexings and
-initial values. Throughout, $\HH_r$ means the Goodstein-style convention fixed in
-Definition~\ref{def:hyper}; where a statement depends on the value at $b=0$ --- as the
-equality classification does at $z=0$ --- this is noted.
+\subsection{The hierarchy}
 
 \begin{definition}[Hyperoperation~\cite{Good}]\label{def:hyper}
 Define $\HH:\N\times\N\times\N\to\N$ by
@@ -245,39 +330,110 @@ For all $a,b$ we have $\HH_1(a,b)=a+b$, $\HH_2(a,b)=ab$ and $\HH_3(a,b)=a^{b}$.
 Moreover $\HH_r(a,1)=a$ for $r\ge2$.
 \end{lemma}
 
+\begin{proof}
+For ranks $1$, $2$ and $3$, induction on the second argument gives respectively
+addition, repeated addition and repeated multiplication. The identity at second
+argument $1$ is immediate at rank $2$. For $r\ge3$ the recursion gives
+$\HH_r(a,1)=\HH_{r-1}(a,\HH_r(a,0))=\HH_{r-1}(a,1)=a$ by induction on $r$.
+\end{proof}
+
+The elementary growth and monotonicity consequences of this recursion are proved in
+Appendix~\ref{app:elementary}; they are used in both parts.
+
 We write $a\tw b:=\HH_4(a,b)$, so $a\tw 0=1$ and $a\tw(b+1)=a^{(a\tw b)}$.
 
-\begin{definition}[Bracketings and evaluation]\label{def:trees}
-Let $\Tam_n$ denote the set of binary trees with $n$ leaves. For $r,a\in\N$ define
-$\ev_{r,a}:\Tam_n\to\N$ by $\ev_{r,a}(\text{leaf})=a$ and
-$\ev_{r,a}(T\cdot U)=\HH_r\bigl(\ev_{r,a}(T),\ev_{r,a}(U)\bigr)$.
+\subsection{Bracketings and evaluation}
+
+\begin{definition}[Trees and evaluation]\label{def:trees}
+$\Tam_n$ is the set of binary trees with $n$ leaves; a tree is either a leaf or an
+ordered pair $(L,R)$ of trees. Leaves are numbered $1,\dots,n$ from left to right.
+Given $\vec a\in\N_{\ge2}^{\,n}$ we set $\ev_r(\text{leaf }i)=a_i$ and
+$\ev_r\bigl((L,R)\bigr)=\HH_r\bigl(\ev_r(L),\ev_r(R)\bigr)$, and we write
+$\ev_r(T)(\vec a)$ when the assignment is to be displayed. A tree together with an
+assignment is a \emph{labelled tree}; rotation permutes no labels. When every $a_i$
+equals a single value $a$ we write $\ev_{r,a}(T)$.
 \end{definition}
 
-\begin{definition}[Right rotation]\label{def:rot}
+At rank $3$ we abbreviate $\ev_3\bigl((L,R)\bigr)=\ev_3(L)^{\ev_3(R)}$, and we write
+$T\le_{\ev}U$ when $\ev_3(T)(\vec a)\le\ev_3(U)(\vec a)$ for every
+$\vec a\in\N_{\ge2}^{\,n}$; this is the \emph{evaluation order} of Part~I. In Part~II the
+same symbol denotes the relation defined in the same way from $\ev_r$, at the rank $r$ under
+consideration, which is always stated; above rank~$3$ it is a priori only a preorder, and
+nothing below uses its antisymmetry. Every value
+is at least $2$, since the leaves are and $\HH_r(x,y)\ge x\ge2$ for $x,y\ge2$ and
+$r\ge2$; this is used without further comment.
+
+\subsection{The two orders}
+
+\begin{definition}[Right rotation and the Tamari order]\label{def:rot}
 The \emph{right rotation at the root} sends $((A\cdot B)\cdot C)$ to
 $(A\cdot(B\cdot C))$. The Tamari order on $\Tam_n$ is generated by right
 rotations performed at arbitrary nodes; that this order is a lattice, with the left
 comb as least and the right comb as greatest element, is the theorem of Friedman and
 Tamari~\cite{FT}, whose title already names the relation a \emph{loi
-demi-associative}~\cite{Tamari,Zeil}.
+demi-associative}; for its proof theory see Zeilberger~\cite{Zeil}.
 \end{definition}
 
-Thus the inequality
-\begin{equation}\label{eq:HT}
+\begin{definition}[Dyck word and the Stanley order]\label{def:dyck}
+Set $w(\text{leaf})=\varepsilon$ and $w\bigl((L,R)\bigr)=U\,w(R)\,D\,w(L)$. This is a
+Dyck word of length $2(n-1)$. Its height function $H_{w(T)}(k)$ is the number of $U$'s
+minus the number of $D$'s among the first $k$ letters. We write $T\le_{\St}U$ when
+$H_{w(T)}(k)\le H_{w(U)}(k)$ for all $k$.
+\end{definition}
+
+With this convention the fully right-nested tree $(x_1,(x_2,(\dots)))$ has the highest
+path and the fully left-nested tree the lowest, which is the orientation used
+in~\cite{MO}. The Stanley order~\cite{Sta} \emph{extends} the Tamari order: $T\le_{\Tam}U$ implies
+$T\le_{\St}U$, and the two differ already at $n=4$.
+
+\begin{definition}[Right depth]\label{def:rdepth}
+$r_i(T)$ is the number of right branches on the path from the root of $T$ to its $i$th
+leaf; left branches are not counted. Thus $r(\text{leaf})=(0)$ and
+\[
+  r\bigl((L,R)\bigr)=\bigl(r(L),\,1+r(R)\bigr),
+\]
+where $1+r(R)$ means adding $1$ to each entry.
+\end{definition}
+
+\begin{lemma}\label{lem:r12}
+For every $T\in\Tam_n$ we have $r_1(T)=0$, and if $n\ge2$ then $r_2(T)=1$. Consequently
+two trees with the same number of leaves can differ in right depth only at an index
+$i\ge3$.
+\end{lemma}
+
+\begin{proof}
+Induction on $T$. A leaf gives $r=(0)$. For $T=(L,R)$ the first entry of $r(T)$ is the
+first entry of $r(L)$, which is $0$ by induction. For the second entry there are two
+cases: if $L$ is a leaf then $r(T)=(0,\,1+r(R))$ and the second entry is
+$1+r_1(R)=1$; if $L$ has at least two leaves the second entry of $r(T)$ is $r_2(L)$,
+which is $1$ by induction.
+\end{proof}
+
+\subsection{The semi-associative law, and one lemma used throughout}
+
+The inequality
+\begin{equation*}\label{eq:HT}
   \HH_r\bigl(\HH_r(x,y),z\bigr)\ \le\ \HH_r\bigl(x,\HH_r(y,z)\bigr)
   \tag{HT$_r$}
-\end{equation}
+\end{equation*}
 is exactly the assertion that a right rotation, applied with $x,y,z$ the values of
 the three subtrees, does not decrease the value.
 
-\section{Rank three}\label{sec:rank3}
-
-At rank $3$ the collapsing law $(x^{y})^{z}=x^{yz}$ reduces \eqref{eq:HT} to a
-comparison of exponents.
+The following single lemma is used in both parts of the paper: in Part~II it is what
+makes \eqref{eq:HT} true at rank $3$ and, through the induction of
+Section~\ref{sec:general}, at every rank; in Part~I it is one of the two absorption
+steps of Section~\ref{sec:absorb}.
 
 \begin{lemma}\label{lem:mul-le-pow}
 If $y\ge2$ then $yz\le y^{z}$ for every $z$. If moreover $z\ge3$ the inequality is strict.
 \end{lemma}
+
+\begin{proof}
+The cases $z=0,1$ are immediate. For $z\ge1$ the induction step is
+$y(z+1)\le2yz\le y\,y^{z}=y^{z+1}$, using $z+1\le2z$ and, for the middle inequality,
+$2z\le yz\le y^{z}$. For strictness, $3y<y^{3}$ because $y^{2}\ge4>3$; and if
+$yz<y^{z}$ with $z\ge3$, then $y(z+1)\le2yz<2y^{z}\le y^{z+1}$.
+\end{proof}
 
 \begin{proposition}\label{prop:mul-eq-pow}
 If $y\ge2$ then $yz=y^{z}$ if and only if $z=1$ or $(y,z)=(2,2)$.
@@ -288,6 +444,13 @@ If $z=0$ then $yz=0\ne1=y^{z}$. If $z=1$ both sides are $y$. If $z=2$ then
 $yz=y^{z}$ reads $2y=y^{2}$, i.e.\ $y=2$ after cancelling $y>0$. If $z\ge3$ the
 inequality is strict by Lemma~\ref{lem:mul-le-pow}. The converse is immediate.
 \end{proof}
+
+\part*{Part I. Rank three: the evaluation order}
+\section{Rank three: the semi-associative law}\label{sec:rank3}
+
+At rank $3$ the collapsing law $(x^{y})^{z}=x^{yz}$ reduces \eqref{eq:HT} to a
+comparison of exponents.
+
 
 \begin{proof}[Proof of Theorem~\ref{thm:A}]
 Since $(x^{y})^{z}=x^{yz}$, the inequality follows from
@@ -300,13 +463,467 @@ $(x^{1})^{z}=x^{z}$ while $x^{(1^{z})}=x$, and $x^{z}>x$ whenever $x,z\ge2$.
 \begin{example}[Failure of strictness]\label{ex:collide}
 Take $a=2$ and $n=4$. The five bracketings evaluate under $\HH_3$ to
 \[
-  ((aa)a)a=256,\quad (a(aa))a=256,\quad (aa)(aa)=256,\quad
-  a((aa)a)=65536,\quad a(a(aa))=65536 .
+  ((aa)a)a=(a(aa))a=(aa)(aa)=256,
+  \qquad
+  a((aa)a)=a(a(aa))=65536 .
 \]
 In particular the Tamari cover $((aa)a)a\lessdot(aa)(aa)$ has equal endpoints,
 so $\ev_{3,2}$ is monotone but not strictly monotone; it is also not injective.
 \end{example}
 
+The coincidence $(a(aa))a=(aa)(aa)$ is not special to $a=2$: for every $a$ both sides
+equal $a^{a^{a+1}}$. G\"obel and Nederpelt~\cite{GN} already use this pair to show that
+different bracketings can have the same value when every leaf carries the same real
+number $x>1$. Their standard form turns a bracketing with $n$ leaves into a rooted tree
+with $n-1$ edges, and bracketings with the same tree have the same value; hence
+$\ev_{3,a}$ takes at most as many values on $\Tam_n$ as there are rooted trees with
+$n-1$ edges~\cite[Theorem~2.2]{GN}, fewer than $C_{n-1}$ once $n\ge4$. Guy and
+Selfridge~\cite{GS} note the same identity in their study of how many distinct values
+the bracketings of $a\star a\star\dots\star a$ take under exponentiation, and conclude
+that ``exponentiation is not completely non-associative''.
+\section{The Stanley order in right-depth coordinates}\label{sec:coord}
+
+\begin{proposition}[Coordinate presentation; known]\label{prop:coord}
+For $T,U\in\Tam_n$,
+\[
+  T\le_{\St}U
+  \quad\Longleftrightarrow\quad
+  r_i(T)\le r_i(U)\ \text{ for all } i=1,\dots,n .
+\]
+\end{proposition}
+
+\begin{proof}
+Let $q(\text{leaf})=\varepsilon$ and $q\bigl((L,R)\bigr)=q(L)\,U\,q(R)\,D$; this is the
+word obtained from postfix notation by writing $U$ for a leaf and $D$ for an operator
+and deleting the initial $U$. An induction on the tree shows that $q(T)$ is a Dyck word
+and that the height immediately after its $j$th up-step equals $r_{j+1}(T)$: in
+$q(L)\,U\,q(R)\,D$ the up-steps of $q(L)$ keep their heights, the displayed $U$ has
+height $1$, and the up-steps of $q(R)$ have their heights raised by $1$, which matches
+Definition~\ref{def:rdepth}.
+
+Let $p_j(T)$ be the position of the $j$th up-step, positions counted from $1$. Among the
+first $p_j$ letters there are $j$ up-steps and $p_j-j$ down-steps, so
+$r_{j+1}(T)=2j-p_j(T)$. Since the height at position $k$ is $2u(k)-k$ with $u(k)$ the
+number of up-steps so far, one Dyck word lies weakly below another exactly when each of
+its up-steps occurs no earlier, i.e.\ exactly when $p_j$ is weakly larger for every $j$,
+i.e.\ exactly when $r_{j+1}$ is weakly smaller for every $j$.
+
+Finally, write $\bar u$ for the word obtained from $u$ by reversing it and exchanging
+$U$ with $D$. Then $\overline{q(T)}=w(T)$: indeed
+$\overline{q(L)\,U\,q(R)\,D}=U\,\overline{q(R)}\,D\,\overline{q(L)}$, which is
+$U\,w(R)\,D\,w(L)=w\bigl((L,R)\bigr)$ by induction. For a word $u$ of length $N$ with
+equally many $U$'s and $D$'s one has $H_{\bar u}(k)=H_u(N-k)$, since the first $k$
+letters of $\bar u$ are the last $k$ letters of $u$ with the two symbols exchanged.
+Hence $q(T)$ lies weakly below $q(U)$ if and only if $w(T)$ does below $w(U)$, and the
+comparison may be read off in either convention.
+\end{proof}
+
+\begin{remark}\label{rem:coordknown}
+As said in the introduction, Proposition~\ref{prop:coord} is known. Knuth's exercise 28
+defines the Stanley lattice on $n$-node forests by comparing depth coordinates, and his
+Fig.~41 lists the $14$ forests of order $4$ by those coordinates~\cite{Knuth}. The
+passage between his indexing and ours is the shift $c_j=r_{j+1}-1$, which comes from
+deleting the root: a tree with $n$ leaves gives a forest with $n-1$ nodes. Under it the
+five vectors of Example~\ref{ex:four} become the order-$3$ sequences $012$, $011$,
+$001$, $010$, $000$, and the fourteen vectors for $n=5$ reproduce, as a set, exactly the
+fourteen sequences printed in Fig.~41. That right-depth sequences determine the bracketing is
+$2.8$ of~\cite{CsW}, where the sequences occurring are also characterised (in their
+notation, with $d_i=r_i$, they are the $(d_1,\dots,d_n)$ with $d_1=0$, $d_2=1$ and
+$1\le d_{i+1}\le d_i+1$); the identification
+with DFS depth is~\cite[\S2.5]{LW}.
+\end{remark}
+
+\begin{example}\label{ex:four}
+For $n=4$ the five trees have right-depth vectors
+\[
+  \begin{array}{lll}
+  (a(b(cd)))&(0,1,2,3)\qquad& ((a(bc))d)\ \ (0,1,2,1)\\
+  (a((bc)d))&(0,1,2,2)& (((ab)c)d)\ \ (0,1,1,1)\\
+  ((ab)(cd))&(0,1,1,2)&
+  \end{array}
+\]
+Exactly one pair is incomparable, namely $((ab)(cd))$ and $((a(bc))d)$: their
+vectors $(0,1,1,2)$ and $(0,1,2,1)$ differ in both directions. This is the pair
+called $C$ and $D$ in~\cite{MO}.
+\end{example}
+\subsection{The covering relation}
+
+The next two lemmas describe the covers of the Stanley order. They are used twice: in
+Section~\ref{sec:chow} for rank three and in Section~\ref{sec:stanleyrank} for every
+rank above it.
+
+\begin{lemma}[Cover description]\label{lem:stcover}
+$T\lessdot U$ in the Stanley order if and only if $w(U)$ is obtained from $w(T)$ by
+replacing one occurrence of $DU$ by $UD$.
+\end{lemma}
+
+This is the answer to Knuth's exercise 28(c)~\cite{Knuth}, where the same operation is
+described on nested parenthesis strings as ``changing \texttt{)(} to \texttt{()}''; in
+the discussion of~\cite{MO} it is also stated, in terms of peaks and valleys by Rubey
+and in reverse Polish form by Chow. We use it as known and claim no
+priority for it. For completeness, and so that the reader need not consult the artifact,
+here is a direct proof; a machine-checked proof is also included
+(Section~\ref{sec:formal}), because the formalisation of Section~\ref{sec:stanleyrank}
+rests on it.
+
+\begin{proof}[Proof of Lemma~\ref{lem:stcover}]
+Replacing an occurrence of $DU$ by $UD$ raises exactly one height, by $2$, and leaves
+the word balanced and nonnegative. No word lies strictly between the two: they agree at
+every other position, and at the position in question a height must have the parity of
+its index, so a value strictly between $h-1$ and $h+1$ is impossible.
+
+Conversely let $w<v$ be Dyck words of the same length, and let $k$ be the first position
+at which they differ. The heights agree before $k$, so $w$ has $D$ and $v$ has $U$
+there, and at position $k$ the height of $v$ exceeds that of $w$ by exactly $2$. Let
+$\ell>k$ be the first position after $k$ at which $w$ has $U$; such a position exists,
+because the two words have equally many up-steps and $v$ has used one more of them by
+position $k$. Between $k$ and $\ell-1$ the word $w$ takes only down-steps, while each
+letter of $v$ changes its height by $\pm1$; so on that range the excess of the height of
+$v$ over that of $w$ never decreases, and it is at least $2$ throughout. Swapping the
+$DU$ that
+$w$ carries at positions $\ell-1,\ell$ therefore produces a Dyck word $w'$ with
+$w<w'\le v$, and if $v$ covers $w$ then $w'=v$. The first-return decomposition
+identifies Dyck words with trees, so the statement transfers to the Stanley order on
+trees.
+\end{proof}
+
+\begin{lemma}[Local form of a cover]\label{lem:localcover}
+Every tree $R$ factors uniquely along its leftmost leaf as
+\[
+  R=L_{\mathbf D}(c):=\bigl(\cdots((c\cdot D_1)\cdot D_2)\cdots D_m\bigr),
+  \qquad m\ge0,
+\]
+where $c$ is that leaf. A pair $T\lessdot U$ of the Stanley order is exactly a pair
+\[
+  T=\bigl((A\cdot B)\cdot L_{\mathbf D}(c)\bigr)
+  \ \lessdot\
+  U=\bigl(A\cdot L_{\mathbf D}\bigl((B\cdot c)\bigr)\bigr)
+\]
+occurring inside a common tree context.
+\end{lemma}
+
+\begin{proof}
+The factorisation is obtained by peeling off left children until the leftmost leaf is
+reached, and is clearly unique. Write
+\[
+  V=U\,w(D_m)\,D\cdots U\,w(D_1)\,D .
+\]
+Since $w$ of a leaf is empty, the recursion $w\bigl((L,R)\bigr)=U\,w(R)\,D\,w(L)$
+gives $w\bigl(L_{\mathbf D}(c)\bigr)=V$, and hence
+\[
+  w(T)=U\,V\,\mathbf{D}\,\mathbf{U}\,w(B)\,D\,w(A),
+  \quad
+  w(U)=U\,V\,\mathbf{U}\,\mathbf{D}\,w(B)\,D\,w(A),
+\]
+the second because $w\bigl(L_{\mathbf D}((B\cdot c))\bigr)=V\,U\,D\,w(B)$. So the
+displayed pair replaces exactly one $DU$ by $UD$.
+
+Conversely, let a $DU$ be given in $w(T)=U\,w(R)\,D\,w(L)$. It lies inside $w(R)$,
+inside $w(L)$, or consists of the $D$ following $w(R)$ together with the first letter of
+$w(L)$; the last happens exactly when $w(L)$ is non-empty, that is when $L=(A\cdot B)$,
+and then $T$ has the displayed form with $R=L_{\mathbf D}(c)$. The first two cases are
+the same statement for a subtree, so induction on $T$ finishes the proof.
+\end{proof}
+
+
+\section{Absorbing a power into a tower}\label{sec:absorb}
+
+\begin{definition}\label{def:F}
+$F_0(t)=t$ and $F_{h+1}(t)=2^{F_h(t)}$. All arguments below are integers $\ge2$, and
+each $F_h$ is strictly increasing on them. Two facts are used repeatedly and follow by
+induction on $h$: $F_h(t)\le F_{h+1}(t)$, because $z\le2^{z}$; and
+\[
+  F_{h+1}(t)=F_h\bigl(2^{t}\bigr),
+\]
+so that replacing the argument $t$ by $2^{t}$ and adding one to the height are the same
+operation.
+\end{definition}
+
+\begin{lemma}\label{lem:basic}
+For every integer $c\ge1$ we have $c\le2^{c-1}$.
+\end{lemma}
+
+\begin{proof}
+Induction on $c$: it holds at $c=1$, and $c+1\le 2c\le2\cdot2^{c-1}$.
+\end{proof}
+
+Together with Lemma~\ref{lem:mul-le-pow}, which gives $cy\le y^{c}$ for $c\ge1$ and
+$y\ge2$, this is all the elementary arithmetic the present section needs. Note that
+Lemma~\ref{lem:mul-le-pow} is the same inequality that drives the whole hierarchy in
+Part~II; it is used here in the form $c\,y\le y^{c}$ and there in the form
+$yz\le y^{z}$.
+
+\begin{lemma}[Absorption]\label{lem:absorb}
+For all $h\ge0$, integers $z\ge2$ and $c\ge1$,
+\[
+  F_h(z)^{\,c}\ \le\ F_h(z^{c}).
+\]
+\end{lemma}
+
+\begin{proof}
+Induction on $h$. At $h=0$ both sides equal $z^{c}$. Assuming the claim at $h$,
+\[
+  F_{h+1}(z)^{c}=2^{\,c\,F_h(z)}\le2^{\,F_h(z)^{c}}\le2^{\,F_h(z^{c})}=F_{h+1}(z^{c}),
+\]
+the first inequality by Lemma~\ref{lem:mul-le-pow} with $y=F_h(z)\ge2$ and the second by the
+induction hypothesis.
+\end{proof}
+
+\begin{lemma}[Absorbing the base]\label{lem:base}
+For integers $c,y\ge2$ we have $c^{\,y}\le2^{\,y^{c}}$.
+\end{lemma}
+
+\begin{proof}
+$c^{y}\le(2^{c})^{y}=2^{cy}\le2^{y^{c}}$ by Lemma~\ref{lem:mul-le-pow}.
+\end{proof}
+\section{Bounds when a single leaf is enlarged}\label{sec:bounds}
+
+\begin{definition}\label{def:K}
+For a tree $T$ and a leaf index $i$, walk from that leaf to the root. At each step the
+path leaves a sibling subtree behind; let $c_1,\dots,c_m$ be the values of those sibling
+subtrees when \emph{all} their leaves are set to $2$, and put
+\[
+  K_i(T)=\prod_{\nu=1}^{m}c_\nu ,
+\]
+the empty product being $1$. Each $c_\nu$ is an integer $\ge2$ and does not depend on the
+value placed at leaf $i$.
+\end{definition}
+
+\begin{definition}\label{def:vTi}
+$v_{T,i}(t)=\ev_3(T)(2,\dots,2,t,2,\dots,2)$, the value of $T$ when leaf $i$ carries $t$
+and every other leaf carries $2$.
+\end{definition}
+
+\begin{proposition}[Bounds]\label{prop:bounds}
+For every integer $t\ge2$,
+\[
+  F_{r_i(T)}(t)\ \le\ v_{T,i}(t)\ \le\ F_{r_i(T)}\bigl(t^{K_i(T)}\bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+Induction along the path from leaf $i$ to the root. At the leaf the value is $t$, the
+right depth is $0$ and the product is $1$, so both bounds are equalities.
+
+Suppose the current subtree has value $v$, right depth $h$ so far and sibling product
+$K$ so far, and that $F_h(t)\le v\le F_h(t^{K})$. Let $c\ge2$ be the value of the next
+sibling subtree, all of its leaves being $2$.
+
+If the subtree containing leaf $i$ is the \emph{left} child, the new value is $v^{c}$,
+the right depth is unchanged and the product becomes $Kc$. Then
+$v^{c}\ge v\ge F_h(t)$, and by Lemma~\ref{lem:absorb},
+\[
+  v^{c}\le F_h(t^{K})^{c}\le F_h\bigl((t^{K})^{c}\bigr)=F_h(t^{Kc}).
+\]
+
+If it is the \emph{right} child, the new value is $c^{\,v}$, the right depth becomes
+$h+1$ and the product becomes $Kc$. Then $c^{v}\ge2^{v}\ge2^{F_h(t)}=F_{h+1}(t)$, and by
+Lemmas~\ref{lem:base} and~\ref{lem:absorb},
+\[
+  c^{v}\le2^{\,v^{c}}\le2^{\,F_h(t^{K})^{c}}\le2^{\,F_h(t^{Kc})}=F_{h+1}(t^{Kc}).
+\]
+Either way the hypothesis is restored, and at the root it is the assertion.
+\end{proof}
+
+\begin{remark}\label{rem:csw}
+The qualitative content of Proposition~\ref{prop:bounds} --- that $r_i(T)$ is the level
+at which leaf $i$ sits in the tower --- is the observation of $3.4$ in~\cite{CsW}. What
+the proposition adds is the two-sided estimate, and in particular the upper bound, in
+which the whole effect of the other leaves is compressed into the single factor
+$K_i(T)$ in the exponent of the argument.
+\end{remark}
+\section{The Stanley order at rank three}\label{sec:chow}
+
+The inclusion $\le_{\St}\subseteq\le_{\ev}$ at rank three is Chow's, proved
+in~\cite{MO} by an argument on reverse Polish notation. With
+Lemmas~\ref{lem:stcover} and~\ref{lem:localcover} in hand it has a short direct proof,
+which we give because it makes Theorem~\ref{thm:main} self-contained and because the
+same computation locates the equality cases. \textbf{The priority is Chow's}; what
+follows is an alternative proof, not a new result.
+
+\begin{theorem}[Stanley monotonicity at rank three]\label{thm:chow}
+Let $T,U\in\Tam_n$ carry the same leaf labels, all $\ge2$. If $T\le_{\St}U$ then
+$\ev_3(T)\le\ev_3(U)$. Consequently $\le_{\St}\subseteq\le_{\ev}$.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:stcover} it suffices to treat one cover, and by
+Lemma~\ref{lem:localcover} we may take
+\[
+  T=\bigl((A\cdot B)\cdot L_{\mathbf D}(c)\bigr),
+  \qquad
+  U=\bigl(A\cdot L_{\mathbf D}\bigl((B\cdot c)\bigr)\bigr)
+\]
+inside a common context. Write $a,b$ for the values of $A,B$, let $c$ also denote the
+value of the leftmost leaf of $L_{\mathbf D}(c)$, and let $d_1,\dots,d_m$ be the values
+of $D_1,\dots,D_m$; all are $\ge2$. At rank three the collapsing law
+$(x^{y})^{z}=x^{yz}$ gives
+\[
+  G(t):=\bigl(\cdots((t^{d_1})^{d_2})\cdots\bigr)^{d_m}=t^{K},
+  \qquad K:=d_1d_2\cdots d_m\ \ge1,
+\]
+the empty product being $1$. Hence
+\[
+  \ev_3(T)=(a^{b})^{G(c)}=a^{\,b\,c^{K}},
+  \qquad
+  \ev_3(U)=a^{\,G(b^{c})}=a^{\,(b^{c})^{K}}=a^{\,b^{Kc}} ,
+\]
+and since $a\ge2$ it is enough to compare the exponents. By Lemma~\ref{lem:basic},
+$c\le2^{c-1}\le b^{c-1}$, so $c^{K}\le b^{K(c-1)}$ and therefore
+\begin{equation}\label{eq:chow}
+  b\,c^{K}\ \le\ b^{\,K(c-1)+1}\ \le\ b^{\,Kc},
+\end{equation}
+the last step because $K\ge1$. So $\ev_3(T)\le\ev_3(U)$, and since $\HH_3$ is
+increasing in each argument on values $\ge2$ the inequality propagates through the
+surrounding context. Chaining covers gives the theorem.
+\end{proof}
+
+\begin{corollary}[Equality along a Stanley cover at rank three]\label{cor:chowcase}
+In the situation above, $\ev_3(T)=\ev_3(U)$ if and only if $m=0$ and $b=c=2$; that is,
+if and only if $L_{\mathbf D}(c)$ is a leaf and both it and $B$ are leaves labelled $2$.
+\end{corollary}
+
+\begin{proof}
+The second inequality of \eqref{eq:chow} is strict unless $K(c-1)+1=Kc$, that is unless
+$K=1$; and $K=1$ forces $m=0$, since every $d_j$ is at least $2$. When $K=1$ the first
+inequality reads $bc\le b^{c}$, which by Proposition~\ref{prop:mul-eq-pow} is an equality
+exactly when $c=1$ or $(b,c)=(2,2)$; the first is excluded because $c\ge2$.
+\end{proof}
+
+\begin{remark}\label{rem:m0tamari}
+When $m=0$ the cover of Lemma~\ref{lem:localcover} reads
+$((A\cdot B)\cdot c)\to(A\cdot(B\cdot c))$, which is a Tamari rotation. So
+Corollary~\ref{cor:chowcase} contains Corollary~\ref{cor:coveq} at rank three, and says
+in addition that a Stanley cover which is \emph{not} a Tamari rotation --- one with
+$m\ge1$ --- is always strict.
+\end{remark}
+
+\section{Separation, and the main theorem}\label{sec:sep}
+
+\begin{lemma}[Threshold]\label{lem:threshold}
+For every integer $K\ge1$, putting $M=2K^{2}$ we have $2^{M}>M^{K}$.
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:basic}, $K\le2^{K-1}$, so
+$M^{K}=(2K^{2})^{K}\le\bigl(2\cdot2^{2(K-1)}\bigr)^{K}=2^{(2K-1)K}<2^{2K^{2}}=2^{M}$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:sep}]
+Write $s=r_i(U)$, $K=K_i(U)$ and $M=2K^{2}$, and give leaf $i$ the value $M$ with every
+other leaf equal to $2$. By hypothesis $r_i(T)\ge s+1$. Using
+Proposition~\ref{prop:bounds} on both sides, the monotonicity of the $F_h$ in $h$ for
+arguments $\ge2$, the identity $F_{s+1}(M)=F_s(2^{M})$, the strict monotonicity of $F_s$
+and Lemma~\ref{lem:threshold},
+\[
+  v_{T,i}(M)\ \ge\ F_{r_i(T)}(M)\ \ge\ F_{s+1}(M)\ =\ F_s(2^{M})
+  \ >\ F_s(M^{K})\ \ge\ v_{U,i}(M). \qedhere
+\]
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+The implication $T\le_{\St}U\Rightarrow T\le_{\ev}U$ is
+Theorem~\ref{thm:chow}. For the converse, suppose $T\not\le_{\St}U$. By
+Proposition~\ref{prop:coord} there is an index $i$ with $r_i(T)>r_i(U)$, and
+Theorem~\ref{thm:sep} produces an assignment at which $\ev_3(T)>\ev_3(U)$; hence
+$T\not\le_{\ev}U$.
+\end{proof}
+
+\begin{corollary}\label{cor:distinct}
+For every $n$ the $C_{n-1}$ trees in $\Tam_n$ induce pairwise distinct functions on
+$\N_{\ge2}^{\,n}$.
+\end{corollary}
+
+\begin{proof}
+If $T\ne U$ then $r(T)\ne r(U)$, by Proposition~\ref{prop:coord} and the antisymmetry
+of $\le_{\St}$ (or directly by $2.8$ of~\cite{CsW}), so some coordinate differs and
+Theorem~\ref{thm:sep} separates the two values.
+\end{proof}
+
+\begin{remark}\label{rem:spectrum}
+Corollary~\ref{cor:distinct} says that the associative spectrum of exponentiation on
+$\N_{\ge2}$ is the Catalan number $C_{n-1}$, which is $3.4$ of~\cite{CsW}; that proof
+substitutes distinct primes and appeals to unique factorisation. The present argument
+recovers it and says in addition which of the two values is the larger.
+\end{remark}
+
+\begin{remark}\label{rem:bothways}
+Applying Theorem~\ref{thm:sep} to the ordered pairs $(T,U)$ and $(U,T)$ in turn shows
+that two Stanley-incomparable trees are separated in \emph{both} directions, by two
+assignments each of which differs from $(2,\dots,2)$ in a single coordinate. This is the
+statement Chow left open.
+\end{remark}
+\section{A uniform finite test family}\label{sec:test}
+
+\begin{lemma}\label{lem:prod}
+For all $p,q\ge0$,
+\[
+  \text{(i) } F_p(2)\,F_q(2)\le F_{p+q+1}(2),
+  \qquad
+  \text{(ii) } F_p(2)^{\,F_q(2)}\le F_{p+q+1}(2).
+\]
+\end{lemma}
+
+\begin{proof}
+Every $F_h(2)$ is one of $2,4,16,65536,\dots$, and $z^{2}\le2^{z}$ holds at $z=2$, at
+$z=4$ and for every real $z\ge4$; hence $F_h(2)^{2}\le2^{F_h(2)}=F_{h+1}(2)$ for all
+$h$. For (i) we may assume $p\le q$, and then
+$F_p(2)F_q(2)\le F_q(2)^{2}\le F_{q+1}(2)\le F_{p+q+1}(2)$. For (ii), if $p=0$ then
+$F_0(2)^{F_q(2)}=2^{F_q(2)}=F_{q+1}(2)$; and if $p\ge1$ then $F_p(2)=2^{F_{p-1}(2)}$, so
+by (i)
+\[
+  F_p(2)^{\,F_q(2)}=2^{\,F_{p-1}(2)F_q(2)}\le2^{\,F_{p+q}(2)}=F_{p+q+1}(2). \qedhere
+\]
+\end{proof}
+
+\begin{lemma}\label{lem:maxval}
+A tree with $k$ leaves has value at most $F_{k-1}(2)$ when every leaf carries $2$.
+\end{lemma}
+
+\begin{proof}
+Induction on the tree. A leaf gives $2=F_0(2)$. A tree $(L,R)$ with $k_L$ and $k_R$
+leaves gives $\ev_3(L)^{\ev_3(R)}\le F_{k_L-1}(2)^{\,F_{k_R-1}(2)}\le F_{k_L+k_R-1}(2)$, the
+last step by Lemma~\ref{lem:prod}(ii).
+\end{proof}
+
+\begin{lemma}\label{lem:Kbound}
+For every $n\ge2$, every $T\in\Tam_n$ and every leaf $i$, $K_i(T)\le F_{n-2}(2)$.
+\end{lemma}
+
+\begin{proof}
+The sibling subtrees met on the path from leaf $i$ to the root partition the remaining
+$n-1$ leaves; let $k_1,\dots,k_m$ be their numbers of leaves, so $\sum_\nu k_\nu=n-1$.
+By Lemma~\ref{lem:maxval}, $c_\nu\le F_{k_\nu-1}(2)$. Applying
+Lemma~\ref{lem:prod}(i) $m-1$ times,
+\[
+  K_i(T)=\prod_{\nu=1}^{m}c_\nu\ \le\ \prod_{\nu=1}^{m}F_{k_\nu-1}(2)
+  \ \le\ F_{\left(\sum_\nu k_\nu\right)-1}(2)=F_{n-2}(2),
+\]
+since $F_{a-1}(2)F_{b-1}(2)\le F_{a+b-1}(2)$ is Lemma~\ref{lem:prod}(i) with $p=a-1$ and
+$q=b-1$.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:test}]
+One direction is Theorem~\ref{thm:chow}. For the other, suppose the $n-2$ displayed
+inequalities hold but $T\not\le_{\St}U$. By Lemma~\ref{lem:r12} any index at which the
+two right-depth vectors differ satisfies $i\ge3$, so we may choose such an $i$ with
+$r_i(T)>r_i(U)$; write
+$s=r_i(U)$. Lemma~\ref{lem:threshold} with $K=F_{n-2}(2)$ gives $2^{M_n}>M_n^{\,K}$, and
+$K_i(U)\le K$ by Lemma~\ref{lem:Kbound}, so $2^{M_n}>M_n^{\,K_i(U)}$. The chain in the
+proof of Theorem~\ref{thm:sep} now runs verbatim with $M_n$ in place of $M$:
+\[
+  \ev_3(T)(\vec a^{(i)})\ \ge\ F_{s+1}(M_n)\ =\ F_s\bigl(2^{M_n}\bigr)
+  \ >\ F_s\bigl(M_n^{\,K_i(U)}\bigr)\ \ge\ \ev_3(U)(\vec a^{(i)}),
+\]
+contradicting the $i$th displayed inequality.
+\end{proof}
+
+\begin{remark}\label{rem:notleast}
+We do not claim $M_n$ is the least threshold that works. For $n=4$ it is
+$M_4=2\cdot16^{2}=512$; for $n=5$ it is $2\cdot65536^{2}=8589934592$.
+\end{remark}
+
+\part*{Part II. Up the hierarchy: Tamari and Stanley orders}
 \section{Rank four}\label{sec:rank4}
 
 At rank $4$ we know of no identity that would play the role of $(x^{y})^{z}=x^{yz}$,
@@ -335,6 +952,12 @@ is essential.
 If $y\ge2$ and $m\ge2$ then $m+2\le y^{m}$. If moreover $m\ge3$ then $m+3\le y^{m}$.
 \end{lemma}
 
+\begin{proof}
+It suffices to use $y^{m}\ge2^{m}$. From $2^{2}=4=2+2$ the bound $2^{m}\ge m+2$
+propagates, because $2(m+2)\ge(m+1)+2$; from $2^{3}=8\ge3+3$ the bound
+$2^{m}\ge m+3$ propagates, because $2(m+3)\ge(m+1)+3$.
+\end{proof}
+
 \begin{proof}[Proof of Theorem~\ref{thm:B}]
 Write $y=y'+1$ with $y'\ge1$ and induct on $z$.
 For $z=0$ the left side is $1$ and the right side is $x\ge1$.
@@ -349,10 +972,10 @@ Writing $A:=x\tw y=x^{(x\tw y')}$ we compute
    \ =\ \bigl(x^{x\tw y'}\bigr)^{x\tw m}
    \ =\ x^{(x\tw y')(x\tw m)}\\
   &\le x^{(x\tw m)^{2}}
-   \ \le\ x^{\,x\tw(m+1)}
-   \ \le\ x^{\,x\tw k}
-   \ =\ x\tw(k+1)
-   \ =\ x\tw\bigl(y\tw(z+1)\bigr),
+   \le x^{\,x\tw(m+1)}
+   \le x^{\,x\tw k}
+   = x\tw(k+1)
+   = x\tw\bigl(y\tw(z+1)\bigr),
 \end{align*}
 using the inductive hypothesis, $x\tw y'\le x\tw m$, Lemma~\ref{lem:sq}, and
 $m+1\le k$. This proves the inequality.
@@ -369,7 +992,6 @@ $(y,z+1)=(2,2)$, which we compute directly:
 \]
 and $x+1<x^{x}$ for $x\ge2$. Hence the inequality is strict for every $z\ge2$.
 \end{proof}
-
 \section{The dichotomy}\label{sec:dicho}
 
 \begin{proof}[Proof of Corollary~\ref{cor:C}]
@@ -403,14 +1025,13 @@ $(aa)a=a(aa)=16$, which is the root rotation with $(x,y,z)=(2,2,2)$. At rank~$4$
 Theorem~\ref{thm:B} shows that no equality with $z\ge2$ occurs at all, and the gap is
 already visible at the smallest instance: for $x=y=z=2$ the two sides are $256$ and
 $65536$.
-
 \section{General rank}\label{sec:general}
 
 We now prove Theorem~\ref{thm:D}. The engine is the following inequality; write
-\begin{equation}\label{eq:SUM}
+\begin{equation*}\label{eq:SUM}
   \HH_{r-1}\bigl(\HH_r(x,a),\HH_r(x,b)\bigr)\ \le\ \HH_r(x,\,a+b).
   \tag{SUM$_r$}
-\end{equation}
+\end{equation*}
 
 \begin{proposition}\label{prop:reduction}
 Let $r\ge3$ and $x\ge2$.
@@ -457,7 +1078,7 @@ For $u,v\ge2$ and $s\ge2$ we have $u+v\le\HH_s(u,v)$.
 $u+v\le uv=\HH_2(u,v)$, and $\HH_2(u,v)\le\HH_s(u,v)$ by monotonicity in the rank.
 \end{proof}
 
-\subsection*{Strictness}
+\subsection{Strictness}
 
 \begin{lemma}\label{lem:addstrict}
 For $u,v\ge2$ with $u\ge3$ or $v\ge3$, and $s\ge2$, we have $u+v<\HH_s(u,v)$.
@@ -517,10 +1138,10 @@ double induction on the rank and on the argument as their non-strict counterpart
 and both apply here because every subtree value is $\ge2$.
 \end{proof}
 
-The auxiliary facts used above --- monotonicity of $\HH_r(x,\cdot)$ in its second
-argument, monotonicity in the rank, and $n+1\le\HH_r(x,n)$ for $x\ge2$, $r\ge2$,
-$n\ge1$ --- are elementary and are proved in the formalization by a sequence of
-inductions.
+The auxiliary facts used above --- monotonicity of $\HH_r$ in each argument,
+monotonicity in the rank, and $n+1\le\HH_r(x,n)$ for $x\ge2$, $r\ge2$,
+$n\ge1$ --- are proved from the recursion in Appendix~\ref{app:elementary}. The
+corresponding inductions are also part of the formalisation.
 
 The hypothesis $y\ge2$ of Theorem~\ref{thm:D} is sharp, in the following precise
 sense: for every $r\ge3$ and all $x,z\ge2$, taking $y=1$ reverses the inequality.
@@ -530,21 +1151,14 @@ $x,z\ge2$ is necessary and not an artefact: for $x=1$ both sides equal $1$, sinc
 $\HH_r(1,\cdot)=1$; for $z=1$ they are equal by Theorem~\ref{thm:E}(1); and for $z=0$
 the left side is $1$ and the right side is $x$, so the original inequality still holds.
 For $x=0$ the operations degenerate.
-
 \section{Arbitrary leaf values}\label{sec:varleaf}
 
-Nothing so far has used the fact that the leaves all carry the same value. The local
+Nothing in Part~II so far has used the fact that the leaves all carry the same value. The local
 law \eqref{eq:HT}, and its strict form, are statements about three independent
 arguments; only the evaluation $\ev_{r,a}$ was tied to a single label. Removing that
 restriction costs nothing and gives a strictly stronger statement, which is moreover
 the one that the discussion recalled in Section~\ref{sec:related} was about.
 
-\begin{definition}[Labelled trees]\label{def:ltree}
-A \emph{labelled tree} is a binary tree each of whose leaves carries a natural number.
-Its evaluation at rank $r$ is defined by $\ev_r(\ell)=\ell$ for a leaf labelled $\ell$
-and $\ev_r(T\!\cdot\!U)=\HH_r(\ev_r T,\ev_r U)$. Right rotation at a node is defined
-exactly as before; it permutes no labels.
-\end{definition}
 
 \begin{theorem}[Arbitrary leaf values]\label{thm:varleaf}
 Let $T$ be a labelled tree all of whose leaf labels are $\ge2$, and let $T\lessdot U$
@@ -587,10 +1201,12 @@ $(r,a)=(3,2)$ equality does occur, as Example~\ref{ex:collide} shows.
 \end{corollary}
 
 \begin{proof}
-By Theorem~\ref{thm:A} the two sides agree exactly when $\ev(C)=1$ or
-$(\ev(B),\ev(C))=(2,2)$. The first is impossible because every label is $\ge2$. For the
+By Theorem~\ref{thm:A} the two sides agree exactly when $\ev_3(C)=1$ or
+$(\ev_3(B),\ev_3(C))=(2,2)$. The first is impossible because every label is $\ge2$. For the
 second, a subtree evaluates to $2$ only if it is a leaf labelled~$2$, by the remark
-above. For a single label $a$: if $a\ge3$ no leaf is labelled~$2$, so no cover at
+above. In a surrounding context each ancestor applies a strictly increasing function of
+the changed subtree value (Appendix~\ref{app:elementary}), so equality of the two whole
+trees is equivalent to equality at the rotation. For a single label $a$: if $a\ge3$ no leaf is labelled~$2$, so no cover at
 rank~$3$ is an equality, and from rank~$4$ on Theorem~\ref{thm:strictcover} applies.
 \end{proof}
 
@@ -599,40 +1215,214 @@ exactly one local configuration, two leaves labelled $2$ being rotated past each
 and from rank $4$ on it does not happen at all.
 
 Setting every label equal to $a$ recovers Proposition~\ref{prop:tamari} and
-Theorem~\ref{thm:strictcover}; the formalization carries out this specialisation
-explicitly --- for covers, for the Tamari order, and in both the non-strict and the
-strict form --- so the earlier statements are corollaries rather than separate
-results.
+Theorem~\ref{thm:strictcover}; the formalisation carries out this specialisation
+explicitly, so the earlier statements are corollaries rather than separate results.
 
 Theorem~\ref{thm:varleaf} is what extends the rank-$3$ discussion of
-Section~\ref{sec:related} to the whole hierarchy. We emphasise again what it does not
-do: it does not decide when two incomparable bracketings can be separated in both
-directions, which is the half that was left open there.
+Section~\ref{sec:related} to the whole hierarchy. At rank $3$ it is subsumed by
+Theorem~\ref{thm:main}, since Tamari comparability implies Stanley comparability
+(Remark~\ref{rem:fit}); what it contributes is the ranks $r\ge4$, where the separation
+argument of Part~I has no known analogue.
+\section{The Stanley order at every rank}\label{sec:stanleyrank}
 
+Section~\ref{sec:varleaf} shows that evaluation respects the \emph{Tamari} order at
+every rank. In fact more is true: it respects the \emph{Stanley} order, which is
+strictly larger for $n\ge4$. The proof needs the description of the covering relation, the
+\emph{non-strict} nested upper bound stated by Leonardis, d'Atri and
+Caldarola~\cite[Lemma~4.8]{LdC},
+\begin{equation}\label{eq:nest}
+  \HH_r\bigl(\HH_r(x,y),z\bigr)\ \le\ \HH_r(x,y+z)
+  \qquad(r\ge4,\ x\ge2,\ y,z\ge1),
+\end{equation}
+and Theorem~\ref{thm:E}(3), which is proved in Section~\ref{sec:general}. The base
+$x=2$ is needed, because a leaf may carry the label $2$, and the published proof
+of~\cite[Lemma~4.8]{LdC} does not treat it; Lemma~\ref{lem:nest} in
+Appendix~\ref{app:nest} therefore proves \eqref{eq:nest}, in strict form, for every base
+$x\ge2$. The proof below does \emph{not} need the strict form;
+Remark~\ref{rem:saistrict} says what that stronger form buys.
+
+The strictness comes from a gap that the hierarchy opens in its first argument.
+
+\begin{lemma}[A two-unit gap in the base]\label{lem:gap}
+For $r\ge3$ and $t,d\ge2$ we have $\HH_r(t+1,d)\ge\HH_r(t,d)+2$.
+\end{lemma}
+
+\begin{proof}
+Put $u=\HH_r(t,d-1)$ and $v=\HH_r(t+1,d-1)$. Since $d-1\ge1$ we have $v>u\ge2$, both by
+monotonicity in the base and by $\HH_r(t,1)=t$. As $r-1\ge2$, the two comparisons
+\[
+  \HH_{r-1}(t,u)\ <\ \HH_{r-1}(t,v)\ <\ \HH_{r-1}(t+1,v)
+\]
+are strict, the first by monotonicity in the second argument and the second by
+monotonicity in the first. Their outer terms are $\HH_r(t,d)$ and $\HH_r(t+1,d)$. Two
+strict inequalities between integers force a difference of at least $2$.
+\end{proof}
+
+\begin{lemma}[The left spine widens the gap]\label{lem:Ggap}
+Let $r\ge3$, let $d_1,\dots,d_m$ be integers $\ge2$ with $m\ge1$, and put
+$G(t)=\bigl(\cdots((t*d_1)*d_2)\cdots*d_m\bigr)$ with $x*y=\HH_r(x,y)$. Then
+$G(t+1)\ge G(t)+2$ for every $t\ge2$, and hence $G(t+b)\ge G(t)+2b$ for every $b\ge0$.
+\end{lemma}
+
+\begin{proof}
+The innermost map $t\mapsto t*d_1$ increases by at least $2$ when $t$ does by $1$, by
+Lemma~\ref{lem:gap}. If $f$ is a strictly increasing map of the integers $\ge2$ and
+$A\ge B+2$, then $f(B)<f(B+1)<f(B+2)\le f(A)$, so $f(A)\ge f(B)+2$; each further map
+$t\mapsto t*d_j$ is such an $f$, so the gap survives the composition. Telescoping gives
+the second statement.
+\end{proof}
+
+\begin{theorem}[Stanley monotonicity at every rank]\label{thm:strank}
+Let $r\ge4$ and let $T,U\in\Tam_n$ be labelled trees with the same labels, all $\ge2$.
+If $T<_{\St}U$ then $\ev_r(T)<\ev_r(U)$. Consequently
+$\le_{\St}\ \subseteq\ \le_{\ev}$ at every rank $r\ge4$.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:stcover} it suffices to treat a single cover, and by
+Lemma~\ref{lem:localcover} we may take
+$T=((A\cdot B)\cdot L_{\mathbf D}(c))$ and $U=(A\cdot L_{\mathbf D}((B\cdot c)))$ inside
+a context. Write $x*y=\HH_r(x,y)$, let $a,b$ be the values of $A,B$, let $c$ also denote
+the value of the leftmost leaf, let $d_j$ be the value of $D_j$, and set
+\[
+  G(t)=\bigl(\cdots((t*d_1)*d_2)\cdots *d_m\bigr),\qquad G(t)=t \text{ if } m=0 .
+\]
+All of $a,b,c,d_j$ are $\ge2$, and $\ev_r(T)=(a*b)*G(c)$, $\ev_r(U)=a*G(b*c)$.
+
+If $m=0$ then $G$ is the identity and the two values are $(a*b)*c$ and $a*(b*c)$, so the
+assertion is exactly the strict form of the semi-associative law,
+Theorem~\ref{thm:E}(3), applied at $(a,b,c)$ with $c\ge2$.
+
+Suppose $m\ge1$. Since $\HH_r$ dominates $\HH_2$ on arguments $\ge2$ we have
+$b*c\ge bc\ge b+c$, the second because $(b-1)(c-1)\ge1$; and $G$ is strictly increasing,
+so Lemma~\ref{lem:Ggap} gives
+\[
+  G(b*c)\ \ge\ G(b+c)\ \ge\ G(c)+2b\ >\ G(c)+b .
+\]
+Now \eqref{eq:nest} bounds the left-hand value and strict monotonicity of
+$\HH_r(a,\cdot)$ turns that last strict inequality into the conclusion:
+\[
+  \ev_r(T)=(a*b)*G(c)\ \le\ a*\bigl(b+G(c)\bigr)\ <\ a*G(b*c)=\ev_r(U).
+\]
+Since $\HH_r$ is strictly increasing in each argument on values $\ge2$, the strict
+inequality propagates through the surrounding context, and chaining covers gives the
+theorem.
+\end{proof}
+
+\begin{remark}\label{rem:saistrict}
+The case $m=0$ is where the argument has to be split, and the reason is visible at
+$b=c=2$: there $b*c=4=b+c$, so $G(b*c)=G(b+c)$, and with $G$ the identity the chain
+above closes with an equality rather than a strict inequality. For $m\ge1$ the gap of
+Lemma~\ref{lem:Ggap} supplies the missing unit; for $m=0$ the cover is a Tamari
+rotation and Theorem~\ref{thm:E}(3) supplies it. With the \emph{strict} form of
+\eqref{eq:nest} --- Saibian's Theorem~I~\cite{Sai}, which reads
+$\HH_r(\HH_r(x,y),z)<\HH_r(x,y+z)$ in the present notation and is proved here as
+Lemma~\ref{lem:nest} --- the split is unnecessary, since the first inequality above is
+then already strict. We print the route through the non-strict bound because it shows
+how little the Stanley covering relation needs; the Lean development follows the shorter
+route (Section~\ref{sec:formal}).
+\end{remark}
+
+\begin{remark}\label{rem:strankcontains}
+Theorem~\ref{thm:strank} contains Theorem~\ref{thm:varleaf} for $r\ge4$, because the
+Tamari order is contained in the Stanley order. It also removes one possibility from
+Section~\ref{sec:open}: at rank $r\ge4$ the evaluation order cannot lie strictly between
+the Tamari and the Stanley orders. What remains open there is the reverse inclusion
+$\le_{\ev}\subseteq\le_{\St}$, for which the argument of Part~I is unavailable: that
+argument rests on the collapsing law $(x^{y})^{z}=x^{yz}$ through
+Lemma~\ref{lem:absorb}, and no analogue is known for tetration.
+\end{remark}
+
+\section{Computational verification}\label{sec:comp}
+
+The rank-three results of Part~I were checked by exact integer computation before and
+after they were proved. Trees were enumerated, right-depth vectors and Dyck words computed
+independently, and the two descriptions of the Stanley order compared: they agree on all
+$203{,}455$ ordered pairs for $2\le n\le8$. As an external check, the right-depth vectors for $n=5$
+were shifted by $c_j=r_{j+1}-1$ and compared with the fourteen depth sequences printed
+in Fig.~41 of~\cite{Knuth}: the two sets are equal. The bounds of
+Proposition~\ref{prop:bounds}, the threshold of Lemma~\ref{lem:threshold} and the basic
+inequalities of Lemma~\ref{lem:basic} were verified on the ranges where exact integers
+remain feasible, with no exceptions.
+
+Independently, the order was computed for $n\le6$ by evaluating all trees at several
+thousand assignments and comparing logarithms in high precision. That last computation
+is experimental only: floating-point logarithms carry no certificate for the sign of a
+comparison, and it should be read as evidence rather than proof. Its outcome is that
+the number of comparable pairs agrees with the number of Stanley-comparable pairs ($9$ at $n=4$, $70$ at $n=5$),
+and all $309$ Stanley-incomparable pairs at $n=6$ were separated in both directions.
+The shape of that agreement is worth stating, but so is its limit. For a finite set $A$
+of assignments write $T\le_A U$ when the comparison holds at every member of $A$; then
+$\le_{\St}\subseteq\le_{\ev}\subseteq\le_A$, the second inclusion because a finite
+probe can only \emph{enlarge} the relation. So if $\le_A$ were computed with certified
+comparisons and came out equal to $\le_{\St}$, the three relations would coincide at that
+$n$. \textbf{That is not what the floating-point run provides}: an uncertified sign gives
+no such guarantee, and the agreement reported above is evidence and nothing more. The
+proofs of Theorem~\ref{thm:main} and Corollary~\ref{cor:test} do not use it; the
+certified counterpart is Corollary~\ref{cor:test} itself, whose $n-2$ assignments are
+exactly such a set $A$.
+
+\begin{example}\label{ex:sep512}
+For the pair of Example~\ref{ex:four}, Theorem~\ref{thm:sep} gives the two assignments
+explicitly. With leaves $(2,2,2,512)$ one has
+$\ev_3\bigl((ab)(cd)\bigr)=2^{2^{513}}$ and $\ev_3\bigl((a(bc))d\bigr)=2^{2048}$; with
+leaves $(2,2,128,2)$ one has $\ev_3\bigl((ab)(cd)\bigr)=2^{32768}$ and
+$\ev_3\bigl((a(bc))d\bigr)=2^{2^{129}}$. Both inequalities are visible without computing
+either number.
+\end{example}
+
+The statements of Part~II were checked in the same spirit: the five bracketings of
+Example~\ref{ex:collide} and the collisions it produces were computed exactly, the
+equality classification of Theorem~\ref{thm:E} was tested against $\HH_r$ for
+$3\le r\le5$ over the ranges where the values remain representable, and the
+boundary example $(a,b,c,n)=(2,2,1,4)$ for the standalone wording of Barrett's
+Theorem~6.6 was computed both numerically and by hand before being confirmed in the
+original; how it relates to the exclusion of $0$ and $1$ made across his section is
+discussed in Section~\ref{sec:related}.
 \section{The Lean development}\label{sec:formal}
 
-The development is written for Lean~4 (v4.30.0) with Mathlib (v4.30.0) and is
-available at
+\subsection{Part II: the hierarchy}
+
+The development is written for Lean~4 (v4.30.0)~\cite{Lean4} with
+Mathlib (v4.30.0)~\cite{Mathlib}, at the revision
+\texttt{c5ea00351c28} pinned in the manifests of both developments. Its public
+project page is
 \begin{center}
 \url{https://github.com/turahigashi/hyper-tamari}
 \end{center}
-It consists of the four files \verb|Basic.lean|, \verb|Tetration.lean|,
-\verb|General.lean| and \verb|VarLeaves.lean| in the directory
-\verb|HyperTamari/|, together with the raw \verb|lake build| output recording the
-axiom audit (\verb|logs/axiom-audit.txt|).
+It consists of six files in the directory \verb|HyperTamari/| ---
+\verb|Basic.lean|, \verb|Tetration.lean|, \verb|General.lean|, \verb|Nested.lean|,
+\verb|VarLeaves.lean| and \verb|Stanley.lean| --- together with the raw
+\verb|lake build| output recording the axiom audit
+(\verb|logs/axiom-audit.txt|). The version described here is the one tagged
+\verb|v1.15.0-pre| in that repository, and a snapshot of that tag is archived at
+\url{https://doi.org/10.5281/zenodo.22789946}.
 
 The correspondence with the numbered statements of this paper is given in
-Table~\ref{tab:map}. The population of the table is fixed as follows: it consists of
-\emph{every} numbered environment in Sections~1--7 --- that is, every
-\texttt{theorem}, \texttt{proposition}, \texttt{lemma}, \texttt{corollary},
-\texttt{definition}, \texttt{example} and \texttt{remark} environment in the source of
-those sections. There are $24$ of them: $6$ theorems, $3$ propositions, $6$ lemmas,
-$2$ corollaries, $4$ definitions, $1$ example and $2$ remarks. (Section~8
-contains no numbered environments.) Every one of the $24$ appears in the table, and the
+Table~\ref{tab:map}. The population of the table is fixed as follows. It consists of
+every numbered environment of Section~\ref{sec:rank3} and of
+Sections~\ref{sec:rank4}--\ref{sec:varleaf}; of those stated in
+Section~\ref{sec:intro} apart from Theorems~\ref{thm:main} and~\ref{thm:sep} and
+Corollary~\ref{cor:test}, which are the headline statements of Part~I; and of the
+six environments of Section~\ref{sec:prelim} that Part~II uses
+(Definitions~\ref{def:hyper}, \ref{def:trees} and~\ref{def:rot},
+Lemmas~\ref{lem:conv} and~\ref{lem:mul-le-pow}, and
+Proposition~\ref{prop:mul-eq-pow}). There are $24$ of them: $6$ theorems,
+$3$ propositions, $6$ lemmas, $2$ corollaries, $3$ definitions, $1$ example and
+$3$ remarks. The environments of Section~\ref{sec:prelim} that belong to Part~I
+(Definitions~\ref{def:dyck} and~\ref{def:rdepth}) and the statements of Part~I are
+covered instead by the second development described below. Twenty-three of the $24$
+appear in the table. The one that does not is Remark~\ref{rem:fit}, which relates the
+two parts and has no counterpart in the Part~II development. The
 only other row is one recording the specialisation of the labelled-tree results to a
-single repeated label; both facts, together with the existence in the
-development of every declaration name printed in the table, are checked by a script
-run on the source of this paper and of the Lean files. A numbered statement with
+single repeated label. Section~\ref{sec:stanleyrank} and Lemma~\ref{lem:nest} of
+Appendix~\ref{app:nest} also belong to Part~II and are also formalised, but they were
+written after this table and are described in the text at the end of this section rather
+than given rows here. The population and the two exceptions are checked by \verb|check_table.py| against the
+source of this paper; the existence of every declaration name printed in the table, and
+in this section, is checked separately by \verb|check_names.py| against the audit logs
+and the Lean sources. Neither script verifies that a named declaration has the
+mathematical type claimed for it beside its name. A numbered statement with
 several clauses may occupy several rows. We distinguish three cases, because they
 carry different evidential weight:
 \begin{description}
@@ -640,19 +1430,568 @@ carry different evidential weight:
       hypotheses and conclusion as the printed clause;
 \item[\textnormal{\textsc{collective}}] the clause is covered by a combination of
       declarations (typically because the paper states several things at once);
-\item[\textnormal{\textsc{prose}}] background material that is \emph{not} formalized
+\item[\textnormal{\textsc{prose}}] background material that is \emph{not} formalised
       here --- standard facts about the Tamari lattice that we use as context, or
       explanatory remarks.
 \end{description}
 We stress the third row of this classification: the paper does \emph{not} claim that
-everything it says is machine-checked. What is machine-checked is every clause of
-every numbered statement that asserts an inequality or an equality about $\HH_r$ or
-about the evaluation of trees; the table says which declaration carries which clause.
+everything it says is machine-checked. For Part~II the table records, clause by clause,
+the declarations supporting the numbered statements that assert an inequality or an
+equality about $\HH_r$ or about the evaluation of trees; but its coverage must be read
+together with the three limits listed below, and in particular the passage from equality
+at the root to equality in an arbitrary context is not supplied by the declarations
+listed. Background statements marked \textsc{prose} are outside the development
+altogether. For Part~I the coverage is smaller, and the exceptions are named below.
+
+The table itself is Table~\ref{tab:map}, printed in Appendix~\ref{app:table} so as
+not to interrupt the account.
+
+
+Two assertions of Section~\ref{sec:general} are not numbered and therefore lie outside
+the population of the table; both are formalised: the sharpness statement for all
+ranks (``for every $r\ge3$ and all $x,z\ge2$, taking $y=1$ reverses the inequality'')
+is \verb|ht_reversed_at_y_one|, and the equality of both sides at $x=1$ is
+\verb|ht_eq_at_x_one|. The value pair $256<65536$ quoted in Section~\ref{sec:dicho}
+is \verb|ht_rank4_strict_smallest|. The development also contains
+\verb|pow_lt_pow_right'| and \verb|pow_right_injective'|, choice-free replacements
+for the corresponding Mathlib lemmas (see below), and the auxiliary monotonicity
+facts \verb|succ_le_hyper|, \verb|hyper_mono_arg|, \verb|hyper_mono_base|,
+\verb|hyper_rank_mono|, \verb|hyper_lt_arg| and \verb|hyper_lt_base|.
+
+No declaration uses \verb|sorry|, \verb|native_decide| or any private axiom.
+Every one of the \textbf{156} theorems in these six files is audited with
+\verb|#print axioms|, and \verb|scripts/check_audit.py| checks mechanically that the
+audit covers them all: declared 156, audited 156, missing 0. \verb|sorryAx| does
+not occur.
+The axiom dependencies are \verb|propext| alone (5 theorems),
+\verb|propext,|\allowbreak\verb| Quot.sound| (139), and twelve theorems that depend on
+no axioms at all. In particular
+\[
+  \textbf{no declaration depends on } \verb|Classical.choice|.
+\]
+
+This is not a foundational claim, and choice-freeness is not what the paper is
+about: every statement here is an elementary assertion about natural numbers, and
+nobody would expect it to need choice. We record it because it costs nothing and
+makes the artifact reusable --- a development free of \verb|Classical.choice| can be
+transported into constructive settings, or used inside a larger development that
+must itself avoid choice, without reproving anything.
+
+It is worth saying where the choice had been hiding, since it was not in the
+mathematics. An earlier version of this development did depend on
+\verb|Classical.choice| in $30$ of its declarations, and the dependency was traced
+to exactly four sources, all of them incidental: the Mathlib lemmas
+\verb|Nat.pow_lt_pow_right| and \verb|Nat.pow_right_injective| (whose companion
+\verb|Nat.pow_le_pow_right| is proved with no axioms at all), the \verb|nlinarith|
+tactic, and --- the one that is easiest to miss --- \verb|norm_num| applied to a
+numeric \emph{inequality}, which pulls in choice, while \verb|omega| discharges the
+same goal without it and \verb|norm_num| applied to an \emph{equation} does not.
+Replacing these by \verb|omega|, by \verb|decide|, by \verb|Nat.add_le_mul|, and by
+two short inductions built on the axiom-free \verb|Nat.pow_lt_pow_succ| removed the
+dependency entirely, with no change to any statement.
+
+\subsection{Part I: rank three}
+
+The arguments of Sections~\ref{sec:absorb}, \ref{sec:bounds} and~\ref{sec:sep} are
+formalised in a second Lean~4 development, also on top of Mathlib, which is in the
+directory \verb|part1/| of the same repository.
+Section~\ref{sec:chow} is formalised in the Part~II development instead, because the
+covering machinery it uses lives there. The formalisation covers Lemmas~\ref{lem:basic},
+\ref{lem:absorb}, \ref{lem:base} and \ref{lem:threshold}, Definition~\ref{def:K},
+Proposition~\ref{prop:bounds}, Theorem~\ref{thm:sep}, and the implication
+$T\le_{\ev}U\Rightarrow T\le_{\St}U$ of Theorem~\ref{thm:main}. Evaluation is defined at
+an arbitrary list of leaf values, and a separate lemma identifies the value at the
+assignment ``leaf $i$ carries $t$, all other leaves carry $2$'' with the quantity that
+Proposition~\ref{prop:bounds} bounds, so the formalised statement is about the evaluation
+order itself. An audit enumerates every declaration from the Lean environment and
+reports what each depends on: of $292$ declarations, some of them generated by Lean from
+the inductive types, $105$ depend on no axiom at all and the remaining $187$ only on
+$\mathsf{propext}$ and $\mathsf{Quot.sound}$; none uses the axiom of choice, and none
+contains a hole; the raw output is kept with the artifact as
+\verb|part1/logs/axiom-audit.txt|. The examples above are part of the
+formalisation, including the two thresholds $512$ and $128$ and the comparison with
+Fig.~41 of~\cite{Knuth}.
+
+The uniform bound of Section~\ref{sec:test} is formalised as well:
+Lemmas~\ref{lem:prod}, \ref{lem:maxval} and~\ref{lem:Kbound}, the auxiliary
+Lemma~\ref{lem:r12}, and the substantive direction of Corollary~\ref{cor:test}, namely
+that the $n-2$ displayed inequalities force $T\le_{\St}U$
+(\verb|Tree.stanleyLe_of_testFamily|). Theorem~\ref{thm:chow}, the other direction, is
+formalised in the Part~II development, where the cover machinery lives
+(\verb|StRot.eval_le_rank3|).
+
+\begin{sloppypar}
+\textbf{What the two halves of Theorem~\ref{thm:main} are, exactly.}  The forward
+implication is machine-checked end to end and in one place:
+\verb|Tree.stanleyLe_of_evalLe| takes \verb|Tree.evalLe|, which quantifies over
+\emph{every} assignment of leaf values $\ge2$, and returns \verb|Tree.stanleyLe|.  The
+converse is not a single declaration.  Part~I proves that the Stanley order is exactly
+the reflexive-transitive closure of the covers
+(\verb|Tree.stanleyLe_iff_reflTransGen_stRot|, with
+\verb|Tree.stCover_iff_stRot| identifying the covers), and Part~II proves that
+evaluation does not decrease along such a chain
+(\verb|StRot.eval_le_rank3_star|).  \textbf{What is not formalised is the join}: the two
+developments use different tree types --- Part~I's unlabelled \verb|Tree| with an
+assignment given as a list, Part~II's \verb|LTree| with the values at the leaves --- and
+the translation between them, and the passage from one evaluation to the universally
+quantified \verb|evalLe|, are done on paper here and not in Lean.  So the converse is
+machine-checked in two pieces over two representations, and the step that joins them is
+carried out here on paper. \textbf{We do not claim a kernel-checked proof of the
+equivalence of Theorem~\ref{thm:main} as a single statement}, and a reader who wants one
+should regard the converse direction as proved by the text, with Lean checking its two
+ingredients.
+\end{sloppypar}
+
+\textbf{What is not machine-checked.}  Three things for the main results, and the
+artifact says so; the background material marked \textsc{prose} in the table is outside
+the scope as well.
+\begin{enumerate}\itemsep2pt
+\item The joins between the two developments: the one just described for
+      Theorem~\ref{thm:main}, and, for Theorems~\ref{thm:chow} and~\ref{thm:strank},
+      the identification of the local move on Part~I's unlabelled trees, which Part~I
+      proves to be the Stanley cover, with the move on Part~II's labelled trees along
+      which Part~II proves evaluation monotone.  Neither join is a theorem of either
+      development.
+\item Corollary~\ref{cor:chowcase}, the classification of equality along a Stanley cover
+      at rank three.  Part~II has the scalar identity (\verb|ht_rank3_eq_iff|) and the
+      equality condition for a Tamari rotation at the root
+      (\verb|LRot.root_eq_rank3_iff|); neither is the statement for a general Stanley
+      cover in a context.
+\item The rank-three contextual consequences of Corollary~\ref{cor:coveq}, including
+      strictness for a repeated label $a\ge3$ at an arbitrary node.  The declarations
+      listed prove equality and strictness \emph{at the root}; the propagation through a
+      context is supplied on paper (Appendix~\ref{app:elementary}).  High-rank
+      strictness in an arbitrary context is formalised.
+\end{enumerate}
+
+
+\begin{sloppypar}
+Proposition~\ref{prop:coord} is formalised as
+\verb|Tree.stDom_iff_stanleyLe|, in the convention in which
+Definition~\ref{def:dyck} states it: for two trees with the same number of leaves,
+$H_{w(T)}(k)\le H_{w(U)}(k)$ for every $k$ if and only if $r_i(T)\le r_i(U)$ for every
+$i$. Each of the four ingredients of its
+printed proof is a separate declaration: the words $q$ and $w$
+(Definition~\ref{def:dyck}) with the computation that the height after the $j$th up-step
+of $q\,T$ is the $(j+1)$st right depth (\verb|Tree.upHeights_eq_rseq_tail|); the
+arithmetic relation $p_j+e_j=2(j+1)$ between position and height
+(\verb|Tree.upPos_add_upHeights|); the counting duality, in
+\verb|Word.countP_le_iff_getElem_le|, between prefix counts and up-step positions;
+and the passage from $q$ to
+$w$, which is the identity $w=\overline{q}$ (\verb|Tree.wword_eq_barW_qword|) together
+with $H_{\bar u}(k)=H_u(N-k)$ for a balanced word (\verb|Word.ht_barW|).
+\end{sloppypar}
+
+\begin{sloppypar}
+Lemma~\ref{lem:stcover} is formalised as well, together with
+Lemma~\ref{lem:localcover}, in the file \verb|ChowStanley/Cover.lean|. There
+\verb|Tree.StCover| is the order-theoretic cover --- $T$ below $U$, not conversely, and
+no tree strictly between, quantified over \emph{all} trees --- and \verb|Tree.SwapDU|
+is the word statement of Lemma~\ref{lem:stcover}, that $w(U)$ is $w(T)$ with one
+occurrence of $DU$ replaced by $UD$. The two are proved equivalent
+(\verb|Tree.stCover_iff_swapDU|), and so is the local form of
+Lemma~\ref{lem:localcover} (\verb|Tree.stCover_iff_stRot|, where \verb|Tree.StRot| is
+the inductively defined move $((A\cdot B)\cdot R)\mapsto(A\cdot L_{\mathbf D}(B\cdot c))$
+that the Part~II development also uses). Along the way two further facts are proved that
+the paper otherwise cites: that the right-depth sequence determines the tree
+(\verb|Tree.rseq_injective|, which is $2.8$ of~\cite{CsW}) and that the word determines
+it too (\verb|Tree.wword_injective|).
+\end{sloppypar}
+
+The ingredient the printed proof of Lemma~\ref{lem:stcover} does not need, and which the
+formalisation has to supply, is that raising one coordinate of a right-depth sequence by
+one again gives the sequence of a \emph{tree}. In the literature this is stated at the
+end of~\cite[2.8]{CsW} --- ``\emph{every zag sequence is the
+RD-sequence of some bracketing}'', a zag sequence being one with $d_1=0$, $d_2=1$ and
+$1\le d_{i+1}\le d_i+1$ --- and we could have formalised that. Instead, because only
+one raise at a time is needed, the development performs surgery on $T$ itself:
+\verb|Tree.raise| descends to the place where the raise happens and applies the move of
+Lemma~\ref{lem:localcover} there (\verb|Tree.rseq_raise|). Non-degeneracy is checked ---
+a cover exists, its word comparison really is $UDUD\mapsto UUDD$, and the bottom and top
+of the four-leaf order are comparable without being a cover.
+
+In the Part~II development, the clause of
+Corollary~\ref{cor:coveq} that every cover is strict unless $(r,a)=(3,2)$ is formalised
+for rotations at the root; the general-position case is the printed argument.
+
+Lemma~\ref{lem:nest} is formalised in the file \verb|HyperTamari/Nested.lean| ($11$ of
+the $156$ theorems). Its statement is \verb|nested_bound_strict|, for every $r\ge4$,
+$x\ge2$ and $y,z\ge1$, and the proof is the one of Appendix~\ref{app:nest}: the
+rank-four invariant \eqref{eq:nest4} is \verb|nested4_aux|, the step from rank $r$ to
+rank $r+1$ is \verb|nested_step|, and the non-strict form \eqref{eq:nest} is
+\verb|nested_bound|.
+
+Section~\ref{sec:stanleyrank} is formalised in the file \verb|HyperTamari/Stanley.lean|
+($29$ of the $156$ theorems). There the Stanley covering relation is taken in the local
+form of Lemma~\ref{lem:localcover}; that this is exactly the covering relation of the
+Stanley order, which is Lemma~\ref{lem:stcover}, is proved in the Part~I development for
+the trees the order lives on, and the relation used here is the same one with labels
+carried along, an identification made on paper (the first item of the list above). The
+theorem \verb|StRot.eval_lt| \textbf{has no hypothesis beyond
+$r\ge4$ and labels $\ge2$}: its arithmetic input is \verb|nested_bound_strict|, so it
+follows the shorter route of Remark~\ref{rem:saistrict} rather than the printed proof,
+which splits at $m=0$. Everything in that file is proved: that grafting on the left
+computes the substituted value, that $G$ is strictly increasing, the estimate
+$b+G(c)\le G(b*c)$, and the propagation through a tree context. Witnesses are included:
+the pair $((2\cdot2)\cdot(2\cdot2))$ and $(2\cdot((2\cdot2)\cdot2))$, which is a Stanley
+cover but \emph{not} a Tamari one, is exhibited with its rank-$3$ values $256$ and
+$65536$, and four instances of the nested bound are computed at rank $4$ directly from
+the definition.
+
+Every Lean name printed in this section \emph{and in the table of
+Appendix~\ref{app:table}} --- $109$ of them --- is checked against the two developments by
+\verb|check_names.py|. It reads fully qualified names from the two audit logs and from
+the sources, so that a namespace printed here has to be the declaration's actual
+namespace; the five Mathlib names quoted above are checked by elaborating them against
+Mathlib. \textbf{What that script does not do} is compare what a declaration
+\emph{says} with the printed statement beside it: it checks existence, not agreement.
+The formalisation is a check on the arguments printed here, not a substitute for them.
+\section{Related work, and what we claim}\label{sec:related}
+
+Cs\'ak\'any and Waldhauser~\cite{CsW} introduce the associative spectrum and show
+that exponentiation is Catalan: for pairwise distinct prime leaves, distinct
+bracketings give distinct values. Their concern is the number of values; the
+order in which those values arrange themselves is not addressed: Tamari's
+paper~\cite{Tamari} and a paper of Bennett and Birkhoff on Newman lattices appear in
+their bibliography only as general references for bracketings, and no order on
+bracketings is used. Huang and Lehtonen~\cite{HL} extend the invariant to the
+\emph{associative-commutative spectrum} and determine it for exponentiation
+(their Proposition 6.1.5): the associative spectrum of exponentiation is $C_{n-1}$
+and its ac-spectrum is $n^{n-1}$. Their question is again how many distinct term
+operations the bracketings produce; ours is how the resulting values are
+\emph{arranged}, and neither the Tamari order nor any statement comparing values along
+an order occurs in that line of work. Huang, Mickey and Xu~\cite{HMX} compute the associative
+spectrum of a further operation. Earlier, G\"obel and Nederpelt~\cite{GN} counted the
+values of the bracketings when every leaf carries the same real number $x>1$: there are
+at most as many as there are rooted trees with one edge fewer than the number of leaves,
+with a sharper upper bound for $x=2$ in terms of trimmed trees, and, for each number of
+leaves, exactly that many for all but countably many $x$ (their Theorems~2.2, 3.1
+and~5.1); they, too, count values and do not compare them. Tamari~\cite{Tamari} enumerated the bracketings, and Friedman and
+Tamari~\cite{FT} proved that the right-rotation order on them is a finite lattice (the
+statement, they note, is already in Tamari's thesis of 1951, without proof) ---
+their title already calls the relation a \emph{loi demi-associative}, which is
+precisely the law that runs through the whole hyperoperation hierarchy.
+Zeilberger~\cite{Zeil} gives a sequent calculus for that law. Gryszka~\cite{Gry} studies the comparison of power towers
+by normalising them, which concerns right-associated towers rather than general
+bracketings.
+
+\subsection{Where the rank-three case comes from, and what we add}
+
+It is important to say clearly what part of Proposition~\ref{prop:tamari} is already
+known. In a MathOverflow question of January 2018~\cite{MO}, Spivak treats
+exponentiation on the integers $\ge2$ as an ordered magma and orders bracketings by
+the \emph{evaluation order}: $E\le F$ when the inequality holds \emph{for every}
+assignment of values to the leaves. He asks how this order relates to the height
+(Stanley) order on Dyck paths. In the answers, Chow, following a comment of Rubey on the
+question, proves that a Stanley cover does \emph{not} decrease the value, the
+computation resting on
+\[
+  B^{CD}=(B^{C})^{D}\ \ge\ (BC)^{D}\ \ge\ BC^{D}
+  \qquad (B,C\ge2,\ D\ge1),
+\]
+and Rubey, independently, reduces the same covering relation to the inequality
+$L_2^{(L_1^{xR})}\ge(L_2^{L_1})^{(x^{R})}$, which he leaves unverified. That inequality
+is not \eqref{eq:HT} at rank $3$: writing it as
+$x'^{(y'^{xR})}\ge(x'^{y'})^{(z')}$ with $z'=x^{R}$, it reduces to \eqref{eq:HT} only
+when $xR=x^{R}$, which for $x\ge2$ and $R\ge1$ happens exactly when $R=1$ or
+$(x,R)=(2,2)$; outside those it is strictly stronger, being the
+inequality attached to a \emph{Stanley} cover rather than a Tamari one.
+
+Since the evaluation order quantifies over \emph{all} leaf assignments it is stronger
+than the single-label evaluation $\ev_{3,a}$, and since the Stanley lattice is an
+extension of the Tamari lattice, comparability in the Tamari order implies
+comparability in the Stanley order. Consequently \textbf{the rank-$3$ monotonicity is
+already contained, in a stronger form, in that discussion, and we do not claim it.}
+
+That discussion is, however, explicitly unfinished, and it is confined to rank~$3$.
+Chow states that he can ``complete half of the proof'', the half we have just quoted;
+the converse half --- that incomparable bracketings can be separated in both
+directions by a suitable choice of leaf values --- he leaves open, writing
+``I haven't quite figured out how to say this rigorously''. Rubey likewise reduces the
+covering relation to the displayed inequality and stops there. In comments under his
+answer he suggested that Chow's idea should also give the converse, first by a reduction
+to paths that differ in one valley and one peak and then, after Chow cautioned that
+reductions for this half need care, by comparing two auxiliary paths that separate at a
+single peak, with ``some details to check here''; the sketch was not completed. Neither
+treats any rank above~$3$, and neither asks when equality holds.
+
+Theorem~\ref{thm:varleaf} above takes up the first half at every rank. It says that
+for arbitrary leaf values $\ge2$ the evaluation is monotone along the Tamari order at
+every rank $r\ge3$, and \emph{strictly} monotone from rank~$4$ on. \textbf{Chow's
+converse half is settled at rank~$3$ by Theorem~\ref{thm:main} of Part~I}; above rank
+$3$ it remains open, and Section~\ref{sec:open} says what would be needed.
+
+There is also a body of peer-reviewed work on orders attached to iterated
+exponentials, and it is worth saying precisely how it relates to the present question,
+because the titles suggest a closer overlap than there is. Brunson~\cite{Bru} fixes
+$e\le x_1\le\dots\le x_n$ and, \emph{for each permutation} of the $x_i$, forms the
+tower $T(y,z,\dots,w)=y^{z^{\cdots^{w}}}$, in which ``association is always to the
+upper right''; the resulting partial order lives on the symmetric group $S_n$.
+Brunson's order agrees with the Bruhat order for $n\le4$, up to a duality that depends
+on the conventions, and Brunson conjectured properties that the Bruhat order has; that
+the two orders nevertheless differ was shown independently, and at about the same time,
+by Stembridge~\cite{Ste}, who gave an explicit characterisation of the order that
+disproves those conjectures, and by Griggs--Wachs~\cite{GW}, whose counterexample at
+$n=5$ also disproves Brunson's Conjectures~A and~B. (The independence and the
+near-simultaneity are stated by Griggs and Wachs themselves.)
+Griggs~\cite{Gri} studies the poset of towers over the two-letter alphabet
+$\{a,b\}^n$, the tower again being ``evaluated in the conventional way, from top
+down''.
+
+In every one of these the \emph{bracketing is fixed} --- it is the right comb --- and
+what varies is the assignment of entries to its leaves. In the single-label problem of
+Sections~\ref{sec:prelim}--\ref{sec:general} the situation is exactly the reverse: the
+entries are fixed, all equal to $a$, and what varies is the bracketing. (Section~%
+\ref{sec:varleaf} then lets the entries vary as well, but still over \emph{all}
+bracketings rather than over the right comb alone.) The two families of questions are therefore orthogonal, and none of these
+papers contains the inequality studied here. (None of \cite{Bru,Gri,GW} contains an
+occurrence of the words \emph{bracketing}, \emph{Tamari}, \emph{binary tree},
+\emph{Catalan}, \emph{rotation} or \emph{Dyck}.)
+
+\subsection{Nested upper bounds in the hyperoperation literature}
+
+The inequality \eqref{eq:HT} compares a nesting on the left with a nesting on the
+right. A \emph{stronger} upper bound, in which the right-hand side carries the sum
+$y+z$ --- which is at most $\HH_r(y,z)$ --- in place of $\HH_r(y,z)$, has been recorded
+before, and at every rank.
+Leonardis, d'Atri and Caldarola~\cite{LdC} state, as their Lemma~4.8,
+\[
+  (A\uparrow^{k}B)\uparrow^{k}C\ \le\ A\uparrow^{k}(B+C)
+  \qquad(k\ge2),
+\]
+with the tetration case $k=2$ isolated as their Lemma~4.6; in the notation of
+Section~\ref{sec:prelim} this is $\HH_r(\HH_r(x,y),z)\le\HH_r(x,y+z)$ for $r\ge4$. In
+the published version the proof of Lemma~4.8 assumes $A\ge3$ and leaves the case $A=2$
+to the reader; Appendix~\ref{app:nest} says why that case needs an argument, and gives
+one.
+In an earlier preprint, Saibian~\cite{Sai} states the same comparison with a
+\emph{strict} inequality (his Theorem~I), and proves it: he sets down nine axioms,
+derives from them that each $\HH_r(b,\cdot)$ is strictly increasing and exceeds its
+argument and that each rank dominates the one below, proves the tetration case
+$(b\uparrow\uparrow m)\uparrow\uparrow n<b\uparrow\uparrow(m+n)$ for $b>1$, and lifts it
+to every higher rank by induction.
+
+This matters for the present paper, because \eqref{eq:HT} follows from either of them
+in two lines. For positive integers $y,z\ge2$ one has $y+z\le yz\le\HH_r(y,z)$, and
+$\HH_r(x,\cdot)$ is nondecreasing, so
+\begin{equation}\label{eq:fromnested}
+  \HH_r\bigl(\HH_r(x,y),z\bigr)\ \le\ \HH_r(x,y+z)\ \le\ \HH_r\bigl(x,\HH_r(y,z)\bigr).
+\end{equation}
+With Saibian's strict form the first inequality is strict, so \eqref{eq:fromnested}
+already yields the strictness of Theorem~\ref{thm:E}(3) on the range $z\ge2$; the
+remaining boundaries $z=0$ and $z=1$ are immediate from the definition. \textbf{We
+therefore do not claim Theorem~\ref{thm:D}, nor the high-rank half of
+Theorem~\ref{thm:E}, as new arithmetic}; our proofs in Section~\ref{sec:general} are
+independent, but the results are not.
+
+One caveat about two of these sources should be stated plainly: we cite
+Saibian~\cite{Sai} in its viXra version and Barrett~\cite{Bar} in its Preprints.org
+version, rather than as refereed journal articles.
+We have read both in the original and checked the statements we quote --- Saibian's
+Theorem~I and Barrett's Theorems~6.5 and~6.6. Neither source is a bare announcement:
+each carries a proof, and we have followed the structure of Saibian's, although we have
+not audited the whole of his thirty-two pages. \textbf{No result of this paper rests on
+either of them.} They are cited for attribution: the arithmetic they contain is proved
+here as well, in Section~\ref{sec:general} and Appendix~\ref{app:nest}, and a reader who
+declines to rely on preprints should read those as the proofs of Theorem~\ref{thm:D},
+Theorem~\ref{thm:E} and Lemma~\ref{lem:nest} rather than as second proofs of them.
+\textbf{Nor does any result rest on an outside proof of a nested bound.} The one such
+bound that Theorem~\ref{thm:strank} uses is the non-strict inequality~\eqref{eq:nest}
+of Leonardis, d'Atri and Caldarola~\cite{LdC}, which appeared in a refereed journal; but
+it is used at the base $2$, which their published proof does not treat, and so it is
+proved here as Lemma~\ref{lem:nest}. In the Lean development the older, shorter
+derivation survives, through the strict form of that lemma, which is proved there as
+well.
+
+The equality question has also been addressed directly. Barrett~\cite{Bar}, in a
+preprint on factorisation under hyperoperations, proves as his Theorem~6.5 that
+$(a^{b})^{c}=a^{(b^{c})}$ with $a,b,c>1$ forces $b=c=2$; this is exactly the
+non-trivial rank-$3$ equality of Theorem~\ref{thm:A}. His Theorem~6.6 asserts that
+for $n\ge4$ and $a>1$, equality in $(a[n]b)[n]c=a[n](b[n]c)$ forces $b=c=1$. Read as a
+statement on its own this is defective at the boundary: taking $c=1$ gives
+\[
+  \HH_n\bigl(\HH_n(a,b),1\bigr)=\HH_n(a,b)=\HH_n\bigl(a,\HH_n(b,1)\bigr)
+\]
+for all $a,b\ge2$ and $n\ge2$, so that $(a,b,c,n)=(2,2,1,4)$ is an equality with
+$b=2$; both sides equal $4$. (The corollary invoked in that proof requires all four
+compared arguments to exceed $1$, which fails at $c=1$.)
+
+\textbf{This is not a refutation of Barrett's result.} The opening of his
+\S6.2 says explicitly that the discussion will ``also ignore cases where any of the
+operands is 0 or 1'', and the sentence closing the proof of Theorem~6.6 returns to the
+conclusion that there is no non-trivial associativity for $n\ge4$ with $a,b,c>1$. On
+that domain his Theorem~6.6 \emph{is} Theorem~\ref{thm:E}(3). What we add is not a
+correction of his mathematics but a single statement that carries its own boundary
+conditions: Theorem~\ref{thm:E} says, for $x,y\ge2$ and $r\ge4$, that equality holds
+if and only if $z=1$, and it settles $z=0$ as well. The hypotheses $x,y\ge2$ are needed:
+at $r=4$, $x=2$, $y=0$, $z=3$ both sides are $1$.
+
+A remark on the minimiser is also in order. The left comb at rank~$3$ evaluates to
+$\ev_{3,a}(L_n)=a^{a^{\,n-1}}$, and this is the operation known in the
+hyperoperation literature as the \emph{lower} hyperoperation $\mathrm{lower}_4$,
+obtained by iterating exponentiation to the left rather than to the right; see
+Andonov~\cite{And}, who places it in the lower hyperoperation sequence. The
+identification is with the rank-$3$ left comb specifically: the left-iterated
+operations of higher rank are not in general the left combs of the corresponding
+rank, so we do not extend the name upwards.
+
+\subsection{The associative spectrum, and the two uses of right depth}
+
+The bracketings of a word under a fixed binary operation have been studied as the
+\emph{associative spectrum}, the sequence counting how many distinct term operations
+they induce. Cs\'ak\'any and Waldhauser~\cite{CsW} introduced the invariant and computed
+it for exponentiation in $3.4$, obtaining the Catalan numbers; Lehtonen and
+Waldhauser~\cite{LW} determine the spectra of graph algebras; Huang and
+Lehtonen~\cite{HL} introduce the associative-commutative spectrum and compute it for
+exponentiation in their Proposition~6.1.5. That line of work counts how many operations
+the bracketings produce; the present question is how the resulting values are
+\emph{arranged}. The two are different, and the difference is exactly the gap this paper
+closes: knowing that two bracketings induce different functions says nothing about which
+one is the larger at a given assignment, let alone at every assignment.
+
+A separate body of work orders \emph{towers} rather than bracketings.
+Brunson~\cite{Bru} fixes the right-nested bracketing and permutes the entries;
+Stembridge~\cite{Ste} and Griggs--Wachs~\cite{GW} compare the
+resulting order with the Bruhat order. There the bracketing is fixed and the entries
+move; here the entries are arbitrary and the bracketing moves.
+
+\subsection{What we do claim}
+
+Not finding a result is not a proof that it is new, so we state the claim in pieces,
+and we begin with what is \emph{not} claimed.
+
+\medskip
+\noindent\textbf{Not claimed, Part~I.} The inclusion $\le_{\St}\subseteq\le_{\ev}$ at
+rank three is due to Chow~\cite{MO}; Rubey independently reduced it to a single
+inequality. We reprove it as
+Theorem~\ref{thm:chow}, by a different and shorter argument, only so that the paper is
+self-contained; the result is his. The coordinate presentation of
+Proposition~\ref{prop:coord} is known: Knuth defines the Stanley lattice by depth
+coordinates~\cite{Knuth}, Lehtonen and Waldhauser identify DFS depth with right
+depth~\cite{LW}, and $2.8$ of~\cite{CsW} proves that right-depth sequences determine a
+bracketing. The reading of $r_i$ as the level of a leaf in the resulting tower, which is
+the qualitative content of Proposition~\ref{prop:bounds}, is $3.4$ of~\cite{CsW}. The
+idea of enlarging one variable to force a comparison is Chow's, stated in the same
+answer~\cite{MO}.
+
+\medskip
+\noindent\textbf{Not claimed, Part~II.} The rank-$3$ monotonicity is known~\cite{MO}.
+The local law \eqref{eq:HT} at every rank, and its strictness for $r\ge4$, follow in two
+lines from the nested upper bounds of Leonardis--d'Atri--Caldarola~\cite{LdC} and
+Saibian~\cite{Sai} by \eqref{eq:fromnested}; Theorem~\ref{thm:D} and parts~(1), (3), (4)
+of Theorem~\ref{thm:E} are therefore \emph{not} new arithmetic, and our independent
+proofs in Section~\ref{sec:general} are offered as proofs, not as first occurrences.
+The nested bound of Lemma~\ref{lem:nest} is theirs as well; we prove it only because the
+published proof of~\cite[Lemma~4.8]{LdC} does not treat the base~$2$. The non-trivial
+rank-$3$ equality $(y,z)=(2,2)$ of Theorem~\ref{thm:A} is Barrett's
+Theorem~6.5~\cite{Bar}; its instance $x=y=z=2$, the relation $(2^2)^2=2^{(2^2)}$, is the
+one in view of which G\"obel and Nederpelt~\cite{GN} expect the base~$2$ to behave
+differently.
+
+\medskip
+\noindent\textbf{What we offer.} First, and principally, the converse inclusion, and
+hence Theorem~\ref{thm:main}: at rank~$3$ the evaluation order is exactly the Stanley
+order, which settles the half of~\cite{MO} that was left open. Second, the quantitative
+form of that separation, Theorem~\ref{thm:sep}, in which the leaf to enlarge, the value
+to put there, and the fact that all other leaves may remain at $2$ are determined
+explicitly, together with the finite test family of Corollary~\ref{cor:test}. Third, the
+equality question settled by a single statement carrying its own boundary conditions:
+Theorem~\ref{thm:E} classifies equality at \emph{every} rank and at every boundary,
+where the statement of Barrett's Theorem~6.6 taken on its own is defective at $z=1$
+although his section excludes that case by hypothesis. Fourth, Theorem~\ref{thm:strank}: the previously stated \emph{non-strict} nested bound,
+together with the two-unit gap of Lemma~\ref{lem:gap}, is strong enough to carry
+the Stanley covering relation, so evaluation is strictly Stanley-monotone at every rank
+$r\ge4$ --- which settles one of the two implications of
+Conjecture~\ref{conj:higher} at every rank above $3$. Fifth, the organisation of the
+rest of that arithmetic as an order-theoretic statement about the Tamari lattice:
+Proposition~\ref{prop:tamari}, Theorem~\ref{thm:strictcover} and Corollary~\ref{cor:C}
+locate the failure of strictness at the single pair $(r,a)=(3,2)$ and show that from
+rank~$4$ on the evaluation is strictly increasing along every cover, and
+Theorem~\ref{thm:varleaf} gives the cover version for arbitrary leaf values $\ge2$.
+Sixth, the Lean formalisation, whose extent and whose three limits are set out in
+Section~\ref{sec:formal}: it covers the forward implication of
+Theorem~\ref{thm:main} end to end, both of the ingredients of the converse, and
+Lemmas~\ref{lem:stcover} and~\ref{lem:localcover} with $2.8$ of~\cite{CsW}.
+
+Within the literature we have searched we have not found the converse inclusion, the
+quantitative separation, the Tamari formulation, the complete equality classification,
+or an equivalent formalisation; we do not convert that into a claim of first occurrence.
+We should add that the two ingredients of Part~I that we take as known were found late,
+in the course of checking the literature for this paper, and that they are close to the
+result: $2.8$ and $3.4$ of~\cite{CsW} together give the injectivity of $r$ and the
+interpretation of $r_i$ as a level in the tower, which is most of the apparatus used in
+Sections~\ref{sec:coord}--\ref{sec:sep}. What they do not give is any comparison of
+magnitudes: substituting distinct primes and appealing to unique factorisation shows
+that two values differ, never which is larger. We should also say that the qualitative
+converse --- that \emph{some} sufficiently large value at leaf $i$ separates --- can be
+reached from their apparatus by a short asymptotic argument: fixing every other leaf at
+$2$ and letting $t\to\infty$, an induction along the path to the root gives
+$\log^{\circ h}v_{T,i}(t)\sim Ct^{\alpha}$ with $h=r_i(T)$ and $C,\alpha>0$, so a tree
+with the larger right depth wins for all large $t$. That argument gives no threshold.
+What Theorem~\ref{thm:sep} and Corollary~\ref{cor:test} add is the threshold and the
+uniformity: which leaf, what value, and a finite family of assignments fixed in advance.
+
+\section{What remains open}\label{sec:open}
+
+The two parts fill two corners of a square whose axes are the rank and the order.
+
+\medskip
+\begin{center}
+\begin{tabular}{lll}
+ & \textbf{Tamari} & \textbf{Stanley}\\[2pt]
+rank $3$ & $\le_{\Tam}\subseteq\le_{\ev}$, equality classified & $\le_{\St}=\le_{\ev}$
+   (Theorem~\ref{thm:main})\\
+rank $\ge4$ & $\le_{\Tam}\subseteq\le_{\ev}$, strict on covers &
+   $\le_{\St}\subseteq\le_{\ev}$ (Theorem~\ref{thm:strank});\\
+ & & converse \textbf{open}
+\end{tabular}
+\end{center}
+\medskip
+
+\noindent The entries in the first column are containments only. We have not proved
+that either is proper directly: strict increase of the \emph{values} along a cover does
+not make the containment of \emph{relations} strict. Properness does follow, for
+$n\ge4$ and at \emph{every} rank, from the second column together with
+$\le_{\Tam}\subsetneq\le_{\St}$; for $n\le3$ the two orders coincide, since there are
+at most two trees and they are Tamari-comparable.
+
+What is missing is one implication, the same one at every rank above $3$.
+
+\begin{conjecture}\label{conj:higher}
+For every $r\ge4$ the evaluation order $\le_{\ev}$ on $\Tam_n$, taken over all leaf
+assignments with values $\ge2$, is the Stanley order.
+\end{conjecture}
+
+At rank~$3$ the same statement is Theorem~\ref{thm:main}.
+One half of Conjecture~\ref{conj:higher} is Theorem~\ref{thm:strank}: the inclusion
+$\le_{\St}\subseteq\le_{\ev}$ holds at every rank $r\ge4$, and in the strict form.
+What is missing is the converse $\le_{\ev}\subseteq\le_{\St}$, and the obstruction is
+easy to name: at rank $3$ the converse is Theorem~\ref{thm:main}, which rests on
+Proposition~\ref{prop:bounds}, whose two-sided estimate is built from the collapsing law
+$(x^{y})^{z}=x^{yz}$ through the absorption Lemma~\ref{lem:absorb}. No analogue of that
+identity is known for tetration, and without it we cannot bound from above the tower
+that one enlarged leaf generates.
+
+So at rank $\ge4$ the evaluation order is known to contain $\le_{\St}$ and is therefore
+not strictly between $\le_{\Tam}$ and $\le_{\St}$; whether it is exactly $\le_{\St}$ or
+strictly larger, we do not know.
+
+\appendix
+
+\section{The correspondence table for Part~II}\label{app:table}
+
+This is the table described in Section~\ref{sec:formal}; its population, and the two
+statements that do not appear in it, are fixed there. The row for
+Corollary~\ref{cor:coveq} supplies the root-level ingredients only: the rank-three
+contextual consequences are proved on paper, not by the declarations named. The last
+sentence of Corollary~\ref{cor:C} carries the same limitation. Entries marked
+\textsc{prose} are not formalised.
 
 {\small
 \begin{longtable}{@{}p{0.27\linewidth}p{0.49\linewidth}l@{}}
-\caption{Correspondence between the $24$ numbered statements of Sections~1--7 and the
-Lean development. Clauses of one statement are listed on separate rows.}\label{tab:map}\\
+\caption{Correspondence between the $23$ numbered statements of Part~II
+(Sections~\ref{sec:rank3} and \ref{sec:rank4}--\ref{sec:varleaf}, with
+Sections~\ref{sec:intro}--\ref{sec:prelim}) and the Lean development. Clauses of one statement are listed on separate rows.}\label{tab:map}\\
 \hline
 Statement & Lean declaration(s) & Status\\
 \hline
@@ -676,8 +2015,7 @@ Prop.~\ref{prop:tamari} (covers) & \verb|Rot.eval_le| & \textsc{exact}\\
 Prop.~\ref{prop:tamari} (Tamari order) &
   \verb|Rot.eval_le_of_reflTransGen| & \textsc{exact}\\
 Prop.~\ref{prop:tamari} (right comb) & \verb|rightComb|, \verb|eval_rightComb|
-  (the Lean \verb|rightComb n| has $n+1$ leaves, so the closed form is stated with the
-  index shifted by one) & \textsc{collective}\\
+  (with $n\mapsto n-1$) & \textsc{collective}\\
 Thm.~\ref{thm:strictcover} (covers) & \verb|Rot.eval_lt| & \textsc{exact}\\
 Thm.~\ref{thm:strictcover} (Tamari order) & \verb|Rot.eval_lt_of_transGen| &
   \textsc{exact}\\
@@ -685,27 +2023,27 @@ Cor.~\ref{cor:C} &
   \verb|Rot.eval_le|, \verb|rank3_rotation_not_strict|, \verb|Rot.eval_lt| &
   \textsc{collective}\\
 Thm.~\ref{thm:D} & \verb|ht_general| & \textsc{exact}\\
-Thm.~\ref{thm:E} (1)--(4) & \verb|equality_classification|, whose four components are
-  \verb|ht_eq_at_one|, \verb|ht_rank3_equality_witness| with \verb|ht_rank3_eq_iff|
-  for (2), \verb|ht_strict_general|, \verb|ht_lt_at_zero| & \textsc{collective}\\
+Thm.~\ref{thm:E} (1)--(4) & (1) \verb|ht_eq_at_one|; (2) \verb|ht_rank3_eq_iff|,
+  with \verb|ht_rank3_equality_witness| as the witness; (3) \verb|ht_strict_general|;
+  (4) \verb|ht_lt_at_zero|. The summary declaration \verb|equality_classification|
+  packages weaker forms of these --- a rank-three instance in place of (2), and
+  $\ne$ in place of the strict inequalities of (3) and (4) & \textsc{collective}\\
 Rem.~\ref{rem:nontriv} ($\HH_r(x,y)>x$; $\HH_r(2,2)=4$) &
   \verb|self_lt_hyper|, \verb|hyper_two_two| & \textsc{collective}\\
 Rem.~\ref{rem:nontriv} (the two coordinates compete) & --- (explanatory) &
   \textsc{prose}\\
-Def.~\ref{def:ltree} & \verb|LTree|, \verb|LTree.eval|,
+Def.~\ref{def:trees} & \verb|LTree|, \verb|LTree.eval|,
   \verb|LTree.AllLeavesTwoLe|, \verb|LRot| & \textsc{exact}\\
 Thm.~\ref{thm:varleaf} & \verb|LRot.eval_le|, \verb|LRot.eval_lt|,
   \verb|LRot.eval_le_of_reflTransGen|, \verb|LRot.eval_lt_of_transGen|,
   \verb|LRot.preserves|, \verb|LTree.two_le_eval| & \textsc{collective}\\
 Specialisation to a single label & \verb|ofBTree|, \verb|eval_ofBTree|,
-  \verb|rot_ofBTree|, \verb|reflTransGen_ofBTree|, \verb|transGen_ofBTree|,
-  \verb|Rot.eval_le_of_var|, \verb|Rot.eval_lt_of_var|,
-  \verb|Rot.eval_le_of_reflTransGen_of_var|,
-  \verb|Rot.eval_lt_of_transGen_of_var| & \textsc{collective}\\
+  \verb|rot_ofBTree|, \verb|Rot.eval_lt_of_var| & \textsc{exact}\\
 Cor.~\ref{cor:coveq} & \verb|LTree.four_le_eval_node|,
   \verb|LTree.eval_eq_two_iff|, \verb|LRot.root_eq_rank3_iff|,
   \verb|LRot.root_lt_rank3_of_three_le|, \verb|rank3_root_lt_of_three_le|,
-  \verb|cover_strict_unless_rank3_two| & \textsc{collective}\\
+  \verb|cover_strict_unless_rank3_two| (root only; see the note above) &
+  \textsc{collective}\\
 Def.~\ref{def:hyper} &
   \verb|hyper|, \verb|hyper_zero|, \verb|hyper_one_zero|, \verb|hyper_two_zero|,
   \verb|hyper_succ_succ_zero|, \verb|hyper_succ| & \textsc{exact}\\
@@ -713,14 +2051,13 @@ Lem.~\ref{lem:conv} &
   \verb|hyper_one|, \verb|hyper_two|, \verb|hyper_three|, \verb|hyper_one_arg| &
   \textsc{collective}\\
 Def.~\ref{def:trees} (trees, $\ev$) &
-  \verb|BTree|, \verb|BTree.eval|: an equivalent encoding, on all finite binary trees
-  rather than on the fixed-arity $\Tam_n$ & \textsc{collective}\\
+  \verb|BTree|, \verb|BTree.eval| (not restricted to a fixed number of leaves) &
+  \textsc{exact}\\
 Def.~\ref{def:rot} (rotation, Tamari order) &
-  \verb|Rot| (cover), \verb|Relation.ReflTransGen Rot| (reachability): an equivalent
-  encoding; antisymmetry, and hence that this reachability relation is a partial
-  order, is not formalized & \textsc{collective}\\
+  \verb|Rot| (cover), \verb|Relation.ReflTransGen Rot| (the order) &
+  \textsc{exact}\\
 Def.~\ref{def:rot} (lattice, comb extremality) &
-  --- (classical \cite{FT,Tamari}, used as background) & \textsc{prose}\\
+  --- (classical \cite{FT}, used as background) & \textsc{prose}\\
 Lem.~\ref{lem:mul-le-pow} &
   \verb|mul_le_pow_of_two_le|, \verb|mul_lt_pow_of_three_le| & \textsc{collective}\\
 Prop.~\ref{prop:mul-eq-pow} & \verb|mul_eq_pow_iff| & \textsc{exact}\\
@@ -742,278 +2079,263 @@ Lem.~\ref{lem:addstrict} (strict inequality; equality iff $u=v=2$; value $4$) &
 \end{longtable}
 }
 
-Two assertions of Section~\ref{sec:general} are not numbered and therefore lie outside
-the population of the table; both are formalized: the sharpness statement for all
-ranks (``for every $r\ge3$ and all $x,z\ge2$, taking $y=1$ reverses the inequality'')
-is \verb|ht_reversed_at_y_one|, and the equality of both sides at $x=1$ is
-\verb|ht_eq_at_x_one|. The value pair $256<65536$ quoted in Section~\ref{sec:dicho}
-is \verb|ht_rank4_strict_smallest|. The development also contains
-\verb|pow_lt_pow_right'| and \verb|pow_right_injective'|, choice-free replacements
-for the corresponding Mathlib lemmas (see below), and the auxiliary monotonicity
-facts \verb|succ_le_hyper|, \verb|hyper_mono_arg|, \verb|hyper_mono_base|,
-\verb|hyper_rank_mono|, \verb|hyper_lt_arg| and \verb|hyper_lt_base|.
+\section{Elementary hyperoperation facts}\label{app:elementary}
 
-\draftnote{\textbf{Draft note --- not part of the submission.}
-The artifact has \emph{not} yet been deposited in a long-term archive, so no DOI is
-quoted above. A version DOI will be minted and inserted here at the moment this
-paper is submitted, and the archive record will be linked to the submission.
-Until then the repository URL is the only pointer.}
-No declaration uses \verb|sorry|, \verb|native_decide| or any private axiom.
-Every one of the \textbf{116} theorems and lemmas in these four files is audited
-with
-\verb|#print axioms|, and the audit is machine-checked to cover them all
-(declared 116, audited 116, missing 0; the script is
-\texttt{scripts/\allowbreak check\_audit.py}); \verb|sorryAx| does not occur.
-The axiom dependencies are \verb|propext| alone (5 theorems), the pair
-\verb|propext|, \verb|Quot.sound| (105 theorems), and six theorems that depend on
-no axioms at all. In particular
+This appendix collects the elementary inductions used in the body. None of them uses a
+semi-associative inequality, so nothing here is circular. Bases are integers $x\ge2$
+unless stated otherwise.
+
+\paragraph{Growth and monotonicity in the arguments.}
+For every $r\ge2$ and $n\ge1$,
 \[
-  \textbf{no declaration depends on } \verb|Classical.choice|.
+ \HH_r(x,1)=x,\qquad \HH_r(x,n)\ge x,\qquad \HH_r(x,n)\ge n+1;
 \]
-
-This is not a foundational claim, and choice-freeness is not what the paper is
-about: every statement here is an elementary assertion about natural numbers, and
-nobody would expect it to need choice. We record it because it costs nothing and
-makes the artifact reusable --- a development free of \verb|Classical.choice| can be
-transported into constructive settings, or used inside a larger development that
-must itself avoid choice, without reproving anything.
-
-An earlier version of the development did depend on \verb|Classical.choice| in $30$
-declarations. The dependency was not in the mathematics but in four incidental
-sources --- two Mathlib lemmas, the \verb|nlinarith| tactic, and \verb|norm_num|
-applied to a numeric inequality --- and removing it changed no statement. The details
-are recorded in the repository.
-
-\section{Related work}\label{sec:related}
-
-Cs\'ak\'any and Waldhauser~\cite{CsW} introduce the associative spectrum and show
-that exponentiation is Catalan: for pairwise distinct prime leaves, distinct
-bracketings give distinct values. Their concern is the number of values; the
-order in which those values arrange themselves is not addressed, and the Tamari
-lattice appears in their bibliography only as the source of the enumeration of
-bracketings. Huang and Lehtonen~\cite{HL} extend the invariant to the
-\emph{associative-commutative spectrum} and determine it for exponentiation
-(their Proposition 6.1.5): the associative spectrum of exponentiation is $C_{n-1}$
-and its ac-spectrum is $n^{n-1}$. Their question is again how many distinct term
-operations the bracketings produce; ours is how the resulting values are
-\emph{arranged}, and neither the Tamari order nor any monotonicity statement occurs
-in that line of work. Huang, Mickey and Xu~\cite{HMX} compute the associative
-spectrum of a further operation. Tamari~\cite{Tamari} enumerated the bracketings, and Friedman and
-Tamari~\cite{FT} proved that the right-rotation order on them is a finite lattice ---
-their title already calls the relation a \emph{loi demi-associative}, which is
-precisely the law we show to run through the whole hyperoperation hierarchy.
-Zeilberger~\cite{Zeil} gives a sequent calculus for that law. Gryszka~\cite{Gry} studies the comparison of power towers
-by normalizing them, which concerns right-associated towers rather than general
-bracketings.
-
-\subsection*{Where the rank-three case comes from, and what we add}
-
-It is important to say clearly what part of Proposition~\ref{prop:tamari} is already
-known. In a MathOverflow question of January 2018~\cite{MO}, Spivak treats
-exponentiation on the integers $\ge2$ as an ordered magma and orders bracketings by
-the \emph{evaluation order}: $E\le F$ when the inequality holds \emph{for every}
-assignment of values to the leaves. He asks how this order relates to the height
-(Stanley) order on Dyck paths. In the answers, Chow proves that a Stanley cover does
-decrease the value, the computation resting on
+moreover $n\mapsto\HH_r(x,n)$ is strictly increasing for $n\ge0$, and
+$x\mapsto\HH_r(x,n)$ is strictly increasing on integer bases $x\ge2$ when $n\ge1$.
+These are proved together by induction on $r$. At $r=2$ they follow from
+$\HH_2(x,n)=xn$; in particular $xn\ge2n\ge n+1$ for $n\ge1$. Suppose they hold at rank
+$r$. At rank $r+1\ge3$ the values at $n=0$ and $n=1$ are $1$ and $x$. For $n\ge1$ put
+$t=\HH_{r+1}(x,n)$; then $t\ge x\ge2$, and the hypothesis at rank $r$ gives
 \[
-  B^{CD}=(B^{C})^{D}\ \ge\ (BC)^{D}\ \ge\ BC^{D}
-  \qquad (B,C\ge2,\ D\ge1),
+ \HH_{r+1}(x,n+1)=\HH_r(x,t)\ \ge\ t+1 .
 \]
-and Rubey reduces the same covering relation to the inequality
-$L_2^{(L_1^{xR})}\ge(L_2^{L_1})^{(x^{R})}$, an instance of rank-$3$
-semi-associativity in a variable-leaf form.
+Induction on $n$ now yields strict increase and both growth bounds at rank $r+1$.
 
-Since the evaluation order quantifies over \emph{all} leaf assignments it is stronger
-than the single-label evaluation $\ev_{3,a}$, and since the Stanley lattice is an
-extension of the Tamari lattice, comparability in the Tamari order implies
-comparability in the Stanley order. Consequently \textbf{the rank-$3$ monotonicity is
-already contained, in a stronger form, in that discussion, and we do not claim it.}
+For strict increase in the base, fix $2\le x<x'$ and induct on $n\ge1$. At $n=1$ the
+assertion is $x<x'$. If $a=\HH_{r+1}(x,n)<\HH_{r+1}(x',n)=a'$, then $a,a'\ge2$ and
+\[
+ \HH_r(x,a)\ <\ \HH_r(x,a')\ \le\ \HH_r(x',a'),
+\]
+by monotonicity in the second argument and in the base at rank $r$; this is the
+comparison at $n+1$. Non-strict monotonicity follows by allowing equality throughout.
 
-That discussion is, however, explicitly unfinished, and it is confined to rank~$3$.
-Chow states that he can ``complete half of the proof'', the half we have just quoted;
-the converse half --- that incomparable bracketings can be separated in both
-directions by a suitable choice of leaf values --- he leaves open, writing that he has
-``not quite figured out how to say this rigorously''. Rubey likewise reduces the
-covering relation to the displayed inequality and stops there. Neither treats any rank
-above~$3$, and neither asks when equality holds.
+\begin{corollary}[Propagation through a context]\label{cor:context}
+Let $r\ge3$ and let a tree context have all its other leaf values $\ge2$. Then the value
+of the whole tree is a strictly increasing function of the value substituted at the hole,
+on substituted values $\ge2$.
+\end{corollary}
 
-What Theorem~\ref{thm:varleaf} above adds is the extension from exponentiation to
-the whole Goodstein hierarchy of the \emph{restriction to Tamari rotations} of that
-monotonicity direction: for arbitrary leaf values $\ge2$ the evaluation is monotone
-along the Tamari order at every rank $r\ge3$, and \emph{strictly} monotone from
-rank~$4$ on. We extend the rank; we do not extend the order, since the statement
-proved in that discussion is about the larger Stanley order. We do not settle Chow's
-converse half, which remains open.
+\begin{proof}
+Induct along the path from the hole to the root. Each step applies
+$u\mapsto\HH_r(u,v)$ or $u\mapsto\HH_r(v,u)$ for a fixed $v\ge2$, and both are strictly
+increasing on arguments $\ge2$ by the above.
+\end{proof}
 
-There is also a body of peer-reviewed work on orders attached to iterated
-exponentials, and it is worth saying precisely how it relates to the present question,
-because the titles suggest a closer overlap than there is. Brunson~\cite{Bru} fixes
-$e\le x_1\le\dots\le x_n$ and, \emph{for each permutation} of the $x_i$, forms the
-tower $T(y,z,\dots,w)=y^{z^{\cdots^{w}}}$, in which ``association is always to the
-upper right''; the resulting partial order lives on the symmetric group $S_n$.
-Stembridge~\cite{Ste} and Griggs--Wachs~\cite{GW} compare that order with the Bruhat
-order on $S_n$, the latter exhibiting a counterexample at $n=5$ to their coincidence.
-Griggs~\cite{Gri} studies the poset of towers over the two-letter alphabet
-$\{a,b\}^n$, the tower again being ``evaluated in the conventional way, from top
-down''.
+In particular such a context preserves and reflects equality, and preserves strict
+inequality; this is what is used in Corollary~\ref{cor:chowcase} and in the proof of
+Theorem~\ref{thm:strank}.
 
-In every one of these the \emph{bracketing is fixed} --- it is the right comb --- and
-what varies is the assignment of entries to its leaves. In the single-label problem of
-Sections~\ref{sec:prelim}--\ref{sec:general} the situation is exactly the reverse: the
-entries are fixed, all equal to $a$, and what varies is the bracketing. (Section~%
-\ref{sec:varleaf} then lets the entries vary as well, but still over \emph{all}
-bracketings rather than over the right comb alone.) The two families of questions are therefore
-independent: neither the Tamari order on bracketings nor any inequality of the
-form~\eqref{eq:HT} occurs in that line of work, whose partial orders live on $S_n$ or
-on $\{a,b\}^n$ rather than on trees.
+\paragraph{Monotonicity in the rank.}
+For $r\ge2$, $x\ge2$ and $n\ge1$ we have $\HH_r(x,n)\le\HH_{r+1}(x,n)$. For $r=2$ this
+is $xn\le x^{n}$, which is Lemma~\ref{lem:mul-le-pow}. For the step, let $r\ge3$ and
+assume the comparison between ranks $r-1$ and $r$. At $n=1$ both values are $x$, and if
+the comparison holds at $n$ then
+\[
+ \HH_r(x,n+1)=\HH_{r-1}\bigl(x,\HH_r(x,n)\bigr)
+ \ \le\ \HH_r\bigl(x,\HH_r(x,n)\bigr)
+ \ \le\ \HH_r\bigl(x,\HH_{r+1}(x,n)\bigr)=\HH_{r+1}(x,n+1),
+\]
+the first inequality by the induction on the rank at a positive argument and the second
+by monotonicity in that argument. In particular $\HH_r(x,n)\ge xn$ for $r\ge2$ and
+$n\ge1$, which is the domination used in Section~\ref{sec:stanleyrank}.
 
-\subsection*{What we do claim}
+\paragraph{The base $1$.}
+For $r\ge3$ and $n\ge0$ we have $\HH_r(1,n)=1$. At rank $3$ this is $1^{n}=1$. At higher
+ranks, induction on $n$ uses the value $1$ at $n=0$ and $\HH_{r-1}(1,1)=1$ from
+Lemma~\ref{lem:conv}. These are the boundary comparisons appealed to in
+Section~\ref{sec:general}.
 
-Not finding a result is not a proof that it is new, so we state the claim in pieces.
-The rank-$3$ monotonicity is known (above). For the following we have not found a
-prior occurrence: the local semi-associative law \eqref{eq:HT} for \emph{every} rank
-$r\ge3$ of the Goodstein hierarchy; the complete classification of its equality cases,
-with the isolated rank-$3$ exception $(y,z)=(2,2)$; the resulting dichotomy, strict on
-every Tamari cover from rank $4$ on; and the machine-checked formalization.
+\section{The nested upper bound}\label{app:nest}
 
-\section*{Acknowledgements}
+The proof of Theorem~\ref{thm:strank} applies \eqref{eq:nest} with $x$ the value of a
+subtree, and that value is $2$ whenever the subtree is a leaf labelled $2$. The bound is
+Lemma~4.8 of Leonardis, d'Atri and Caldarola~\cite{LdC}, and in strict form, for bases
+$b>1$, it is Theorem~I of Saibian~\cite{Sai}. In the published version of~\cite{LdC} the proof of
+Lemma~4.8 assumes $A\ge3$ and leaves the case $A=2$ to the reader; for $k=2$ it rests on
+their Lemma~4.6, whose proof ends by passing from a tower built on $A+1$ to one built on
+$A$, a step that needs $(A+1)\tw m\le A\tw(m+1)$ with $m=B+C-3$ and already fails at
+$A=2$, $m=2$, since $3\tw2=27>16=2\tw3$. The arXiv version of the same paper carries
+neither the restriction nor the remark about the reader, but its proof of Lemma~4.8 rests
+on the same Lemma~4.6 and takes the same step, so neither printed proof establishes the
+base~$2$. We therefore give a complete proof, in the
+strict form, for every base $x\ge2$. It uses only Lemma~\ref{lem:mul-le-pow} and the
+facts of Appendix~\ref{app:elementary}, and it has been formalised
+(Section~\ref{sec:formal}).
 
-\subsection*{Use of AI assistance}
+\begin{lemma}[Nested upper bound]\label{lem:nest}
+Let $r\ge4$, $x\ge2$ and $y,z\ge1$. Then
+\[
+  \HH_r\bigl(\HH_r(x,y),z\bigr)\ <\ \HH_r(x,y+z).
+\]
+In particular \eqref{eq:nest} holds.
+\end{lemma}
 
-Artificial-intelligence assistants were used substantially in the preparation of this
-work, and the author sets that use out in detail here. No AI system is an author. The
-overall direction of the work and the choice of what to claim are the author's, and the
-author is responsible for all of the submitted content.
+\begin{proof}
+From Appendix~\ref{app:elementary} we use that $\HH_s(x,n)\ge n+1$ and $\HH_s(x,n)\ge xn$
+for $s\ge2$ and $n\ge1$, and that $\HH_s(x,\cdot)$ is increasing. At every rank $s\ge3$
+put $W=\HH_s(x,y-1)$ and $T=\HH_s(x,y)$, so that $T=\HH_{s-1}(x,W)$ and $W\ge1$ (it is
+$1$ when $y=1$ and at least $x$ otherwise). The induction is on the rank.
 
-\paragraph{Systems used.} Anthropic's Claude (Opus~5, through the Claude Code
-command-line interface) and OpenAI's ChatGPT (Pro), during August and September~2026.
+\emph{Rank $4$.} Here $T=x^{W}$, and we show that for every $z\ge1$
+\begin{equation}\label{eq:nest4}
+  W\bigl(\HH_4(T,z)+1\bigr)\ \le\ \HH_4(x,y+z);
+\end{equation}
+since $W\ge1$ this gives $\HH_4(T,z)<\HH_4(x,y+z)$, which is the assertion. For $z=1$
+the two sides are $W(T+1)$ and $x^{T}$. As $T=x^{W}\ge W+1$ we have
+$W(T+1)\le(T-1)(T+1)<T^{2}=x^{2W}$, and $2W\le2^{W}\le x^{W}=T$ by
+Lemma~\ref{lem:mul-le-pow}, so $x^{2W}\le x^{T}$. Suppose \eqref{eq:nest4} holds at $z$,
+and put $h=\HH_4(T,z)$ and $M=\HH_4(x,y+z)$, so that $h\ge1$ and $M\ge Wh+W$. Then
+$\HH_4(T,z+1)=T^{h}=x^{Wh}$ and $\HH_4(x,y+z+1)=x^{M}$, and since
+$x^{Wh}\ge x^{W}\ge W+1$,
+\[
+  x^{M}\ \ge\ x^{Wh}\,x^{W}\ \ge\ x^{Wh}(W+1)\ \ge\ Wx^{Wh}+W
+  \ =\ W\bigl(\HH_4(T,z+1)+1\bigr),
+\]
+which is \eqref{eq:nest4} at $z+1$.
 
-\paragraph{Use as part of the research method.} The question studied was formulated by
-the author. Language models were then used to search for the shape of the proofs, to
-write the whole of the Lean~4 development, and to search the literature. Further
-language models were used as adversarial readers of successive drafts and of the
-formalization; their criticism led to the present form of the main theorem, in
-particular to the classification of the equality cases in Theorem~\ref{thm:E}, to the
-extension to arbitrary leaf values in Section~\ref{sec:varleaf}, and to the complete
-localisation of the rank-$3$ collapse in Corollary~\ref{cor:coveq}. Two defects in the
-verification scripts themselves --- a population count in Table~\ref{tab:map} and a
-parser that silently skipped two declarations --- were found this way and are fixed in
-the released version.
+\emph{From rank $r\ge4$ to rank $r+1$.} Assume the lemma at rank $r$; only its
+non-strict form will be used. At rank $r+1$, where $T=\HH_r(x,W)$, we show that for
+every $z\ge1$
+\begin{equation}\label{eq:nestr}
+  W+\HH_{r+1}(T,z)\ <\ \HH_{r+1}(x,y+z),
+\end{equation}
+which again gives the assertion because $W\ge1$. For $z=1$ the two sides are $W+T$ and
+$\HH_r(x,T)$, and $W+T<2T\le xT\le\HH_r(x,T)$ because $T=\HH_r(x,W)\ge W+1$. Suppose
+\eqref{eq:nestr} holds at $z$, and put $h=\HH_{r+1}(T,z)$ and $M=\HH_{r+1}(x,y+z)$, so
+that $h\ge2$ and $W+h\le M-1$. By the lemma at rank $r$ and monotonicity,
+\[
+  \HH_{r+1}(T,z+1)=\HH_r\bigl(\HH_r(x,W),h\bigr)\ \le\ \HH_r(x,W+h)
+  \ \le\ \HH_r(x,M-1)=:V,
+\]
+and $V\ge M-1\ge W+h>W$. Since $r-1\ge2$ and $V\ge1$,
+\[
+  W+\HH_{r+1}(T,z+1)\ \le\ W+V\ <\ 2V\ \le\ xV\ \le\ \HH_{r-1}(x,V),
+\]
+and $\HH_{r-1}(x,V)=\HH_r(x,M)=\HH_{r+1}(x,y+z+1)$; this is \eqref{eq:nestr} at $z+1$.
+\end{proof}
 
-\paragraph{Use in preparing the manuscript.} Language models drafted this text,
-including the abstract and the expository passages, from the author's outline and from
-the formal statements. Every sentence was read and, where necessary, rewritten by the
-author before submission. All model output was treated as an untrusted suggestion.
+\section*{Statements and Declarations}
 
-\paragraph{What the author verified personally.} The choice of definitions and
-conventions (Definition~\ref{def:hyper} in particular); the correspondence, statement
-by statement, between each informal claim of Sections~1--\ref{sec:varleaf} and the Lean
-declaration named for it in Table~\ref{tab:map}; the bibliographic data of every
-reference, against the publishers' records; and the reproduction of the build and of
-the axiom audit from the released sources, with Lean~4 v4.30.0 and Mathlib v4.30.0 at
-revision \verb|c5ea00351c28| as pinned in the repository. No confidential third-party
-material --- no unpublished manuscript and no referee report --- was supplied to any
-external AI system.
+\subsection*{Funding}
 
-\paragraph{Record.} The Lean development, the source of this paper, the raw build log
-containing every \verb|#print axioms| result, and the scripts that check the audit and
-the correspondence table are all in the accompanying repository, whose commit history
-records the development.
+No funding was received for conducting this study.
 
-\draftnote{\textbf{Draft note --- not part of the submission.}
-The journal's policy requires that, where AI has assisted with a proof or an argument,
-the author verify every step personally and also verify every citation and attribution.
-When that has been done, the following sentence belongs here, and it must not be
-included before then: \emph{The author has independently verified every step of the
-mathematical arguments printed in this paper, and every citation and attribution.}
-The bibliographic data have already been checked against the publishers' records; what
-remains is to read the three items still marked \textsuperscript{\dag} in the original,
-and to check the printed arguments by hand.}
+\subsection*{Competing interests}
 
-Two independent checks stand behind the mathematical content. Every clause of every
-numbered statement of Sections~1--\ref{sec:varleaf} that asserts an inequality or an
-equality about $\HH_r$ or about the evaluation of trees has been formalised and checked
-by the Lean~4 kernel; Table~\ref{tab:map} says, clause by clause, which declaration
-carries it, and marks the places where the paper relies instead on classical background
-about the Tamari lattice or on explanatory prose. The informal proofs printed in the
-text are the author's rendering of the formal ones and are not themselves
-machine-checked; they are set out in full so that a reader can follow them without
-consulting the Lean sources.
+The author has no competing interests to declare that are relevant to the content of
+this article.
 
-It should be said precisely what the second of these checks does and does not
-establish. Conditional on the correctness of the formal statements, on the pinned
-versions of Lean and Mathlib, and on the released sources' checking successfully, the
-validity of the proofs of the formalized statements is reduced to the Lean~4 kernel and
-the trusted parts of the toolchain. It is not thereby certified that a formal statement
-says what the corresponding English sentence says; that the definitions chosen are the
-natural or the standard ones; that Table~\ref{tab:map} is complete; that the novelty
-claims and attributions are correct; or that the checking scripts are themselves right.
-Each of these rests on judgement and on the author's verification, and is stated here
-so that it can be examined.
+\subsection*{Author contributions}
 
-\draftnote{\textbf{Draft note --- not part of the submission.}
-Items marked \textsuperscript{\dag} in the list below have \emph{not} been consulted
-in the original at the time of writing; the bibliographic data were taken from
-secondary sources and independently cross-checked against Crossref, but the
-contents were not read. They are:
-\textbf{[FT]} Friedman--Tamari 1967, cited only for the origin of the lattice and of
-the term \emph{loi demi-associative} (the phrase occurs in the title itself);
-\textbf{[Gry]} --- \emph{now consulted in the original} (Lith.\ Math.\ J.\ \textbf{62}(2),
-192--206, 15 pages): it compares right-associated power towers with varying entries and
-heights and does not mention bracketings, binary trees, Catalan structures, rotations or
-any lattice, which confirms the description given in Section~\ref{sec:related};
-\textbf{[Tamari]} Tamari 1962, cited only for the enumeration of bracketings and for
-the two combs being the extreme elements; and
-\textbf{[Ste]} Stembridge 1989, on Brunson's order, cited only to place the question
-among its peer-reviewed neighbours. \textbf{[Bru]}, \textbf{[Gri]} and \textbf{[GW]}
-were also identified late, in response to a referee report, but have since been
-consulted in the original and are no longer marked: all three fix the bracketing to
-the right comb and vary the entries, as now described in
-Section~\ref{sec:related}.
-None of the results of the present paper depends on these three items: they are
-cited for attribution and context, and every mathematical statement used in the
-proofs is either proved here or formalised in the accompanying Lean development.
-Before submission the three still-unchecked items \textbf{[FT]}, \textbf{[Tamari]}
-and \textbf{[Ste]} must be checked in the original, and this note
-removed by setting \texttt{\textbackslash draftfalse}.}
+The paper has a single author, who chose the problem, directed the work, and is
+responsible for the whole of the manuscript.
 
-\begin{thebibliography}{9}
-\bibitem{CsW} B. Cs\'ak\'any and T. Waldhauser,
-  \emph{Associative spectra of binary operations},
-  Multiple-Valued Logic \textbf{5} (2000), 175--200; arXiv:1102.2124.
-\bibitem{FT}\unseen{}  H. Friedman and D. Tamari,
-  \emph{Probl\`emes d'associativit\'e: une structure de treillis finis induite par une
-  loi demi-associative},
-  Journal of Combinatorial Theory \textbf{2} (1967), no.~3, 215--242.
-\bibitem{MO} D. Spivak, \emph{Is the order on repeated exponentiation the Dyck
-  order?}, MathOverflow question 289708 (1 January 2018), with answers by
-  T.~Chow and M.~Rubey, \url{https://mathoverflow.net/q/289708}.
+\subsection*{Data and code availability}
+
+\begin{sloppypar}
+There is no dataset. The two Lean~4 developments that accompany this article, together
+with their audit scripts and the raw audit logs, are archived and citable at
+\url{https://doi.org/10.5281/zenodo.22789946}; the concept DOI
+\url{https://doi.org/10.5281/zenodo.22779441} resolves to the latest version. They are
+also at \url{https://github.com/turahigashi/hyper-tamari} under the tag
+\verb|v1.15.0-pre|, which is the version the archive was cut from and the version
+Section~\ref{sec:formal} describes. Reproducing the build requires Lean~4.30.0 and Mathlib~4.30.0 at the revision
+named in Section~\ref{sec:formal}; the remaining checks need only Python~3.
+\end{sloppypar}
+
+\subsection*{Ethics approval}
+
+Not applicable.
+
+\subsection*{Use of AI-assisted tools}
+
+Generative AI tools (large language models) were used to find the proofs, and also for
+the computations, the formalisation and the writing. The author directed the work,
+reviewed and verified the resulting mathematical arguments, and takes full
+responsibility for the manuscript.
+
+\begin{thebibliography}{99}
+\bibitem{And} A. P. Andonov,
+  \emph{Constructing a hyperoperation sequence -- pisa hyperoperations},
+  IOP Conference Series: Materials Science and Engineering \textbf{1031} (2021),
+  012071; \url{https://doi.org/10.1088/1757-899X/1031/1/012071}.
+\bibitem{Bar} R. Barrett,
+  \emph{The Fundamental Theorems of Hyper-Operations},
+  Preprints.org (2019), \url{https://doi.org/10.20944/preprints201902.0176.v1}.
 \bibitem{Bru} B. W. Brunson,
   \emph{The partial order of iterated exponentials},
   American Mathematical Monthly \textbf{93} (1986), 779--786.
-\bibitem{Gri} J. R. Griggs,
-  \emph{Iterated exponentials of two numbers},
-  Discrete Mathematics \textbf{88} (1991), 193--209.
-\bibitem{GW} J. R. Griggs and M. L. Wachs,
-  \emph{Towers of powers and Bruhat order},
-  European Journal of Combinatorics \textbf{13} (1992), 367--370.
+\bibitem{CsW} B. Cs\'ak\'any and T. Waldhauser,
+  \emph{Associative spectra of binary operations},
+  Multiple-Valued Logic \textbf{5} (2000), 175--200;
+  \texttt{arXiv:1102.2124} (numbering as in the arXiv version).
+\bibitem{FT} H. Friedman and D. Tamari,
+  \emph{Probl\`emes d'associativit\'e: une structure de treillis finis induite par une
+  loi demi-associative},
+  Journal of Combinatorial Theory \textbf{2} (1967), no.~3, 215--242;
+  erratum, ibid.\ \textbf{4} (1968), 201.
+\bibitem{GN} F. G\"obel and R. P. Nederpelt,
+  \emph{The number of numerical outcomes of iterated powers},
+  American Mathematical Monthly \textbf{78} (1971), no.~10, 1097--1103.
 \bibitem{Good} R. L. Goodstein,
   \emph{Transfinite ordinals in recursive number theory},
   Journal of Symbolic Logic \textbf{12} (1947), 123--129.
+\bibitem{Gri} J. R. Griggs,
+  \emph{Iterated exponentials of two numbers},
+  Discrete Mathematics \textbf{88} (1991), 193--209.
 \bibitem{Gry} K. Gryszka, \emph{How to compare power towers?},
   Lithuanian Mathematical Journal \textbf{62} (2022), no.~2, 192--206.
+\bibitem{GS} R. K. Guy and J. L. Selfridge,
+  \emph{The nesting and roosting habits of the laddered parenthesis},
+  American Mathematical Monthly \textbf{80} (1973), no.~8, 868--876.
+\bibitem{GW} J. R. Griggs and M. L. Wachs,
+  \emph{Towers of powers and Bruhat order},
+  European Journal of Combinatorics \textbf{13} (1992), 367--370.
 \bibitem{HL} J. Huang and E. Lehtonen,
   \emph{The associative-commutative spectrum of a binary operation},
-  Discrete Mathematics \textbf{346} (2023), 113468; arXiv:2202.11826.
+  Discrete Mathematics \textbf{346} (2023), no.~10, Art.~113535;
+  \texttt{arXiv:2202.11826} (numbering as in the arXiv version).
 \bibitem{HMX} J. Huang, M. Mickey and J. Xu,
   \emph{The nonassociativity of the double minus operation},
-  arXiv:1710.05651 (2017).
-\bibitem{Ste}\unseen{}  J. R. Stembridge,
+  Journal of Integer Sequences \textbf{20} (2017), Article~17.10.3; arXiv:1710.05651.
+\bibitem{Knuth} D. E. Knuth,
+  \emph{The Art of Computer Programming}, Volume 4, Pre-fascicle 4a: \emph{A draft of
+  Section 7.2.1.6, Generating all trees}, Addison--Wesley, 2005 (zeroth printing,
+  revision 15); exercise 28 and Fig.~41. (This material appears in Volume 4A,
+  Addison--Wesley, 2011.)
+\bibitem{LdC} A. Leonardis, G. d'Atri and F. Caldarola,
+  \emph{Beyond Knuth's notation for unimaginable numbers within computational number
+  theory}, International Electronic Journal of Algebra \textbf{31} (2022), 55--73;
+  \url{https://doi.org/10.24330/ieja.1058413}; arXiv:1901.05372.
+\bibitem{Lean4} L. de Moura and S. Ullrich,
+  \emph{The Lean 4 theorem prover and programming language}, in: Automated Deduction ---
+  CADE 28, Lecture Notes in Computer Science \textbf{12699}, Springer, 2021, 625--635;
+  \url{https://doi.org/10.1007/978-3-030-79876-5_37}.
+\bibitem{LW} E. Lehtonen and T. Waldhauser,
+  \emph{Associative spectra of graph algebras I. Foundations, undirected graphs,
+  antiassociative graphs}, Journal of Algebraic Combinatorics \textbf{53} (2021),
+  613--638; \texttt{arXiv:2011.07621} (numbering as in the arXiv version).
+\bibitem{Mathlib} The mathlib Community,
+  \emph{The Lean mathematical library}, in: Proceedings of the 9th ACM SIGPLAN
+  International Conference on Certified Programs and Proofs (CPP 2020), ACM, 2020,
+  367--381; \url{https://doi.org/10.1145/3372885.3373824}; arXiv:1910.09336.
+\bibitem{MO} D. Spivak, \emph{Is the order on repeated exponentiation the Dyck order?},
+  MathOverflow question 289708 (1 January 2018), with answers by T. Chow and M. Rubey
+  and a comment of R. Stanley, \url{https://mathoverflow.net/q/289708}.
+\bibitem{Sai} S. Saibian,
+  \emph{A Theorem for Knuth-Arrows}, viXra:1405.0284 (2014).
+\bibitem{Sta} R. P. Stanley,
+  \emph{The Fibonacci lattice},
+  Fibonacci Quarterly \textbf{13} (1975), 215--232.
+\bibitem{Ste} J. R. Stembridge,
   \emph{The Bruhat order and iterated exponentials},
   Journal of Combinatorial Theory Series A \textbf{50} (1989), 87--99.
-\bibitem{Tamari}\unseen{}  D. Tamari,
+\bibitem{Tamari} D. Tamari,
   \emph{The algebra of bracketings and their enumeration},
   Nieuw Archief voor Wiskunde (3) \textbf{10} (1962), 131--146.
+\bibitem{Wal} T. Waldhauser,
+  \emph{Minimal clones}, PhD dissertation, University of Szeged, 2007;
+  Appendix, Theorem~A.3 and Proposition~A.7.
 \bibitem{Zeil} N. Zeilberger,
   \emph{A sequent calculus for a semi-associative law},
   Logical Methods in Computer Science \textbf{15} (2019), no.~1, 9:1--9:23.

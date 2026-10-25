@@ -1,14 +1,17 @@
 # hyper-tamari
 
-A Lean 4 formalization accompanying the paper
+The paper
 
 > **Evaluation orders on bracketings in the hyperoperation hierarchy**
 > Toshihisa Urahigashi
->
-> (The paper superseded an earlier draft called *Bracketing hyperoperations: a rank
-> dichotomy for the Tamari order*; `paper/hyper-tamari.tex` here is that earlier
-> draft, kept for reference. This development accompanies Part II of the merged paper,
-> whose source is not in this repository.)
+
+and the two Lean 4 developments that accompany it: Part I in `part1/`, Part II in
+`HyperTamari/`. The LaTeX source and PDF of the paper are `paper/hyper-tamari.tex` and
+`paper/hyper-tamari.pdf`.
+
+(The paper supersedes an earlier draft called *Bracketing hyperoperations: a rank
+dichotomy for the Tamari order*. That draft stood at the same path,
+`paper/hyper-tamari.tex`, up to tag `v1.15.0-pre`, and can be read at any of those tags.)
 
 The state of this repository at tag `v1.15.0-pre` is archived at
 [10.5281/zenodo.22789946](https://doi.org/10.5281/zenodo.22789946); the concept DOI
@@ -83,16 +86,18 @@ inequality.
 | `HyperTamari/Basic.lean` | 351 | `hyper`, verification of the conventions, the complete rank-3 analysis, `BTree` / `eval`, the five values of `T_4` (`rank3_five_values`) |
 | `HyperTamari/Tetration.lean` | 537 | rank 4 (tetration): `tet_ht`, strictness, the dichotomy, the rotation relation `Rot`, `sq_le_pow_fails` |
 | `HyperTamari/General.lean` | 695 | general rank: `sum_lemma`, `ht_of_sum`, `ht_general`, `equality_classification`, `hyper_lt_base`, `Rot.eval_lt`, `ht_lt_at_zero`, `add_eq_hyper_iff`, `ht_reversed_at_y_one` |
-| `HyperTamari/Nested.lean` | 244 | the strict nested bound `nested_bound_strict` (Lemma C.1 of the merged paper), its rank-four invariant `nested4_aux`, the step between ranks `nested_step`, and the non-strict form `nested_bound` |
+| `HyperTamari/Nested.lean` | 244 | the strict nested bound `nested_bound_strict` (Lemma C.1 of the paper), its rank-four invariant `nested4_aux`, the step between ranks `nested_step`, and the non-strict form `nested_bound` |
 | `HyperTamari/VarLeaves.lean` | 357 | arbitrary leaf values: `LTree`, `LTree.eval`, the cover relation `LRot`, `LRot.eval_lt` and its transitive closure, `cover_strict_unless_rank3_two`, and the bridge theorems recovering the single-label statements (`Rot.eval_le_of_var`, `Rot.eval_lt_of_var`, `Rot.eval_le_of_reflTransGen_of_var`, `Rot.eval_lt_of_transGen_of_var`) |
 | `HyperTamari/Stanley.lean` | 404 | the Stanley covering relation in local form `StRot`, strict increase along it at every rank `≥ 4` (`StRot.eval_lt`, `StRot.eval_lt_of_transGen`), and the rank-three inclusion (`StRot.eval_le_rank3`, `StRot.eval_le_rank3_star`) |
 | `logs/axiom-audit.txt` | — | raw `lake build` output recording the axiom audit |
 | `scripts/check_audit.py` | — | checks declared theorems against the audit log: coverage, `sorryAx`, `Classical.choice`, that every axiom dependency lies inside the allow-list `{propext, Quot.sound}`, and that the log carries no build error |
-| `scripts/check_table.py` | — | checks the correspondence table of the merged paper against its population (pass the path of its source) |
-| `paper/` | — | the earlier draft (LaTeX source and PDF), kept for reference; not part of the archived snapshot (`.gitattributes` marks it `export-ignore`) |
+| `scripts/check_table.py` | — | checks the correspondence table of the paper against its population |
+| `scripts/check_names.py` | — | checks that every Lean name printed in the paper's formalization section and in its table is a real declaration of one of the two developments (with `--no-lean`, the five Mathlib names are listed rather than elaborated) |
+| `scripts/sync_abstract.py` | — | regenerates `paper/submission_abstract.txt`, the abstract as plain text; `--check` fails if the two have drifted apart |
+| `paper/` | — | the paper: LaTeX source `hyper-tamari.tex`, its PDF, and the plain-text abstract; not part of the archived snapshot (`.gitattributes` marks it `export-ignore`) |
 | `part1/` | — | the **Part I** development (`ChowStanley`, rank three: Proposition 4.1, Lemmas 4.4 and 4.5, Theorem 1.2, Corollary 1.3 and the implication of Theorem 1.1 from the evaluation order to the Stanley order); a separate Lake project with its own README, audit script and log |
 
-Section 16 of the merged paper (*The Lean development*) contains a statement-by-statement
+Section 16 of the paper (*The Lean development*) contains a statement-by-statement
 correspondence table whose population is defined explicitly there: 24 numbered
 environments (6 theorems, 3 propositions, 6 lemmas, 2 corollaries, 3 definitions,
 1 example, 3 remarks), of which 23 appear in the table, Remark 1.12 being the stated
@@ -101,11 +106,11 @@ declaration with the same quantifiers, hypotheses and conclusion), **collective*
 (covered by a combination of declarations) or **prose** (background facts about the
 Tamari lattice, or explanatory remarks, that are *not* formalized here). The only row outside that population is one recording the
 specialisation of the labelled-tree results to a single repeated label. Section 14 and
-Appendix C of the merged paper were written after the table and are described in the
+Appendix C of the paper were written after the table and are described in the
 text of Section 16 instead (`Stanley.lean`, `Nested.lean`). That the table covers the
 whole population, with the two stated exceptions, is checked by `scripts/check_table.py`;
-that every declaration name printed in the paper exists is checked by the paper's own
-`check_names.py`. The paper does not claim that everything it says is machine-checked. The table
+that every declaration name printed in the paper exists is checked by
+`scripts/check_names.py`. The paper does not claim that everything it says is machine-checked. The table
 records, clause by clause, the declarations supporting the numbered statements that
 assert an inequality or an equality about `H_r` or about the evaluation of trees, but
 its coverage has to be read together with the limits listed in the paper's
@@ -145,13 +150,13 @@ bracketing varies. The two families of questions are orthogonal.
 
 `Nested.lean` proves the **strict nested bound**
 `H_r(H_r(x,y),z) < H_r(x,y+z)` for every `r ≥ 4`, `x ≥ 2` and `y, z ≥ 1`
-(`nested_bound_strict`; the appendix lemma of the merged paper). The inequality is
+(`nested_bound_strict`; the appendix lemma of the paper). The inequality is
 Saibian's Theorem I and, in non-strict form, Lemma 4.8 of Leonardis–d'Atri–Caldarola;
 the published proof of the latter assumes a base `≥ 3` and leaves the base `2` to the
 reader, and the base `2` is exactly what a leaf labelled `2` needs. The proof here covers
 every base `x ≥ 2`.
 
-`Stanley.lean` formalizes the Stanley material of the merged paper: the covering
+`Stanley.lean` formalizes the Stanley material of the paper: the covering
 relation in the local form of its Lemma 4.5, the rank-three inclusion, and the high-rank
 inclusion `StRot.eval_lt`, whose only arithmetic input is `nested_bound_strict`. Nothing
 is assumed. (An earlier version took Saibian's inequality as an explicit hypothesis of
@@ -192,7 +197,11 @@ on an *equation* is fine). Replacing them changed no statement.
 lake exe cache get
 lake build > logs/axiom-audit.txt 2>&1
 python3 scripts/check_audit.py logs/axiom-audit.txt
-python3 scripts/check_table.py path/to/bracketing-orders.tex   # the merged paper's table
+python3 scripts/check_table.py           # the paper's correspondence table
+python3 scripts/check_names.py --no-lean # the Lean names printed in the paper
+python3 scripts/sync_abstract.py --check # the plain-text abstract
+
+cd paper && pdflatex hyper-tamari.tex && pdflatex hyper-tamari.tex && pdflatex hyper-tamari.tex && cd ..
 
 cd part1                      # the Part I development, a separate Lake project
 lake exe cache get
