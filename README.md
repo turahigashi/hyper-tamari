@@ -7,7 +7,9 @@ The paper
 
 and the two Lean 4 developments that accompany it: Part I in `part1/`, Part II in
 `HyperTamari/`. The LaTeX source and PDF of the paper are `paper/hyper-tamari.tex` and
-`paper/hyper-tamari.pdf`.
+`paper/hyper-tamari.pdf`. The paper is also deposited as a preprint on Zenodo:
+[10.5281/zenodo.23646686](https://doi.org/10.5281/zenodo.23646686) (the files of
+commit `77989d1`, under CC BY 4.0).
 
 (The paper supersedes an earlier draft called *Bracketing hyperoperations: a rank
 dichotomy for the Tamari order*. That draft stood at the same path,
@@ -225,4 +227,5 @@ is the author's responsibility.
 
 ## License
 
-MIT. See `LICENSE`.
+MIT. See `LICENSE`. The paper in `paper/` is in addition available under CC BY 4.0 from
+its Zenodo record, [10.5281/zenodo.23646686](https://doi.org/10.5281/zenodo.23646686).
